@@ -6,6 +6,7 @@ import 'package:loop/app/modules/searchScreen/search_screen.dart';
 import 'package:loop/app/modules/userprofileScreen/userprofile_screen.dart';
 
 class HomeProvider with ChangeNotifier {
+  //click on more item
   bool _isclicked = false;
 
   bool get isclicked => _isclicked;

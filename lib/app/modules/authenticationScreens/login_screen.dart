@@ -3,7 +3,6 @@ import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/modules/authenticationScreens/forgotpass_screen.dart';
 import 'package:loop/app/modules/authenticationScreens/inner_widget/form_field.dart';
 import 'package:loop/app/modules/bottomNavbar.dart';
-import 'package:loop/app/modules/homeScreen/home_screen.dart';
 import 'inner_widget/fb_google_apple.dart';
 import 'signup_screen.dart';
 
@@ -18,7 +17,7 @@ class LoginScreen extends StatelessWidget {
         body: Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.only(top: 80, left: 30, right: 30),
+              padding: const EdgeInsets.only(top: 50, left: 30, right: 30),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -68,8 +67,9 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 23),
                   InkWell(
-                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => BottomNavbar())),
+                    onTap: () => Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                            builder: (context) => BottomNavbar())),
                     child: Container(
                       height: 60,
                       decoration: BoxDecoration(
@@ -118,7 +118,7 @@ class LoginScreen extends StatelessWidget {
                       imagename: "apple.png",
                       onTap: () {}),
                   SizedBox(
-                    height: 50,
+                    height: 40,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

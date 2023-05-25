@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/modules/authenticationScreens/Editprofile_screen.dart';
+import 'package:loop/app/modules/bottomNavbar.dart';
 import 'package:loop/app/modules/homeScreen/home_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'inner_widget/form_field.dart';
@@ -140,7 +141,7 @@ class AddProfileSceen extends StatelessWidget {
                               onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomeScreen())),
+                                      builder: (context) => BottomNavbar())),
                               child: Container(
                                 height: 60,
                                 width: context.screenWidth,
