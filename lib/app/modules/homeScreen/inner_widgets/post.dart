@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loop/app/modules/commentScreen/comment_screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../core/themes/themes.dart';
@@ -147,9 +148,16 @@ Widget HomePost(context, {required isclicked}) {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 25, top: 6),
-            child: Text(
-              "View All 1 Comments",
-              style: TextStyle(fontSize: 12, color: appHintTextColor),
+            child: InkWell(
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CommentScreen(),
+                  )),
+              child: Text(
+                "View All 1 Comments",
+                style: TextStyle(fontSize: 12, color: appHintTextColor),
+              ),
             ),
           ),
           Padding(
@@ -199,7 +207,7 @@ Widget HomePost(context, {required isclicked}) {
                           color: const Color(0xff7c94b6),
                           image: DecorationImage(
                             image: AssetImage(
-                              "assets/images/profile.png",
+                              "assets/images/noprofile.png",
                             ),
                             fit: BoxFit.cover,
                           ),
