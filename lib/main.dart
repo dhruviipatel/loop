@@ -4,6 +4,8 @@ import 'package:loop/app/modules/splashScreen/splash_screen.dart';
 import 'package:loop/app/modules/userprofileScreen/userprofileProvider.dart';
 import 'package:provider/provider.dart';
 
+import 'app/modules/newpostScreen/editpost/editnavbarProvider.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -17,6 +19,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => HomeProvider()),
         ChangeNotifierProvider(create: (_) => UserProfileProvider()),
+        ChangeNotifierProvider(create: (_) => EditNavbarProvider()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

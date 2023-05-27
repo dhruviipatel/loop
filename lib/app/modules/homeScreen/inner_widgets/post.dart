@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loop/app/modules/commentScreen/comment_screen.dart';
+import 'package:loop/app/modules/homeScreen/inner_widgets/postClick.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../core/themes/themes.dart';
@@ -63,12 +64,20 @@ Widget HomePost(context, {required isclicked}) {
               ),
             ),
           ),
-          Container(
-            height: 300,
-            width: MediaQuery.of(context).size.width,
-            child: Image.asset(
-              "assets/images/post.png",
-              fit: BoxFit.cover,
+          InkWell(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PostClick(),
+              ),
+            ),
+            child: Container(
+              height: 300,
+              width: MediaQuery.of(context).size.width,
+              child: Image.asset(
+                "assets/images/post.png",
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           SizedBox(
