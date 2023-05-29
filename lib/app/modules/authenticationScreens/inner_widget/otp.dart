@@ -13,8 +13,7 @@ Widget Otp({required redirectScreen, required context}) {
         elevation: 0,
         child: Center(
           child: InkWell(
-            onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => redirectScreen)),
+            onTap: () => Navigator.of(context).pushNamed(redirectScreen),
             child: Container(
               height: 60,
               width: 296,

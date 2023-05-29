@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loop/app/core/themes/themes.dart';
-import 'package:loop/app/modules/authenticationScreens/forgetOtp_screen.dart';
+import 'package:loop/app/core/utils/routes.dart';
 import 'package:loop/app/modules/authenticationScreens/inner_widget/form_field.dart';
 import 'package:loop/app/modules/authenticationScreens/inner_widget/goback.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -21,10 +21,8 @@ class ForgotPassScreen extends StatelessWidget {
               child: Column(
                 children: [
                   InkWell(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => forgetOtpScreen())),
+                    onTap: () => Navigator.pushNamed(
+                        context, MyRoute.forgotpassotpRoute),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 30, right: 30),
                       child: Container(

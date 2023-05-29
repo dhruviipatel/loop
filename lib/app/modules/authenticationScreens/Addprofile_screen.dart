@@ -1,7 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:loop/app/core/themes/themes.dart';
-import 'package:loop/app/modules/authenticationScreens/Editprofile_screen.dart';
 import 'package:loop/app/modules/bottomNavbar.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'inner_widget/form_field.dart';
@@ -137,9 +136,8 @@ class AddProfileSceen extends StatelessWidget {
                                 hintText: "Password*"),
                             SizedBox(height: 60),
                             InkWell(
-                              onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
+                              onTap: () => Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(
                                       builder: (context) => BottomNavbar())),
                               child: Container(
                                 height: 60,

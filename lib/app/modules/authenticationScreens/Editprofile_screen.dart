@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../core/themes/themes.dart';
-import 'Addprofile_screen.dart';
 import 'inner_widget/goback.dart';
 
 class EditProfileScreen extends StatelessWidget {

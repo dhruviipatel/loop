@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/modules/authenticationScreens/inner_widget/form_field.dart';
 import 'package:loop/app/modules/authenticationScreens/login_screen.dart';
-import 'package:loop/app/modules/authenticationScreens/signupOtp_screen.dart';
-
+import '../../core/utils/routes.dart';
 import 'inner_widget/fb_google_apple.dart';
 
 class SignupScreen extends StatelessWidget {
@@ -44,8 +43,8 @@ class SignupScreen extends StatelessWidget {
                   height: 40,
                 ),
                 InkWell(
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => SignupOtpScreen())),
+                  onTap: () =>
+                      Navigator.of(context).pushNamed(MyRoute.signupOtpRoute),
                   child: Container(
                     height: 60,
                     decoration: BoxDecoration(

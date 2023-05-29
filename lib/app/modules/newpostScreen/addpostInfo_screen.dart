@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iconly/iconly.dart';
 import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/modules/bottomNavbar.dart';
-import 'package:loop/app/modules/homeScreen/home_screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:velocity_x/velocity_x.dart';
 

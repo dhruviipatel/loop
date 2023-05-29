@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loop/app/core/themes/themes.dart';
+import 'package:loop/app/core/utils/routes.dart';
 import 'package:loop/app/modules/authenticationScreens/Addprofile_screen.dart';
 import 'package:loop/app/modules/authenticationScreens/inner_widget/goback.dart';
 import 'package:loop/app/modules/authenticationScreens/login_screen.dart';
@@ -89,10 +90,8 @@ class SignupFormScreen extends StatelessWidget {
                           hintText: "Identity"),
                       SizedBox(height: 60),
                       InkWell(
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddProfileSceen())),
+                        onTap: () => Navigator.pushNamed(
+                            context, MyRoute.AddprofileRoute),
                         child: Container(
                           height: 60,
                           width: context.screenWidth,

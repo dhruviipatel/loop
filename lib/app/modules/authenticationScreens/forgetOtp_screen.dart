@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loop/app/modules/authenticationScreens/inner_widget/otp.dart';
-import 'package:loop/app/modules/authenticationScreens/resetpass_screen.dart';
+
+import '../../core/utils/routes.dart';
 
 class forgetOtpScreen extends StatelessWidget {
   const forgetOtpScreen({super.key});
@@ -8,6 +9,6 @@ class forgetOtpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Otp(context: context, redirectScreen: ResetPassScreen()));
+        child: Otp(context: context, redirectScreen: MyRoute.resetpassRoute));
   }
 }

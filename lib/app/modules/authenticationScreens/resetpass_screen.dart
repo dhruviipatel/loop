@@ -22,7 +22,7 @@ class ResetPassScreen extends StatelessWidget {
               child: Column(
                 children: [
                   InkWell(
-                    onTap: () => Navigator.push(context,
+                    onTap: () => Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => LoginScreen())),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 30, right: 30),

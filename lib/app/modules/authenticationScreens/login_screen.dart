@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:loop/app/core/themes/themes.dart';
-import 'package:loop/app/modules/authenticationScreens/forgotpass_screen.dart';
 import 'package:loop/app/modules/authenticationScreens/inner_widget/form_field.dart';
 import 'package:loop/app/modules/bottomNavbar.dart';
+import '../../core/utils/routes.dart';
 import 'inner_widget/fb_google_apple.dart';
 import 'signup_screen.dart';
 
@@ -51,10 +51,8 @@ class LoginScreen extends StatelessWidget {
                     children: [
                       Container(),
                       InkWell(
-                        onTap: () =>
-                            Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ForgotPassScreen(),
-                        )),
+                        onTap: () => Navigator.of(context)
+                            .pushNamed(MyRoute.forgotpassRoute),
                         child: Text(
                           "Forgot Password?",
                           style: TextStyle(

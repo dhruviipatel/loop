@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:loop/app/core/utils/routes.dart';
 import 'package:loop/app/modules/authenticationScreens/inner_widget/otp.dart';
-import 'package:loop/app/modules/authenticationScreens/signupForm_screen.dart';
 
 class SignupOtpScreen extends StatelessWidget {
   const SignupOtpScreen({super.key});
@@ -8,6 +8,6 @@ class SignupOtpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Otp(context: context, redirectScreen: SignupFormScreen()));
+        child: Otp(context: context, redirectScreen: MyRoute.signupFormRoute));
   }
 }
