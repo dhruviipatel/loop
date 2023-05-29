@@ -32,7 +32,8 @@ class NewpostScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: InkWell(
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  onTap: () => Navigator.of(context, rootNavigator: true)
+                      .push(MaterialPageRoute(
                     builder: (context) => EditNavbar(),
                   )),
                   child: Icon(
@@ -45,7 +46,7 @@ class NewpostScreen extends StatelessWidget {
           ),
           backgroundColor: appbBgColor,
           body: Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -57,7 +58,7 @@ class NewpostScreen extends StatelessWidget {
                     fit: BoxFit.fill,
                   ),
                 ),
-                30.heightBox,
+                20.heightBox,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:loop/app/core/themes/themes.dart';
 
 import 'inner_widgets/followingWidget.dart';
-import 'inner_widgets/posts.dart';
 
 class FollowingFollowerScreen extends StatelessWidget {
   const FollowingFollowerScreen({super.key});

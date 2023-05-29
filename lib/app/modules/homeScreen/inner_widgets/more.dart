@@ -47,7 +47,7 @@ Widget More(context, {required isclicked}) {
                         context: context,
                         builder: (context) => DraggableScrollableSheet(
                           expand: false,
-                          initialChildSize: 0.5,
+                          initialChildSize: 0.55,
                           minChildSize: 0.3,
                           maxChildSize: 0.8,
                           builder: (context, scrollController) =>
@@ -93,7 +93,7 @@ Widget More(context, {required isclicked}) {
                         context: context,
                         builder: (context) => DraggableScrollableSheet(
                           expand: false,
-                          initialChildSize: 0.5,
+                          initialChildSize: 0.6,
                           minChildSize: 0.3,
                           maxChildSize: 0.8,
                           builder: (context, scrollController) =>
@@ -136,7 +136,7 @@ Widget More(context, {required isclicked}) {
                     context: context,
                     builder: (context) => DraggableScrollableSheet(
                       expand: false,
-                      initialChildSize: 0.35,
+                      initialChildSize: 0.38,
                       minChildSize: 0.3,
                       maxChildSize: 0.8,
                       builder: (context, scrollController) =>

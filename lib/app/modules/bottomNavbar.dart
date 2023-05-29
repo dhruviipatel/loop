@@ -13,7 +13,7 @@ class BottomNavbar extends StatelessWidget {
         builder: (context, homeprovider, child) => SafeArea(
               child: Scaffold(
                 backgroundColor: appbBgColor,
-                body: homeprovider.currentScreen,
+                body: homeprovider.buildNavigator(),
                 bottomNavigationBar: BottomNavigationBar(
                   type: BottomNavigationBarType.fixed,
                   showSelectedLabels: false,

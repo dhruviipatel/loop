@@ -16,7 +16,7 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  //navbar
+  //bottom navbar
   Map<int, GlobalKey<NavigatorState>> navigatorKeys = {
     0: GlobalKey<NavigatorState>(),
     1: GlobalKey<NavigatorState>(),
@@ -40,4 +40,13 @@ class HomeProvider with ChangeNotifier {
 
   int get currentTab => this._currentTab;
   get currentScreen => this._screens[this._currentTab];
+
+  buildNavigator() {
+    return Navigator(
+        key: navigatorKeys[_currentTab],
+        onGenerateRoute: (RouteSettings settings) {
+          return MaterialPageRoute(
+              builder: (_) => _screens.elementAt(_currentTab));
+        });
+  }
 }

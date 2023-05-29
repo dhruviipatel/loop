@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/modules/authenticationScreens/Editprofile_screen.dart';
 import 'package:loop/app/modules/bottomNavbar.dart';
-import 'package:loop/app/modules/homeScreen/home_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'inner_widget/form_field.dart';
 import 'inner_widget/goback.dart';
@@ -178,17 +177,6 @@ class AddProfileSceen extends StatelessWidget {
                                           color: appButtonColor)),
                                 ),
                               ],
-                            ),
-                            InkWell(
-                              onTap: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          EditProfileScreen())),
-                              child: Text("Edit Profile",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: appButtonColor)),
                             ),
                             SizedBox(
                               height: 50,

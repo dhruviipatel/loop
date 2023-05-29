@@ -101,10 +101,7 @@ class EditProfileScreen extends StatelessWidget {
                             height: 20,
                           ),
                           InkWell(
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AddProfileSceen())),
+                            onTap: () => Navigator.pop(context),
                             child: Container(
                               height: 60,
                               width: context.screenWidth,

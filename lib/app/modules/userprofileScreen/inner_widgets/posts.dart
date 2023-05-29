@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../core/themes/themes.dart';
 
 List postlist = [
-  AssetImage("assets/images/post1.png"),
-  AssetImage("assets/images/post2.png"),
   AssetImage("assets/images/post3.png"),
+  AssetImage("assets/images/post2.png"),
+  AssetImage("assets/images/post1.png"),
   AssetImage("assets/images/post4.png"),
   AssetImage("assets/images/post5.png"),
   AssetImage("assets/images/post6.png"),

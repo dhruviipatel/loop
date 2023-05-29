@@ -249,19 +249,22 @@ Widget BottomSharetoSheet(context) {
           ],
         ),
         34.heightBox,
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: 35,
-          decoration: BoxDecoration(
-              border: Border.all(width: 1, color: Colors.white),
-              borderRadius: BorderRadius.circular(10)),
-          child: Center(
-            child: Text(
-              "Cancel",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400),
+        InkWell(
+          onTap: () => Navigator.pop(context),
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: 35,
+            decoration: BoxDecoration(
+                border: Border.all(width: 1, color: Colors.white),
+                borderRadius: BorderRadius.circular(10)),
+            child: Center(
+              child: Text(
+                "Cancel",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400),
+              ),
             ),
           ),
         )

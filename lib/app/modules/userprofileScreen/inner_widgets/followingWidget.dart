@@ -192,7 +192,7 @@ Widget RemoveFollowerSheet(context) {
           height: 3,
           width: 150,
         ),
-        SizedBox(height: 40),
+        SizedBox(height: 30),
         Container(
           width: 70,
           height: 70,
