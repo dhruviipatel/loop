@@ -56,3 +56,38 @@ class Category extends StatelessWidget {
     );
   }
 }
+
+
+
+//selected container design
+
+// Padding(
+//             padding: const EdgeInsets.only(left: 20, bottom: 15),
+//             child: Stack(
+//               children: [
+//                 ClipRRect(
+//                   borderRadius: BorderRadius.circular(10),
+//                   child: Image.asset(
+//                     "assets/images/post1.png",
+//                     height: 110.0,
+//                     width: 80.0,
+//                     fit: BoxFit.cover,
+//                   ),
+//                 ),
+//                 Container(
+//                   height: 110,
+//                   width: 80,
+//                   decoration: BoxDecoration(
+//                       color: appButtonColor.withOpacity(0.6),
+//                       borderRadius: BorderRadius.circular(10)),
+//                 )
+//               ],
+//             ),
+//           ),
+//           Padding(
+//             padding: const EdgeInsets.only(left: 32),
+//             child: Text(
+//               "all",
+//               style: TextStyle(color: Colors.white),
+//             ),
+//           ),

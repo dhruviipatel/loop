@@ -28,23 +28,23 @@ class BottomNavbar extends StatelessWidget {
                     BottomNavigationBarItem(
                         icon: Icon(IconlyLight.home),
                         activeIcon: Icon(IconlyBold.home),
-                        label: "1"),
+                        label: "home"),
                     BottomNavigationBarItem(
                         icon: Icon(IconlyLight.search),
                         activeIcon: Icon(IconlyBold.search),
-                        label: "2"),
+                        label: "search"),
                     BottomNavigationBarItem(
                         icon: Icon(IconlyLight.camera),
                         activeIcon: Icon(IconlyBold.camera),
-                        label: "3"),
+                        label: "camera"),
                     BottomNavigationBarItem(
                         icon: Icon(IconlyLight.notification),
                         activeIcon: Icon(IconlyBold.notification),
-                        label: "4"),
+                        label: "notification"),
                     BottomNavigationBarItem(
                         icon: Icon(IconlyLight.profile),
                         activeIcon: Icon(IconlyBold.profile),
-                        label: "5"),
+                        label: "profile"),
                   ],
                   currentIndex: homeprovider.currentTab,
                   onTap: (int idx) {
