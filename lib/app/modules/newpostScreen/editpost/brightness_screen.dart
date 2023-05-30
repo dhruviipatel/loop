@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loop/app/core/themes/themes.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class BrightnessScreen extends StatelessWidget {
   const BrightnessScreen({super.key});

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/core/utils/routes.dart';
-import 'package:loop/app/modules/authenticationScreens/Addprofile_screen.dart';
 import 'package:loop/app/modules/authenticationScreens/inner_widget/goback.dart';
 import 'package:loop/app/modules/authenticationScreens/login_screen.dart';
 import 'package:velocity_x/velocity_x.dart';

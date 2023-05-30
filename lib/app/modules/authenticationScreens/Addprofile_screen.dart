@@ -1,7 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:loop/app/core/themes/themes.dart';
-import 'package:loop/app/modules/bottomNavbar.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'inner_widget/form_field.dart';
 import 'inner_widget/goback.dart';
@@ -138,7 +137,7 @@ class AddProfileSceen extends StatelessWidget {
                             InkWell(
                               onTap: () => Navigator.of(context)
                                   .pushReplacement(MaterialPageRoute(
-                                      builder: (context) => BottomNavbar())),
+                                      builder: (context) => LoginScreen())),
                               child: Container(
                                 height: 60,
                                 width: context.screenWidth,

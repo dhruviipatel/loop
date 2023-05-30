@@ -5,8 +5,6 @@ import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/modules/userprofileScreen/userprofileProvider.dart';
 import 'package:provider/provider.dart';
 
-import '../../homeScreen/inner_widgets/bottomsheet.dart';
-
 Widget Setting(context, {required isbtnclicked}) {
   final v1 = Provider.of<UserProfileProvider>(context);
 

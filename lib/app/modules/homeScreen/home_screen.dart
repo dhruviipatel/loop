@@ -13,6 +13,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final v1 = Provider.of<HomeProvider>(context);
     final clickvalue = v1.isclicked;
+
     //bool isclicked = true;
     return SafeArea(
       child: Scaffold(
