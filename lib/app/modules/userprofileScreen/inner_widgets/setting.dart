@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:loop/app/core/themes/themes.dart';
+import 'package:loop/app/data/providers/AuthProvider.dart';
 import 'package:loop/app/modules/userprofileScreen/userprofileProvider.dart';
 import 'package:provider/provider.dart';
 
 Widget Setting(context, {required isbtnclicked}) {
-  final v1 = Provider.of<UserProfileProvider>(context);
-
+  final up = Provider.of<UserProfileProvider>(context);
+  final ap = Provider.of<AuthProvider>(context);
   return InkWell(
     onTap: () {
-      v1.onbtnclick();
+      up.onbtnclick();
     },
     child: PopupMenuButton(
-      onOpened: () => v1.onbtnclick(),
+      onOpened: () => up.onbtnclick(),
       onCanceled: () {
-        v1.onbtnclick();
+        up.onbtnclick();
       },
       color: appbBgColor,
       child: Icon(IconlyLight.setting, size: 27, color: Colors.white),
@@ -138,7 +139,7 @@ Widget Setting(context, {required isbtnclicked}) {
             child: Padding(
               padding: const EdgeInsets.only(left: 15),
               child: InkWell(
-                onTap: () => {},
+                onTap: () => ap.Logout(context),
                 child: Text("Logout",
                     style: GoogleFonts.ibmPlexMono(
                       textStyle: TextStyle(

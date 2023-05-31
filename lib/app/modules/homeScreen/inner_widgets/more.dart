@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loop/app/core/themes/themes.dart';
-import 'package:loop/app/modules/homeScreen/inner_widgets/homeProvider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import '../../../data/providers/HomeProvider.dart';
 import 'bottomsheet.dart';
 
 Widget More(context, {required isclicked}) {
-  final v1 = Provider.of<HomeProvider>(context);
+  final hp = Provider.of<HomeProvider>(context);
 
   return InkWell(
     onTap: () {
-      v1.click();
+      hp.click();
     },
     child: PopupMenuButton(
-      onOpened: () => v1.click(),
+      onOpened: () => hp.click(),
       onCanceled: () {
-        v1.click();
+        hp.click();
       },
       color: appbBgColor,
       child: Icon(

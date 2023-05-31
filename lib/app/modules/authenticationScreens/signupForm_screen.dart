@@ -53,36 +53,42 @@ class SignupFormScreen extends StatelessWidget {
                     children: [
                       SizedBox(height: 30),
                       MyFormField(
+                          controller: "",
                           inputType: TextInputType.name,
                           icon: Icons.person_outlined,
                           obsecureText: false,
                           hintText: "Name*"),
                       SizedBox(height: 26),
                       MyFormField(
+                          controller: "",
                           inputType: TextInputType.datetime,
                           icon: Icons.calendar_month_outlined,
                           obsecureText: false,
                           hintText: "DOB*"),
                       SizedBox(height: 26),
                       MyFormField(
+                          controller: "",
                           inputType: TextInputType.emailAddress,
                           icon: Icons.email_outlined,
                           obsecureText: false,
                           hintText: "Email Address"),
                       SizedBox(height: 26),
                       MyFormField(
+                          controller: "",
                           inputType: TextInputType.visiblePassword,
                           icon: Icons.lock_open_outlined,
                           obsecureText: true,
                           hintText: "Password*"),
                       SizedBox(height: 26),
                       MyFormField(
+                          controller: "",
                           inputType: TextInputType.visiblePassword,
                           icon: Icons.lock_open_outlined,
                           obsecureText: true,
                           hintText: "Confirm Password*"),
                       SizedBox(height: 26),
                       MyFormField(
+                          controller: "",
                           inputType: TextInputType.visiblePassword,
                           icon: Icons.person_outlined,
                           obsecureText: false,

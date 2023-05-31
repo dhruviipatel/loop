@@ -3,16 +3,27 @@ import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/modules/homeScreen/inner_widgets/post.dart';
 import 'package:provider/provider.dart';
 
+import '../../data/providers/AuthProvider.dart';
+import '../../data/providers/HomeProvider.dart';
 import 'inner_widgets/category.dart';
-import 'inner_widgets/homeProvider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final v1 = Provider.of<HomeProvider>(context);
-    final clickvalue = v1.isclicked;
+    final hp = Provider.of<HomeProvider>(context);
+    final clickvalue = hp.isclicked;
+
+    final ap = Provider.of<AuthProvider>(context);
+    //get token
+    ap.getToken();
+    //check login status
+    ap.checkLoginStatus(context);
+    //call mycata function at initial state to get catalist
+    ap.mycata.call();
+
+    var catalist = ap.catalist;
 
     //bool isclicked = true;
     return SafeArea(
@@ -28,7 +39,7 @@ class HomeScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(left: 20, top: 10),
                           child: InkWell(
-                            onTap: () => v1.click(),
+                            onTap: () => hp.click(),
                             child: Image.asset(
                               "assets/images/logo.png",
                               height: 43,
@@ -65,7 +76,7 @@ class HomeScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(left: 20, top: 10),
                           child: InkWell(
-                            onTap: () => v1.click(),
+                            onTap: () => hp.click(),
                             child: Image.asset(
                               "assets/images/logo.png",
                               height: 43,

@@ -35,6 +35,7 @@ class SignupScreen extends StatelessWidget {
                   height: 50,
                 ),
                 MyFormField(
+                    controller: "",
                     inputType: TextInputType.emailAddress,
                     obsecureText: false,
                     icon: Icons.email_outlined,

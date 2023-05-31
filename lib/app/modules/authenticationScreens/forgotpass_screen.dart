@@ -96,6 +96,7 @@ class ForgotPassScreen extends StatelessWidget {
               ),
               SizedBox(height: 70),
               MyFormField(
+                  controller: "",
                   inputType: TextInputType.emailAddress,
                   obsecureText: false,
                   icon: Icons.email_outlined,

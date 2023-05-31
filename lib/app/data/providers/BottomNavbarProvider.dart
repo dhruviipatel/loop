@@ -1,21 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:loop/app/modules/homeScreen/home_screen.dart';
-import 'package:loop/app/modules/newpostScreen/newpost_screen.dart';
-import 'package:loop/app/modules/notificationScreen/notification_screen.dart';
-import 'package:loop/app/modules/searchScreen/search_screen.dart';
-import 'package:loop/app/modules/userprofileScreen/userprofile_screen.dart';
 
-class HomeProvider with ChangeNotifier {
-  //click on more item
-  bool _isclicked = false;
+import '../../modules/homeScreen/home_screen.dart';
+import '../../modules/newpostScreen/newpost_screen.dart';
+import '../../modules/notificationScreen/notification_screen.dart';
+import '../../modules/searchScreen/search_screen.dart';
+import '../../modules/userprofileScreen/userprofile_screen.dart';
 
-  bool get isclicked => _isclicked;
-
-  click() {
-    _isclicked = !_isclicked;
-    notifyListeners();
-  }
-
+class BottomNavbarProvider with ChangeNotifier {
   //bottom navbar
   Map<int, GlobalKey<NavigatorState>> navigatorKeys = {
     0: GlobalKey<NavigatorState>(),

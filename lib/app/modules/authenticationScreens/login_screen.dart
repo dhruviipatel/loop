@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/modules/authenticationScreens/inner_widget/form_field.dart';
 import 'package:loop/app/modules/bottomNavbar.dart';
+import 'package:provider/provider.dart';
 import '../../core/utils/routes.dart';
+import '../../data/providers/AuthProvider.dart';
 import 'inner_widget/fb_google_apple.dart';
 import 'signup_screen.dart';
 
@@ -11,6 +13,12 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AuthProvider>(context);
+    provider.checkLogin(context);
+
+    var emailController = new TextEditingController();
+    var passController = new TextEditingController();
+    bool isLoading = false;
     return SafeArea(
       child: Scaffold(
         backgroundColor: appbBgColor,
@@ -35,12 +43,14 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 50),
                   MyFormField(
+                      controller: emailController,
                       inputType: TextInputType.emailAddress,
                       icon: Icons.email_outlined,
                       obsecureText: false,
                       hintText: "E-Mail Address"),
                   SizedBox(height: 24),
                   MyFormField(
+                      controller: passController,
                       inputType: TextInputType.visiblePassword,
                       icon: Icons.email_outlined,
                       obsecureText: true,
@@ -65,9 +75,10 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 23),
                   InkWell(
-                    onTap: () => Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                            builder: (context) => BottomNavbar())),
+                    onTap: () {
+                      provider.Login(
+                          emailController.text, passController.text, context);
+                    },
                     child: Container(
                       height: 60,
                       decoration: BoxDecoration(

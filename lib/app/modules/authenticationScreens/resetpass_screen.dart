@@ -82,12 +82,14 @@ class ResetPassScreen extends StatelessWidget {
               ),
               SizedBox(height: 70),
               MyFormField(
+                  controller: "",
                   inputType: TextInputType.emailAddress,
                   icon: Icons.lock_outline,
                   obsecureText: true,
                   hintText: "New Password"),
               SizedBox(height: 30),
               MyFormField(
+                  controller: "",
                   inputType: TextInputType.emailAddress,
                   icon: Icons.lock_outline,
                   obsecureText: true,

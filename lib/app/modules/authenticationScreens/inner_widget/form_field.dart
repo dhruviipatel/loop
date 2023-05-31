@@ -4,6 +4,7 @@ import '../../../core/themes/themes.dart';
 
 Widget MyFormField(
     {required inputType,
+    required controller,
     required icon,
     required String hintText,
     required bool obsecureText}) {
@@ -28,6 +29,7 @@ Widget MyFormField(
           child: Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: TextField(
+              controller: controller,
               keyboardType: inputType,
               obscureText: obsecureText,
               style: TextStyle(color: Colors.white, fontSize: 16),

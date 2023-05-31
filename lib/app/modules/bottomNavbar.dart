@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:loop/app/core/themes/themes.dart';
+import 'package:loop/app/data/providers/BottomNavbarProvider.dart';
 import 'package:provider/provider.dart';
-import 'homeScreen/inner_widgets/homeProvider.dart';
 
 class BottomNavbar extends StatelessWidget {
   const BottomNavbar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeProvider>(
-        builder: (context, homeprovider, child) => SafeArea(
+    return Consumer<BottomNavbarProvider>(
+        builder: (context, bottomprovider, child) => SafeArea(
               child: Scaffold(
                 backgroundColor: appbBgColor,
-                body: homeprovider.buildNavigator(),
+                body: bottomprovider.buildNavigator(),
                 bottomNavigationBar: BottomNavigationBar(
                   type: BottomNavigationBarType.fixed,
                   showSelectedLabels: false,
@@ -46,9 +46,9 @@ class BottomNavbar extends StatelessWidget {
                         activeIcon: Icon(IconlyBold.profile),
                         label: "profile"),
                   ],
-                  currentIndex: homeprovider.currentTab,
+                  currentIndex: bottomprovider.currentTab,
                   onTap: (int idx) {
-                    homeprovider.currentTab = idx;
+                    bottomprovider.currentTab = idx;
                   },
                 ),
               ),
