@@ -44,7 +44,7 @@ Widget Otp({required redirectScreen, required context}) {
           Column(
             children: [
               Text(
-                "Enter 6 digit verification code sent to your phone",
+                "Enter 6 digit verification code sent to your Email",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white,

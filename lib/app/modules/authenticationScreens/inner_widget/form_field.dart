@@ -7,7 +7,8 @@ Widget MyFormField(
     required controller,
     required icon,
     required String hintText,
-    required bool obsecureText}) {
+    required bool obsecureText,
+    required validator}) {
   return Container(
     height: 60,
     decoration: BoxDecoration(
@@ -28,10 +29,11 @@ Widget MyFormField(
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
-            child: TextField(
+            child: TextFormField(
               controller: controller,
               keyboardType: inputType,
               obscureText: obsecureText,
+              validator: validator,
               style: TextStyle(color: Colors.white, fontSize: 16),
               decoration: InputDecoration(
                   border: InputBorder.none,

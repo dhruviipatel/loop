@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/modules/authenticationScreens/inner_widget/form_field.dart';
-import 'package:loop/app/modules/bottomNavbar.dart';
+
 import 'package:provider/provider.dart';
 import '../../core/utils/routes.dart';
 import '../../data/providers/AuthProvider.dart';
@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
 
     var emailController = new TextEditingController();
     var passController = new TextEditingController();
-    bool isLoading = false;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: appbBgColor,
@@ -43,18 +43,36 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 50),
                   MyFormField(
-                      controller: emailController,
-                      inputType: TextInputType.emailAddress,
-                      icon: Icons.email_outlined,
-                      obsecureText: false,
-                      hintText: "E-Mail Address"),
+                    controller: emailController,
+                    inputType: TextInputType.emailAddress,
+                    icon: Icons.email_outlined,
+                    obsecureText: false,
+                    hintText: "E-Mail Address",
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Please enter email";
+                      }
+                      if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                          .hasMatch(value)) {
+                        return "Please enter valid email";
+                      }
+                      return null;
+                    },
+                  ),
                   SizedBox(height: 24),
                   MyFormField(
-                      controller: passController,
-                      inputType: TextInputType.visiblePassword,
-                      icon: Icons.email_outlined,
-                      obsecureText: true,
-                      hintText: "Password"),
+                    controller: passController,
+                    inputType: TextInputType.visiblePassword,
+                    icon: Icons.email_outlined,
+                    obsecureText: true,
+                    hintText: "Password",
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Password is required";
+                      }
+                      return null;
+                    },
+                  ),
                   SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

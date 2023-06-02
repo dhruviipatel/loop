@@ -11,6 +11,8 @@ class ResetPassScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var newpassController = new TextEditingController();
+    var cpassController = new TextEditingController();
     return SafeArea(
       child: Scaffold(
         backgroundColor: appbBgColor,
@@ -82,18 +84,32 @@ class ResetPassScreen extends StatelessWidget {
               ),
               SizedBox(height: 70),
               MyFormField(
-                  controller: "",
-                  inputType: TextInputType.emailAddress,
-                  icon: Icons.lock_outline,
-                  obsecureText: true,
-                  hintText: "New Password"),
+                controller: newpassController,
+                inputType: TextInputType.emailAddress,
+                icon: Icons.lock_outline,
+                obsecureText: true,
+                hintText: "New Password",
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "New Password is required";
+                  }
+                  return null;
+                },
+              ),
               SizedBox(height: 30),
               MyFormField(
-                  controller: "",
-                  inputType: TextInputType.emailAddress,
-                  icon: Icons.lock_outline,
-                  obsecureText: true,
-                  hintText: "Confirm Password")
+                controller: cpassController,
+                inputType: TextInputType.emailAddress,
+                icon: Icons.lock_outline,
+                obsecureText: true,
+                hintText: "Confirm Password",
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Confirm Password is required";
+                  }
+                  return null;
+                },
+              )
             ],
           ),
         ),

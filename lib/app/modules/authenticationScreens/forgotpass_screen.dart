@@ -10,6 +10,7 @@ class ForgotPassScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var emailController = new TextEditingController();
     return SafeArea(
       child: Scaffold(
         backgroundColor: appbBgColor,
@@ -96,11 +97,18 @@ class ForgotPassScreen extends StatelessWidget {
               ),
               SizedBox(height: 70),
               MyFormField(
-                  controller: "",
-                  inputType: TextInputType.emailAddress,
-                  obsecureText: false,
-                  icon: Icons.email_outlined,
-                  hintText: "E-Mail")
+                controller: emailController,
+                inputType: TextInputType.emailAddress,
+                obsecureText: false,
+                icon: Icons.email_outlined,
+                hintText: "E-Mail",
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Email is required";
+                  }
+                  return null;
+                },
+              )
             ],
           ),
         ),

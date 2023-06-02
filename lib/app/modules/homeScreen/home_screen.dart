@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
     //call mycata function at initial state to get catalist
     ap.mycata.call();
 
-    var catalist = ap.catalist;
+    //var catalist = ap.catalist;
 
     //bool isclicked = true;
     return SafeArea(

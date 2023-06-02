@@ -6,6 +6,5 @@ class MyRoute {
   static String resetpassRoute = "/resetpassword";
   static String signupOtpRoute = "/signupotp";
   static String signupFormRoute = "/signupform";
-  static String AddprofileRoute = "/addprofile";
   static String onPostclickRoute = "/onpostclick";
 }

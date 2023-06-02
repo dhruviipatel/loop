@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:loop/app/data/providers/AuthProvider.dart';
-import 'package:loop/app/modules/authenticationScreens/Addprofile_screen.dart';
 import 'package:loop/app/modules/authenticationScreens/forgetOtp_screen.dart';
 import 'package:loop/app/modules/authenticationScreens/forgotpass_screen.dart';
 import 'package:loop/app/modules/authenticationScreens/login_screen.dart';
@@ -12,7 +11,6 @@ import 'package:loop/app/modules/homeScreen/inner_widgets/postClick.dart';
 import 'package:loop/app/modules/splashScreen/splash_screen.dart';
 import 'package:loop/app/modules/userprofileScreen/userprofileProvider.dart';
 import 'package:provider/provider.dart';
-
 import 'app/core/utils/routes.dart';
 import 'app/data/providers/BottomNavbarProvider.dart';
 import 'app/data/providers/HomeProvider.dart';
@@ -40,7 +38,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             fontFamily: "Lexend",
-            primarySwatch: Colors.blue,
+            primarySwatch: Colors.orange,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
           initialRoute: "/",
@@ -53,7 +51,6 @@ class MyApp extends StatelessWidget {
             MyRoute.resetpassRoute: (context) => ResetPassScreen(),
             MyRoute.signupOtpRoute: (context) => SignupOtpScreen(),
             MyRoute.signupFormRoute: (context) => SignupFormScreen(),
-            MyRoute.AddprofileRoute: (context) => AddProfileSceen(),
             MyRoute.onPostclickRoute: (context) => PostClick(),
           },
         ),
