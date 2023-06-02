@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
     //check login status
     ap.checkLoginStatus(context);
     //call mycata function at initial state to get catalist
-    ap.mycata.call();
+    hp.mycata.call();
 
     //var catalist = ap.catalist;
 

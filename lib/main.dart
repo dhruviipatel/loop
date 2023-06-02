@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'app/core/utils/routes.dart';
 import 'app/data/providers/BottomNavbarProvider.dart';
 import 'app/data/providers/HomeProvider.dart';
+import 'app/data/providers/SearchProvider.dart';
 import 'app/modules/newpostScreen/editpost/editnavbarProvider.dart';
 
 void main() {
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => HomeProvider()),
         ChangeNotifierProvider(create: (_) => UserProfileProvider()),
         ChangeNotifierProvider(create: (_) => EditNavbarProvider()),
+        ChangeNotifierProvider(create: (_) => SearchProvider()),
       ],
       child: DismissKeyboard(
         child: MaterialApp(

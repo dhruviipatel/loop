@@ -2,22 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/providers/AuthProvider.dart';
-
-//category list and model
-class Cata {
-  final String title;
-  final String image;
-
-  Cata(this.title, this.image);
-}
-
-List categorylist = [
-  Cata("All", "assets/images/post1.png"),
-  Cata("Chess", "assets/images/post2.png"),
-  Cata("PUBG", "assets/images/post3.png"),
-  Cata("Free Fire", "assets/images/post5.png"),
-  Cata("Ludo", "assets/images/post4.png"),
-];
+import '../../../data/providers/HomeProvider.dart';
 
 class Category extends StatelessWidget {
   const Category({super.key});
@@ -25,14 +10,15 @@ class Category extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ap = Provider.of<AuthProvider>(context);
+    final hp = Provider.of<HomeProvider>(context);
     //get token
     ap.getToken();
     //check login status
     ap.checkLoginStatus(context);
     //call mycata function at initial state to get catalist
-    ap.mycata.call();
+    hp.mycata.call();
 
-    var catalist = ap.catalist;
+    var catalist = hp.catalist;
     return Container(
       height: 145,
       child: ListView.builder(
@@ -67,8 +53,6 @@ class Category extends StatelessWidget {
       ),
     );
   }
-
-  static fromJson(element) {}
 }
 
 
