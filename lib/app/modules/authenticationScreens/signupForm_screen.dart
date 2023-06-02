@@ -3,13 +3,14 @@ import 'package:http/http.dart' as http;
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:loop/app/core/themes/themes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'inner_widget/form_field.dart';
-import 'inner_widget/goback.dart';
 import 'login_screen.dart';
 
 class SignupFormScreen extends StatefulWidget {
-  const SignupFormScreen({super.key});
+  final String eml;
+  const SignupFormScreen({super.key, required this.eml});
 
   @override
   State<SignupFormScreen> createState() => _SignupFormScreenState();
@@ -24,8 +25,25 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
   var cpassController = new TextEditingController();
   var dobController = new TextEditingController();
   var identityController = new TextEditingController();
+  String s1 = "email";
+  @override
+  void initState() {
+    getSp();
+    super.initState();
+  }
+
+  getSp() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    String? myemail = sp.getString("signupEmail");
+    if (myemail != null) {
+      setState(() {
+        s1 = myemail;
+      });
+    }
+  }
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -36,33 +54,22 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    goback(context: context),
-                    Container(
-                      width: 205,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom:
-                                  BorderSide(width: 2, color: Colors.white))),
-                      child: Center(
-                        child: Text(
-                          "SignUp",
-                          style: TextStyle(
-                              fontSize: 21,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white),
-                        ),
-                      ),
+                padding: const EdgeInsets.all(20.0),
+                child: Container(
+                  width: 205,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(width: 2, color: Colors.white))),
+                  child: Center(
+                    child: Text(
+                      "SignUp",
+                      style: TextStyle(
+                          fontSize: 21,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
                     ),
-                    Container(
-                      height: 10,
-                      width: 10,
-                    )
-                  ],
+                  ),
                 ),
               ),
               SizedBox(height: 10),
@@ -218,21 +225,52 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
                                 validator: (value) {},
                               ),
                               SizedBox(height: 26),
-                              MyFormField(
-                                controller: emailController,
-                                inputType: TextInputType.emailAddress,
-                                icon: Icons.email_outlined,
-                                obsecureText: false,
-                                hintText: "Email Address",
-                                validator: (value) {
-                                  if (value != null) {
-                                    if (!RegExp(
-                                            "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                                        .hasMatch(value)) {
-                                      return "Please enter valid email";
-                                    }
-                                  }
-                                },
+                              Container(
+                                height: 60,
+                                decoration: BoxDecoration(
+                                    //color: Colors.grey,
+                                    border: Border.all(
+                                        width: 1, color: Colors.white),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 60,
+                                      child: Icon(Icons.email_outlined,
+                                          color: appHintTextColor),
+                                    ),
+                                    VerticalDivider(
+                                      color: Colors.white,
+                                      width: 1,
+                                      thickness: 1,
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20, right: 20),
+                                        child: TextFormField(
+                                          readOnly: true,
+                                          controller: emailController,
+                                          keyboardType:
+                                              TextInputType.emailAddress,
+                                          validator: (value) {
+                                            emailController.text = widget.eml;
+                                            return null;
+                                          },
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16),
+                                          decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText: "${widget.eml}",
+                                              hintStyle: TextStyle(
+                                                  color: appHintTextColor)),
+                                          cursorColor: Colors.white,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                               SizedBox(height: 26),
                               MyFormField(

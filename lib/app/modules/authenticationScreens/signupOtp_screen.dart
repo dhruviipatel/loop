@@ -1,39 +1,29 @@
 //continue verifyOTP funtion
-import 'package:email_auth/email_auth.dart';
+
+import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
+import 'package:loop/app/modules/authenticationScreens/signupForm_screen.dart';
 import 'package:pinput/pinput.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../core/themes/themes.dart';
 import 'inner_widget/goback.dart';
 
 class SignupOtpScreen extends StatefulWidget {
-  const SignupOtpScreen({super.key});
-
+  const SignupOtpScreen({super.key, required this.myauth});
+  final EmailOTP myauth;
   @override
   State<SignupOtpScreen> createState() => _SignupOtpScreenState();
 }
 
 class _SignupOtpScreenState extends State<SignupOtpScreen> {
-  var otpController = new TextEditingController();
-
-  EmailAuth? emailAuth;
-
-  void verifyOtp() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    String? email = await sp.getString("signupOtpEmail");
-    var res = emailAuth!
-        .validateOtp(userOtp: otpController.text, recipientMail: '${email}');
-    if (res) {
-      print("OTP Verified");
-    } else {
-      print("Invalid OTP");
-    }
-  }
-
+  //String? eml;
+  String eml1 = "";
   @override
   Widget build(BuildContext context) {
+    // EmailAuth? emailAuth;
     return SafeArea(
         child: Scaffold(
       bottomSheet: BottomAppBar(
@@ -42,12 +32,31 @@ class _SignupOtpScreenState extends State<SignupOtpScreen> {
           elevation: 0,
           child: Center(
             child: InkWell(
-              onTap: () {
-                if (otpController.text.isEmpty) {
+              onTap: () async {
+                SharedPreferences sp = await SharedPreferences.getInstance();
+                var otpCode = sp.getString('otpCode');
+
+                String? eml = sp.getString("signupEmail");
+                if (eml != null) {
+                  eml1 = eml;
+                }
+                if (await otpCode == null) {
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text("Enter 6 digit OTP code")));
                 } else {
-                  //verifyOtp(context, otpCode!);
+                  if (await widget.myauth.verifyOTP(otp: otpCode) == true) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("OTP is verified successfully"),
+                    ));
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SignupFormScreen(eml: eml1)));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Invalid OTP"),
+                    ));
+                  }
                 }
               },
               child: Container(
@@ -91,7 +100,6 @@ class _SignupOtpScreenState extends State<SignupOtpScreen> {
                 SizedBox(height: 70),
                 Pinput(
                   length: 6,
-                  controller: otpController,
                   defaultPinTheme: PinTheme(
                     textStyle: TextStyle(color: Colors.white, fontSize: 21),
                     height: 45,
@@ -103,20 +111,25 @@ class _SignupOtpScreenState extends State<SignupOtpScreen> {
                       ),
                     ),
                   ),
-                  onCompleted: (value) {
+                  onCompleted: (value) async {
+                    SharedPreferences sp =
+                        await SharedPreferences.getInstance();
                     setState(() {
-                      otpController.text = value;
+                      var otpCode = value;
+                      sp.setString('otpCode', otpCode);
                     });
                   },
                 ),
-                SizedBox(height: 30),
+                SizedBox(
+                  height: 30,
+                ),
                 Text(
                   "Resend code in 00:39",
                   style: TextStyle(
                       color: appHintTextColor,
                       fontSize: 14,
                       fontWeight: FontWeight.w400),
-                )
+                ),
               ],
             ),
           ],

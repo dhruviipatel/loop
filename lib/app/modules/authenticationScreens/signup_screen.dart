@@ -4,6 +4,7 @@ import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/modules/authenticationScreens/inner_widget/form_field.dart';
 import 'package:loop/app/modules/authenticationScreens/login_screen.dart';
 import 'package:loop/app/modules/authenticationScreens/signupOtp_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'inner_widget/fb_google_apple.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -16,23 +17,8 @@ class SignupScreen extends StatefulWidget {
 final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
 class _SignupScreenState extends State<SignupScreen> {
-  TextEditingController email = new TextEditingController();
+  TextEditingController emailController = new TextEditingController();
   EmailOTP myauth = EmailOTP();
-
-  // EmailAuth? emailAuth;
-
-  // void sendOtp() async {
-  //   EmailAuth(sessionName: "Loop");
-  //   var res = await emailAuth?.sendOtp(
-  //       recipientMail: emailController.text, otpLength: 6);
-  //   print(res);
-  //   if (res == null) {
-  //     ScaffoldMessenger.of(context)
-  //         .showSnackBar(SnackBar(content: Text("We could not sent OTP")));
-  //   } else {
-  //     Navigator.of(context).pushNamed(MyRoute.signupOtpRoute);
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +47,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     height: 50,
                   ),
                   MyFormField(
-                    controller: email,
+                    controller: emailController,
                     inputType: TextInputType.emailAddress,
                     obsecureText: false,
                     icon: Icons.email_outlined,
@@ -82,25 +68,28 @@ class _SignupScreenState extends State<SignupScreen> {
                     onTap: () async {
                       if (_formkey.currentState!.validate()) {
                         print("successfull");
-                        // SharedPreferences sp =
-                        //     await SharedPreferences.getInstance();
-                        // await sp.setString(
-                        //     "signupOtpEmail", emailController.text);
-                        // sendOtp();
 
+                        //send otp
                         myauth.setConfig(
                             appEmail: "dhruvi.digitalinovation@gmail.com",
-                            appName: "Loop OTP",
-                            userEmail: email.text,
+                            appName: "Loop",
+                            userEmail: emailController.text,
                             otpLength: 6,
                             otpType: OTPType.digitsOnly);
                         if (await myauth.sendOTP() == true) {
+                          //store value of email so we can directly use it in signup form
+                          SharedPreferences sp =
+                              await SharedPreferences.getInstance();
+                          sp.setString("signupEmail", emailController.text);
+
+                          //show message in snackbar and naviagte
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
                             content: Text("OTP has been sent"),
                           ));
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SignupOtpScreen(),
+                            builder: (context) =>
+                                SignupOtpScreen(myauth: myauth),
                           ));
                         } else {
                           ScaffoldMessenger.of(context)
