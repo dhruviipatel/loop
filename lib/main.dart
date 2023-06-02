@@ -4,8 +4,6 @@ import 'package:loop/app/modules/authenticationScreens/forgetOtp_screen.dart';
 import 'package:loop/app/modules/authenticationScreens/forgotpass_screen.dart';
 import 'package:loop/app/modules/authenticationScreens/login_screen.dart';
 import 'package:loop/app/modules/authenticationScreens/resetpass_screen.dart';
-import 'package:loop/app/modules/authenticationScreens/signupForm_screen.dart';
-import 'package:loop/app/modules/authenticationScreens/signupOtp_screen.dart';
 import 'package:loop/app/modules/homeScreen/home_screen.dart';
 import 'package:loop/app/modules/homeScreen/inner_widgets/postClick.dart';
 import 'package:loop/app/modules/splashScreen/splash_screen.dart';
@@ -49,8 +47,6 @@ class MyApp extends StatelessWidget {
             MyRoute.forgotpassRoute: (context) => ForgotPassScreen(),
             MyRoute.forgotpassotpRoute: (context) => forgetOtpScreen(),
             MyRoute.resetpassRoute: (context) => ResetPassScreen(),
-            MyRoute.signupOtpRoute: (context) => SignupOtpScreen(),
-            MyRoute.signupFormRoute: (context) => SignupFormScreen(),
             MyRoute.onPostclickRoute: (context) => PostClick(),
           },
         ),
