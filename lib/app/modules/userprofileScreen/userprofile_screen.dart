@@ -7,14 +7,21 @@ import 'package:loop/app/modules/userprofileScreen/inner_widgets/posts.dart';
 import 'package:loop/app/modules/userprofileScreen/inner_widgets/setting.dart';
 import 'package:loop/app/modules/userprofileScreen/userprofileProvider.dart';
 import 'package:provider/provider.dart';
+import '../../data/providers/AuthProvider.dart';
 
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final v1 = Provider.of<UserProfileProvider>(context);
-    final clickvalue = v1.buttonclicked;
+    final up = Provider.of<UserProfileProvider>(context);
+    final clickvalue = up.buttonclicked;
+
+    final ap = Provider.of<AuthProvider>(context);
+
+    ap.getUserData.call();
+    print(ap.user.profileImage);
+
     return Scaffold(
         backgroundColor: appbBgColor,
         body: clickvalue == true
@@ -33,8 +40,12 @@ class UserProfileScreen extends StatelessWidget {
 }
 
 Widget UserProfile(context) {
-  final v1 = Provider.of<UserProfileProvider>(context);
-  final clickvalue = v1.buttonclicked;
+  final up = Provider.of<UserProfileProvider>(context);
+  final clickvalue = up.buttonclicked;
+
+  final ap = Provider.of<AuthProvider>(context);
+  ap.getUserData.call();
+
   return Column(
     children: [
       Padding(
@@ -75,15 +86,18 @@ Widget UserProfile(context) {
             decoration: BoxDecoration(
               border: Border.all(width: 2, color: appButtonColor),
               borderRadius: BorderRadius.circular(15),
+              color: const Color.fromARGB(255, 234, 226, 226),
               image: DecorationImage(
-                image: AssetImage("assets/images/profile.png"),
+                image: NetworkImage(ap.user.profileImage),
+
+                //image: AssetImage("assets/images/profile.png"),
               ),
             ),
           ),
         ),
       ),
       Text(
-        "Leslie@123",
+        ap.user.name,
         style: TextStyle(
             fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white),
       ),

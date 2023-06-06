@@ -44,7 +44,7 @@ class HomeProvider with ChangeNotifier {
           )
           .toList();
     } else {
-      throw Exception('failed to load categories');
+      print('failed to load categories');
     }
   }
 }

@@ -18,7 +18,12 @@ class NewpostScreen extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: appbBgColor,
             elevation: 0.0,
-            leading: InkWell(onTap: () {}, child: Icon(MdiIcons.close)),
+            leading: InkWell(
+                onTap: () {},
+                child: Icon(
+                  MdiIcons.close,
+                  color: Colors.white,
+                )),
             titleSpacing: 0,
             title: Text("New Post",
                 style: GoogleFonts.ibmPlexMono(

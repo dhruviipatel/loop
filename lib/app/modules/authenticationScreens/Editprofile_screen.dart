@@ -1,9 +1,11 @@
 import 'package:dotted_border/dotted_border.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../core/themes/themes.dart';
+import '../../data/providers/AuthProvider.dart';
 import 'inner_widget/goback.dart';
 
 class EditProfileScreen extends StatelessWidget {
@@ -11,6 +13,14 @@ class EditProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ap = Provider.of<AuthProvider>(context);
+    ap.getUserData.call();
+    var UimageController = new TextEditingController();
+    var UidController = new TextEditingController();
+    var UnameController = new TextEditingController();
+    var UgenderController = new TextEditingController();
+    var UmobileController = new TextEditingController();
+    var UemailController = new TextEditingController();
     return SafeArea(
       child: Scaffold(
         backgroundColor: appbBgColor,
@@ -79,23 +89,65 @@ class EditProfileScreen extends StatelessWidget {
                           EditProfileFields(
                               icon: Icons.person_outline,
                               title: "User Id",
-                              value: "User Id"),
+                              hinttext: ap.user.id.toString(),
+                              controller: UidController,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  UidController.text = ap.user.id.toString();
+                                } else {
+                                  UidController.text = value;
+                                }
+                              }),
                           EditProfileFields(
                               icon: Icons.person_outline,
                               title: "Name",
-                              value: "Jenny Watsaon"),
+                              hinttext: ap.user.name,
+                              controller: UnameController,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  UnameController.text = ap.user.name;
+                                } else {
+                                  UnameController.text = value;
+                                }
+                              }),
                           EditProfileFields(
                               icon: Icons.person_outline,
                               title: "Gender",
-                              value: "Female"),
+                              hinttext: ap.user.gender.toString(),
+                              controller: UgenderController,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  UgenderController.text =
+                                      ap.user.gender.toString();
+                                } else {
+                                  UgenderController.text = value;
+                                }
+                              }),
                           EditProfileFields(
                               icon: Icons.person_outline,
                               title: "Contact Details",
-                              value: "Contact Details"),
+                              hinttext: ap.user.mobile.toString(),
+                              controller: UmobileController,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  UmobileController.text =
+                                      ap.user.mobile.toString();
+                                } else {
+                                  UmobileController.text = value;
+                                }
+                              }),
                           EditProfileFields(
                               icon: Icons.person_outline,
                               title: "Email Address",
-                              value: "dummy@gmail.com"),
+                              hinttext: ap.user.email,
+                              controller: UemailController,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  UemailController.text = ap.user.email;
+                                } else {
+                                  UemailController.text = value;
+                                }
+                              }),
                           SizedBox(
                             height: 20,
                           ),
@@ -132,7 +184,12 @@ class EditProfileScreen extends StatelessWidget {
   }
 }
 
-Widget EditProfileFields({required icon, required title, required value}) {
+Widget EditProfileFields(
+    {required icon,
+    required title,
+    required hinttext,
+    required controller,
+    required validator}) {
   return Column(
     children: [
       Row(
@@ -153,12 +210,12 @@ Widget EditProfileFields({required icon, required title, required value}) {
           )
         ],
       ),
-      TextField(
+      TextFormField(
         style: TextStyle(
             color: Colors.white, fontSize: 21, fontWeight: FontWeight.w400),
         cursorColor: Colors.white,
         decoration: InputDecoration(
-          hintText: value,
+          hintText: hinttext,
           hintStyle: TextStyle(color: Colors.white),
           isDense: true,
           enabledBorder: UnderlineInputBorder(
@@ -168,6 +225,7 @@ Widget EditProfileFields({required icon, required title, required value}) {
             borderSide: BorderSide(color: Colors.white),
           ),
         ),
+        validator: validator,
       ),
       SizedBox(
         height: 30,

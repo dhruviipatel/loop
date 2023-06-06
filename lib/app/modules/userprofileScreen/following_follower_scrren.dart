@@ -11,8 +11,12 @@ class FollowingFollowerScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: appbBgColor,
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: appbBgColor,
-        title: Text("Leslie@123"),
+        title: Text(
+          "Leslie@123",
+          style: TextStyle(color: Colors.white),
+        ),
         titleSpacing: 0,
         centerTitle: false,
         elevation: 0.0,

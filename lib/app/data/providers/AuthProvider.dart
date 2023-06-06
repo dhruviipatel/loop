@@ -5,27 +5,13 @@ import 'package:loop/app/modules/bottomNavbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../modules/authenticationScreens/login_screen.dart';
-import '../models/categoryModel.dart';
-import '../services/categoryApi.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/userModel.dart';
+
 class AuthProvider with ChangeNotifier {
-  bool isLoading = false;
-  List<Category> catagories = [];
-
-  dataController() {
-    fechCategories();
-  }
-
-  fechCategories() async {
-    isLoading = true;
-
-    notifyListeners();
-
-    catagories = await CategoryApi.fechCategory();
-    isLoading = false;
-    notifyListeners();
-  }
+  User? _user;
+  User get user => _user!;
 
   //check login status on login page
   void checkLogin(context) async {
@@ -48,10 +34,37 @@ class AuthProvider with ChangeNotifier {
           body: {'email': email, 'password': password});
       var jsonData = json.decode(response.body);
       var data = jsonData['data'];
+      var userdata = data['user'];
+      //print(data);
+      print("userinfo");
+      // print(userdata);
 
       if (response.statusCode == 200) {
         SharedPreferences sp = await SharedPreferences.getInstance();
         await sp.setString("token", data['token']);
+
+        //store users info into shared pref
+
+        User user = User(
+            id: userdata['id'],
+            name: userdata['name'],
+            email: userdata['email'],
+            mobile: userdata['mobile'],
+            dob: DateTime.parse(
+              userdata['dob'],
+            ),
+            gender: userdata['gender'],
+            profileImage: userdata['profile_image'],
+            identify: userdata['identity'],
+            profilePhotoUrl: userdata['profile_photo_url']);
+
+        String userinfo = jsonEncode(user);
+        print(userinfo);
+
+        sp.setString('userinfo', userinfo);
+
+        //navigate to homepage
+
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => BottomNavbar()),
             (Route<dynamic> route) => false);
@@ -63,6 +76,15 @@ class AuthProvider with ChangeNotifier {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Please Enter Credentials")));
     }
+  }
+
+  //get saved data from shared pref
+
+  void getUserData() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    Map<String, dynamic> jsondatais = jsonDecode(sp.getString('userinfo')!);
+    _user = User.fromJson(jsondatais);
+    //notifyListeners();
   }
 
   //logout button code
