@@ -65,12 +65,14 @@ Widget HomePost(context, {required isclicked, required postlist}) {
             ),
           ),
           InkWell(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PostClick(),
-              ),
-            ),
+            // onTap: () => Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => PostClick(
+            //       postUserlist: [],
+            //     ),
+            //   ),
+            // ),
             child: Container(
                 height: 300,
                 width: MediaQuery.of(context).size.width,

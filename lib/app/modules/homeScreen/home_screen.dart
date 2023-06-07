@@ -136,7 +136,6 @@ Widget HomePageData(hp, clickvalue, postlist, userlist) {
                                   width: 15,
                                 ),
                                 Text(
-                                  //"dhruvi",
                                   postuserlist[index].name,
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 16),
@@ -152,7 +151,9 @@ Widget HomePageData(hp, clickvalue, postlist, userlist) {
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PostClick(),
+                          builder: (context) => PostClick(
+                            postUserlist: postuserlist[index],
+                          ),
                         ),
                       ),
                       child: Container(

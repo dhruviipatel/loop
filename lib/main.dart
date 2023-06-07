@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
             MyRoute.forgotpassRoute: (context) => ForgotPassScreen(),
             MyRoute.forgotpassotpRoute: (context) => forgetOtpScreen(),
             MyRoute.resetpassRoute: (context) => ResetPassScreen(),
-            MyRoute.onPostclickRoute: (context) => PostClick(),
+            // MyRoute.onPostclickRoute: (context) => PostClick(),
           },
         ),
       ),

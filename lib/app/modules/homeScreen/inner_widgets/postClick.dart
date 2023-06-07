@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:loop/app/core/themes/themes.dart';
+import 'package:loop/app/data/models/userPostModel.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class PostClick extends StatelessWidget {
-  const PostClick({super.key});
+  final Users postUserlist;
+  PostClick({
+    Key? key,
+    required this.postUserlist,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +94,8 @@ class PostClick extends StatelessWidget {
                   ),
                 ),
                 title: Text(
-                  "Esther Howarlds",
+                  postUserlist.name,
+                  //"Esther Howarlds",
                   style: TextStyle(color: Colors.white),
                 ),
                 trailing: Icon(
