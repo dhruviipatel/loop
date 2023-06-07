@@ -89,11 +89,11 @@ class EditProfileScreen extends StatelessWidget {
                           EditProfileFields(
                               icon: Icons.person_outline,
                               title: "User Id",
-                              hinttext: ap.user.id.toString(),
+                              hinttext: ap.user!.id.toString(),
                               controller: UidController,
                               validator: (value) {
                                 if (value.isEmpty) {
-                                  UidController.text = ap.user.id.toString();
+                                  UidController.text = ap.user!.id.toString();
                                 } else {
                                   UidController.text = value;
                                 }
@@ -101,11 +101,11 @@ class EditProfileScreen extends StatelessWidget {
                           EditProfileFields(
                               icon: Icons.person_outline,
                               title: "Name",
-                              hinttext: ap.user.name,
+                              hinttext: ap.user!.name,
                               controller: UnameController,
                               validator: (value) {
                                 if (value.isEmpty) {
-                                  UnameController.text = ap.user.name;
+                                  UnameController.text = ap.user!.name;
                                 } else {
                                   UnameController.text = value;
                                 }
@@ -113,12 +113,12 @@ class EditProfileScreen extends StatelessWidget {
                           EditProfileFields(
                               icon: Icons.person_outline,
                               title: "Gender",
-                              hinttext: ap.user.gender.toString(),
+                              hinttext: ap.user!.gender.toString(),
                               controller: UgenderController,
                               validator: (value) {
                                 if (value.isEmpty) {
                                   UgenderController.text =
-                                      ap.user.gender.toString();
+                                      ap.user!.gender.toString();
                                 } else {
                                   UgenderController.text = value;
                                 }
@@ -126,12 +126,12 @@ class EditProfileScreen extends StatelessWidget {
                           EditProfileFields(
                               icon: Icons.person_outline,
                               title: "Contact Details",
-                              hinttext: ap.user.mobile.toString(),
+                              hinttext: ap.user?.mobile.toString(),
                               controller: UmobileController,
                               validator: (value) {
                                 if (value.isEmpty) {
                                   UmobileController.text =
-                                      ap.user.mobile.toString();
+                                      ap.user!.mobile.toString();
                                 } else {
                                   UmobileController.text = value;
                                 }
@@ -139,11 +139,11 @@ class EditProfileScreen extends StatelessWidget {
                           EditProfileFields(
                               icon: Icons.person_outline,
                               title: "Email Address",
-                              hinttext: ap.user.email,
+                              hinttext: ap.user!.email,
                               controller: UemailController,
                               validator: (value) {
                                 if (value.isEmpty) {
-                                  UemailController.text = ap.user.email;
+                                  UemailController.text = ap.user!.email;
                                 } else {
                                   UemailController.text = value;
                                 }

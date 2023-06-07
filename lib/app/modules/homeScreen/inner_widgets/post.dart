@@ -6,9 +6,9 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../../../core/themes/themes.dart';
 import 'more.dart';
 
-Widget HomePost(context, {required isclicked}) {
+Widget HomePost(context, {required isclicked, required postlist}) {
   return Padding(
-    padding: const EdgeInsets.only(left: 20, right: 20),
+    padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
     child: Container(
       height: 557,
       decoration: BoxDecoration(
@@ -72,13 +72,17 @@ Widget HomePost(context, {required isclicked}) {
               ),
             ),
             child: Container(
-              height: 300,
-              width: MediaQuery.of(context).size.width,
-              child: Image.asset(
-                "assets/images/post.png",
-                fit: BoxFit.cover,
-              ),
-            ),
+                height: 300,
+                width: MediaQuery.of(context).size.width,
+                child: postlist.postImage.isNotEmpty
+                    ? Image.asset(
+                        "assets/images/post.png",
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(
+                        "assets/images/post1.png",
+                        fit: BoxFit.cover,
+                      )),
           ),
           SizedBox(
             height: 17,
@@ -99,7 +103,7 @@ Widget HomePost(context, {required isclicked}) {
                         size: 15,
                       ),
                       Text(
-                        "3",
+                        postlist.postLikesCount.toString(),
                         style: TextStyle(fontSize: 15, color: Colors.white),
                       ),
                       Container(
@@ -115,7 +119,7 @@ Widget HomePost(context, {required isclicked}) {
                         size: 15,
                       ),
                       Text(
-                        "1",
+                        postlist.postCommentsCount.toString(),
                         style: TextStyle(fontSize: 15, color: Colors.white),
                       ),
                     ],
@@ -129,7 +133,8 @@ Widget HomePost(context, {required isclicked}) {
                       size: 12,
                     ),
                     Text(
-                      "6 Months Ago",
+                      postlist.humanReadableCreatedDate,
+                      // "1 hour ago",
                       style: TextStyle(fontSize: 9, color: Colors.white),
                     ),
                   ],
@@ -164,7 +169,7 @@ Widget HomePost(context, {required isclicked}) {
                     builder: (context) => CommentScreen(),
                   )),
               child: Text(
-                "View All 1 Comments",
+                "View All ${postlist.postCommentsCount.toString()} Comments",
                 style: TextStyle(fontSize: 12, color: appHintTextColor),
               ),
             ),

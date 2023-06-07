@@ -41,7 +41,7 @@ class Category extends StatelessWidget {
                     ),
                   )),
               Padding(
-                padding: const EdgeInsets.only(left: 32),
+                padding: const EdgeInsets.only(left: 25),
                 child: Text(
                   catalist[index].name,
                   style: TextStyle(color: Colors.white),

@@ -17,11 +17,6 @@ class UserProfileScreen extends StatelessWidget {
     final up = Provider.of<UserProfileProvider>(context);
     final clickvalue = up.buttonclicked;
 
-    final ap = Provider.of<AuthProvider>(context);
-
-    ap.getUserData.call();
-    print(ap.user.profileImage);
-
     return Scaffold(
         backgroundColor: appbBgColor,
         body: clickvalue == true
@@ -45,6 +40,16 @@ Widget UserProfile(context) {
 
   final ap = Provider.of<AuthProvider>(context);
   ap.getUserData.call();
+  var user = ap.user;
+
+  var profileImage = '';
+  var username = '';
+  if (user != null) {
+    profileImage = user.profileImage;
+    username = user.name;
+  } else {
+    print("we can't get user");
+  }
 
   return Column(
     children: [
@@ -88,7 +93,7 @@ Widget UserProfile(context) {
               borderRadius: BorderRadius.circular(15),
               color: const Color.fromARGB(255, 234, 226, 226),
               image: DecorationImage(
-                image: NetworkImage(ap.user.profileImage),
+                image: NetworkImage(profileImage),
 
                 //image: AssetImage("assets/images/profile.png"),
               ),
@@ -97,7 +102,7 @@ Widget UserProfile(context) {
         ),
       ),
       Text(
-        ap.user.name,
+        username,
         style: TextStyle(
             fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white),
       ),

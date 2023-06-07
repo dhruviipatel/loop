@@ -11,18 +11,22 @@ import '../models/userModel.dart';
 
 class AuthProvider with ChangeNotifier {
   User? _user;
-  User get user => _user!;
+  User? get user => _user;
 
   //check login status on login page
   void checkLogin(context) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
-    String? val = sp.getString('token');
-    if (val != null) {
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) => BottomNavbar(),
-          ),
-          (route) => false);
+    if (sp != null) {
+      String? val = sp.getString('token');
+      if (val != null) {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => BottomNavbar(),
+            ),
+            (route) => false);
+      }
+    } else {
+      print("sp is null");
     }
   }
 
@@ -36,11 +40,13 @@ class AuthProvider with ChangeNotifier {
       var data = jsonData['data'];
       var userdata = data['user'];
       //print(data);
-      print("userinfo");
-      // print(userdata);
+      //print("userinfo");
+      print("userdata12:${userdata}");
 
       if (response.statusCode == 200) {
         SharedPreferences sp = await SharedPreferences.getInstance();
+        //store token
+
         await sp.setString("token", data['token']);
 
         //store users info into shared pref
@@ -59,7 +65,7 @@ class AuthProvider with ChangeNotifier {
             profilePhotoUrl: userdata['profile_photo_url']);
 
         String userinfo = jsonEncode(user);
-        print(userinfo);
+        //print("user info:${userinfo}");
 
         sp.setString('userinfo', userinfo);
 
@@ -82,9 +88,12 @@ class AuthProvider with ChangeNotifier {
 
   void getUserData() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
-    Map<String, dynamic> jsondatais = jsonDecode(sp.getString('userinfo')!);
-    _user = User.fromJson(jsondatais);
-    //notifyListeners();
+    String? userinfo = sp.getString('userinfo');
+
+    if (userinfo != null) {
+      Map<String, dynamic> userjsondata = jsonDecode(userinfo);
+      _user = User.fromJson(userjsondata);
+    }
   }
 
   //logout button code
