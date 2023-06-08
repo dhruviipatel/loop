@@ -3,12 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/data/providers/AuthProvider.dart';
+import 'package:loop/app/data/providers/HomeProvider.dart';
 import 'package:loop/app/modules/userprofileScreen/userprofileProvider.dart';
 import 'package:provider/provider.dart';
 
 Widget Setting(context, {required isbtnclicked}) {
   final up = Provider.of<UserProfileProvider>(context);
   final ap = Provider.of<AuthProvider>(context);
+  final hp = Provider.of<HomeProvider>(context);
   return InkWell(
     onTap: () {
       up.onbtnclick();

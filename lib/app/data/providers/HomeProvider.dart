@@ -12,7 +12,6 @@ import '../models/userPostModel.dart';
 class HomeProvider with ChangeNotifier {
   //click on more item
   bool _isclicked = false;
-
   bool get isclicked => _isclicked;
 
   click() {
@@ -116,7 +115,6 @@ class HomeProvider with ChangeNotifier {
       // print(postlist);
 
       allUsers.forEach((u) {
-        List myuser = [];
         postlist.forEach((p) {
           if (p.customerId == u.id) {
             postUserlist.add(u);
@@ -131,5 +129,26 @@ class HomeProvider with ChangeNotifier {
     } else {
       print('failed to load posts');
     }
+  }
+
+  //post user data
+  var postuser = "";
+  var postuserprofile = "";
+  postuserdata(postuserId) {
+    for (int i = 0; i < allUsers.length; i++) {
+      if (allUsers[i].id == postuserId) {
+        postuser = allUsers[i].name;
+        postuserprofile = allUsers[i].profileImage;
+      }
+    }
+  }
+
+  int _currentIndex = 0;
+  int get currentIndex => _currentIndex;
+
+  //post image view
+  ImageViews(mypostImage) {
+    _currentIndex = mypostImage.length;
+    notifyListeners();
   }
 }

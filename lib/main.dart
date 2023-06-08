@@ -5,7 +5,6 @@ import 'package:loop/app/modules/authenticationScreens/forgotpass_screen.dart';
 import 'package:loop/app/modules/authenticationScreens/login_screen.dart';
 import 'package:loop/app/modules/authenticationScreens/resetpass_screen.dart';
 import 'package:loop/app/modules/homeScreen/home_screen.dart';
-import 'package:loop/app/modules/homeScreen/inner_widgets/postClick.dart';
 import 'package:loop/app/modules/splashScreen/splash_screen.dart';
 import 'package:loop/app/modules/userprofileScreen/userprofileProvider.dart';
 import 'package:provider/provider.dart';

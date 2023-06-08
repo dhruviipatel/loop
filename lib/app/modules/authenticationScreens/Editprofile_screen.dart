@@ -15,7 +15,7 @@ class EditProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final ap = Provider.of<AuthProvider>(context);
     ap.getUserData.call();
-    var UimageController = new TextEditingController();
+    //var UimageController = new TextEditingController();
     var UidController = new TextEditingController();
     var UnameController = new TextEditingController();
     var UgenderController = new TextEditingController();

@@ -2,23 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/data/models/userPostModel.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:loop/app/data/providers/HomeProvider.dart';
+import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'more.dart';
 
 class PostClick extends StatelessWidget {
-  final Users postUserlist;
+  final String postuser;
+  final String postuserImage;
+  final Post postlist;
+
   PostClick({
     Key? key,
-    required this.postUserlist,
+    required this.postlist,
+    required this.postuser,
+    required this.postuserImage,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final hp = Provider.of<HomeProvider>(context, listen: false);
+    final clickvalue = hp.isclicked;
     return SafeArea(
       child: Scaffold(
         backgroundColor: appbBgColor,
         bottomSheet: BottomSheet(
-          backgroundColor: appbBgColor,
+          backgroundColor:
+              clickvalue ? Colors.black.withOpacity(0.95) : appbBgColor,
           elevation: 0.0,
           enableDrag: false,
           onClosing: () {},
@@ -39,7 +49,7 @@ class PostClick extends StatelessWidget {
                     ),
                     6.widthBox,
                     Text(
-                      "458",
+                      postlist.postLikesCount.toString(),
                       style: TextStyle(color: Colors.white),
                     ),
                     Padding(
@@ -55,7 +65,7 @@ class PostClick extends StatelessWidget {
                     ),
                     6.widthBox,
                     Text(
-                      "652",
+                      postlist.postCommentsCount.toString(),
                       style: TextStyle(color: Colors.white),
                     ),
                   ],
@@ -64,49 +74,86 @@ class PostClick extends StatelessWidget {
             ),
           ),
         ),
-        body: Stack(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(),
-              child: Image.asset(
-                "assets/images/post.png",
-                fit: BoxFit.contain,
+        body: clickvalue == true
+            ? Stack(
+                children: [
+                  InnerPage(
+                      context, postlist, clickvalue, postuser, postuserImage),
+                  Container(
+                    color: Colors.black.withOpacity(0.8),
+                  )
+                ],
+              )
+            : Stack(
+                children: [
+                  InnerPage(
+                      context, postlist, clickvalue, postuser, postuserImage),
+                  Container()
+                ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: ListTile(
-                leading: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff7c94b6),
-                    image: DecorationImage(
-                      image: AssetImage(
-                        "assets/images/profile.png",
-                      ),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                    border: Border.all(color: appButtonColor, width: 2),
-                  ),
-                ),
-                title: Text(
-                  postUserlist.name,
-                  //"Esther Howarlds",
-                  style: TextStyle(color: Colors.white),
-                ),
-                trailing: Icon(
-                  MdiIcons.dotsHorizontal,
-                  color: Colors.white,
-                ),
-              ),
-            )
-          ],
-        ),
       ),
     );
   }
+}
+
+Widget InnerPage(context, postlist, isclicked, postuser, postuserImage) {
+  final hp = Provider.of<HomeProvider>(context);
+  final hasPostImage = postlist.postImage.isNotEmpty;
+  final hasPostVideo = postlist.postVideo.isNotEmpty;
+  return Stack(
+    children: [
+      Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(),
+        child: hasPostImage
+            ? PageView.builder(
+                onPageChanged: (index1) {
+                  hp.ImageViews(postlist.postImage);
+                },
+                itemCount: postlist.postImage.length,
+                itemBuilder: (context, idx1) {
+                  return Image.network(
+                    postlist.postImage[idx1].postImage,
+                    fit: BoxFit.contain,
+                  );
+                },
+              )
+            : hasPostVideo
+                ? Image.asset(
+                    "assets/images/post1.png",
+                    fit: BoxFit.cover,
+                  )
+                : Center(
+                    child: Text(
+                      postlist.postCaption ?? "",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: ListTile(
+          leading: Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              color: const Color(0xff7c94b6),
+              image: DecorationImage(
+                image: NetworkImage(postuserImage),
+                fit: BoxFit.cover,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(50.0)),
+              border: Border.all(color: appButtonColor, width: 2),
+            ),
+          ),
+          title: Text(
+            postuser,
+            style: TextStyle(color: Colors.white),
+          ),
+          trailing: More(clickvalue: isclicked, context: context),
+        ),
+      )
+    ],
+  );
 }
