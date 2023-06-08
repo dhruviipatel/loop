@@ -12,10 +12,15 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
     itemBuilder: (context, index) {
       final mypostImage = postlist[index].postImage;
       final mypostVideo = postlist[index].postVideo;
-      final postComment = postlist[index].postComments;
-
+      final mypostComment = postlist[index].postComments;
+      final postCaption = postlist[index].postCaption ?? "";
+      //print(mypostComment);
       // Check if postImage list is not empty and has enough elements
       final hasPostImage = mypostImage.isNotEmpty && index < mypostImage.length;
+
+      //Check if postComment list is not empty and has enough elements
+      final hasPostComment =
+          mypostComment.isNotEmpty && index < mypostComment.length;
 
       // Check if postVideo list is not empty and has enough elements
       final hasPostVideo = mypostVideo.isNotEmpty && index < mypostVideo.length;
@@ -185,62 +190,73 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                 child: Row(
                   children: [
                     Text(
-                      "Testing User",
+                      postuser,
                       style: TextStyle(fontSize: 12, color: Colors.white),
                     ),
                     SizedBox(
                       width: 5,
                     ),
                     Text(
-                      "Test",
+                      postCaption,
                       style: TextStyle(fontSize: 12, color: appHintTextColor),
                     )
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 25, top: 6),
-                child: InkWell(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CommentScreen(),
-                      )),
-                  child: Text(
-                    "View All ${postlist[index].postCommentsCount.toString()} Comments",
-                    style: TextStyle(fontSize: 12, color: appHintTextColor),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 25, top: 6, right: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          "jinal",
-                          style: TextStyle(fontSize: 9, color: Colors.white),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "test user",
+              hasPostComment
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 25, top: 6),
+                      child: InkWell(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CommentScreen(),
+                            )),
+                        child: Text(
+                          "View All ${postlist[index].postCommentsCount.toString()} Comments",
                           style:
-                              TextStyle(fontSize: 9, color: appHintTextColor),
-                        )
-                      ],
+                              TextStyle(fontSize: 12, color: appHintTextColor),
+                        ),
+                      ),
+                    )
+                  : Container(
+                      height: 15,
                     ),
-                    Icon(
-                      Icons.favorite_outline,
-                      color: Colors.white,
-                      size: 15,
+              hasPostComment
+                  ? Padding(
+                      padding:
+                          const EdgeInsets.only(left: 25, top: 6, right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                "jinal",
+                                style:
+                                    TextStyle(fontSize: 9, color: Colors.white),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                "test user",
+                                style: TextStyle(
+                                    fontSize: 9, color: appHintTextColor),
+                              )
+                            ],
+                          ),
+                          Icon(
+                            Icons.favorite_outline,
+                            color: Colors.white,
+                            size: 15,
+                          ),
+                        ],
+                      ),
+                    )
+                  : Container(
+                      height: 15,
                     ),
-                  ],
-                ),
-              ),
               Divider(
                 color: Colors.white,
               ),
