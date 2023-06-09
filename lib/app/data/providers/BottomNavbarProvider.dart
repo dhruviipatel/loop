@@ -40,4 +40,9 @@ class BottomNavbarProvider with ChangeNotifier {
               builder: (_) => _screens.elementAt(_currentTab));
         });
   }
+
+  void clearNavigatorKeys() {
+    navigatorKeys.clear();
+    _currentTab = 0;
+  }
 }

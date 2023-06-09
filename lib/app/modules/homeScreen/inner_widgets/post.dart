@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:loop/app/modules/commentScreen/comment_screen.dart';
 import 'package:loop/app/modules/homeScreen/inner_widgets/postClick.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
 import '../../../core/themes/themes.dart';
 import 'more.dart';
 
@@ -10,20 +9,13 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
   return ListView.builder(
     itemCount: postlist.length,
     itemBuilder: (context, index) {
+      final post = postlist[index];
+
       final mypostImage = postlist[index].postImage;
       final mypostVideo = postlist[index].postVideo;
       final mypostComment = postlist[index].postComments;
+
       final postCaption = postlist[index].postCaption ?? "";
-      //print(mypostComment);
-      // Check if postImage list is not empty and has enough elements
-      final hasPostImage = mypostImage.isNotEmpty && index < mypostImage.length;
-
-      //Check if postComment list is not empty and has enough elements
-      final hasPostComment =
-          mypostComment.isNotEmpty && index < mypostComment.length;
-
-      // Check if postVideo list is not empty and has enough elements
-      final hasPostVideo = mypostVideo.isNotEmpty && index < mypostVideo.length;
 
       //get post user data
       final postuserId = postlist[index].customerId;
@@ -32,6 +24,17 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
       var postuserprofile = hp.postuserprofile;
       String profileImageUrl =
           "https://looptest.inventdi.com/profile_images/" + postuserprofile;
+
+      var cmuser = "";
+      //get post first comment user name
+      if (mypostComment.isNotEmpty) {
+        final cmuserId = mypostComment[0].customerId;
+        hp.cmuserdata(cmuserId);
+        cmuser = hp.cmuser;
+      }
+
+      //get login user profile image
+      var userProImage = hp.userProImage;
 
       return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
@@ -103,7 +106,7 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                 child: Container(
                     height: 300,
                     width: MediaQuery.of(context).size.width,
-                    child: hasPostImage
+                    child: mypostImage.isNotEmpty
                         ? PageView.builder(
                             onPageChanged: (index1) {
                               hp.ImageViews(mypostImage);
@@ -116,7 +119,7 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                               );
                             },
                           )
-                        : hasPostVideo
+                        : mypostVideo.isNotEmpty
                             ? Image.asset(
                                 "assets/images/post1.png",
                                 fit: BoxFit.cover,
@@ -203,14 +206,17 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                   ],
                 ),
               ),
-              hasPostComment
+              //check post comment empty or not
+              mypostComment.isNotEmpty
                   ? Padding(
                       padding: const EdgeInsets.only(left: 25, top: 6),
                       child: InkWell(
                         onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CommentScreen(),
+                              builder: (context) => CommentScreen(
+                                post: post,
+                              ),
                             )),
                         child: Text(
                           "View All ${postlist[index].postCommentsCount.toString()} Comments",
@@ -222,7 +228,7 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                   : Container(
                       height: 15,
                     ),
-              hasPostComment
+              mypostComment.isNotEmpty
                   ? Padding(
                       padding:
                           const EdgeInsets.only(left: 25, top: 6, right: 10),
@@ -232,7 +238,7 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                           Row(
                             children: [
                               Text(
-                                "jinal",
+                                cmuser,
                                 style:
                                     TextStyle(fontSize: 9, color: Colors.white),
                               ),
@@ -240,7 +246,7 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                                 width: 5,
                               ),
                               Text(
-                                "test user",
+                                mypostComment[0].postComment,
                                 style: TextStyle(
                                     fontSize: 9, color: appHintTextColor),
                               )
@@ -273,10 +279,9 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                             width: 42,
                             height: 42,
                             decoration: BoxDecoration(
-                              color: const Color(0xff7c94b6),
                               image: DecorationImage(
-                                image: AssetImage(
-                                  "assets/images/noprofile.png",
+                                image: NetworkImage(
+                                  userProImage,
                                 ),
                                 fit: BoxFit.cover,
                               ),

@@ -3,14 +3,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/data/providers/AuthProvider.dart';
-import 'package:loop/app/data/providers/HomeProvider.dart';
 import 'package:loop/app/modules/userprofileScreen/userprofileProvider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../data/providers/BottomNavbarProvider.dart';
 
 Widget Setting(context, {required isbtnclicked}) {
   final up = Provider.of<UserProfileProvider>(context);
   final ap = Provider.of<AuthProvider>(context);
-  final hp = Provider.of<HomeProvider>(context);
+  final bp = Provider.of<BottomNavbarProvider>(context);
   return InkWell(
     onTap: () {
       up.onbtnclick();
@@ -141,7 +142,11 @@ Widget Setting(context, {required isbtnclicked}) {
             child: Padding(
               padding: const EdgeInsets.only(left: 15),
               child: InkWell(
-                onTap: () => ap.Logout(context),
+                onTap: () {
+                  bp.clearNavigatorKeys();
+                  up.onbtnclick();
+                  ap.Logout(context);
+                },
                 child: Text("Logout",
                     style: GoogleFonts.ibmPlexMono(
                       textStyle: TextStyle(

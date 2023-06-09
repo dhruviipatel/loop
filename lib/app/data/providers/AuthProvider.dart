@@ -100,7 +100,7 @@ class AuthProvider with ChangeNotifier {
   void Logout(context) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     sp.clear();
-    Navigator.of(context).pushAndRemoveUntil(
+    Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (context) => LoginScreen(),
         ),

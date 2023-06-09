@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -55,19 +54,21 @@ class HomeProvider with ChangeNotifier {
   List postUserlist = [];
   List allUsers = [];
   String postusername = "";
+  var userid = "";
+  var userProImage = "https://looptest.inventdi.com/profile_images/default.png";
   mypost(context) async {
     //get users data
 
     SharedPreferences sp = await SharedPreferences.getInstance();
     var user = sp.getString('userinfo');
-    var userid = "";
-
-    //print("user 3232:${user}");
 
     if (user != null) {
       var decoded = jsonDecode(user);
       userid = decoded['id'].toString();
-      //print("user id:${userid}");
+      var prf = decoded['profile_image'];
+      if (prf != null) {
+        userProImage = decoded['profile_image'];
+      }
     } else {
       print("user not available");
     }
@@ -139,6 +140,16 @@ class HomeProvider with ChangeNotifier {
       if (allUsers[i].id == postuserId) {
         postuser = allUsers[i].name;
         postuserprofile = allUsers[i].profileImage;
+      }
+    }
+  }
+
+  //post first comment data
+  var cmuser = "";
+  cmuserdata(cmuserId) {
+    for (int i = 0; i < allUsers.length; i++) {
+      if (allUsers[i].id == cmuserId) {
+        cmuser = allUsers[i].name;
       }
     }
   }

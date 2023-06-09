@@ -1,9 +1,9 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:loop/app/core/themes/themes.dart';
 import 'package:provider/provider.dart';
-
 import '../../data/providers/SearchProvider.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -71,6 +71,18 @@ class SearchScreen extends StatelessWidget {
               child: ListView.builder(
                 itemCount: founduser.length,
                 itemBuilder: (context, index) {
+                  //check profile pic value empty or not
+                  var profile =
+                      "https://looptest.inventdi.com/profile_images/default.png";
+                  if (founduser.isNotEmpty) {
+                    var fu = jsonDecode(jsonEncode(founduser));
+                    if (fu[index]['profile_image'] != null &&
+                        fu[index]['profile_image'].isNotEmpty) {
+                      profile =
+                          "https://looptest.inventdi.com/profile_images/" +
+                              fu[index]['profile_image'];
+                    }
+                  }
                   return Container(
                     height: 70,
                     child: ListTile(
@@ -80,9 +92,8 @@ class SearchScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: const Color(0xff7c94b6),
                           image: DecorationImage(
-                            image: AssetImage(
-                              "assets/images/profile.png",
-                              // founduser[index].profile_image,
+                            image: NetworkImage(
+                              profile,
                             ),
                             fit: BoxFit.cover,
                           ),

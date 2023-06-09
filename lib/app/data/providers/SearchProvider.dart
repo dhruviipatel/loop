@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:loop/app/data/models/searchUserModel.dart';
+import 'package:loop/app/data/models/userPostModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/userModel.dart';
 
 class SearchProvider with ChangeNotifier {
   var data = [];
@@ -38,8 +41,17 @@ class SearchProvider with ChangeNotifier {
     } else {
       print("users api error");
     }
+    // print(foundUsers);
+    // if (foundUsers.isNotEmpty) {
+    //   var fu = jsonDecode(jsonEncode(foundUsers));
+    //   if (fu.profile_image != null) {}
+    //   print(fu);
+    // }
+
     return foundUsers;
   }
+
+  void checkfoundprofile() {}
 
   void runFilter(String enteredText) {
     List result = [];
