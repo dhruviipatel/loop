@@ -4,13 +4,11 @@ import 'package:loop/app/core/themes/themes.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../../data/providers/HomeProvider.dart';
-import '../../../data/providers/SearchProvider.dart';
 import 'bottomsheet.dart';
 
 Widget More({required clickvalue, required context}) {
   final hp = Provider.of<HomeProvider>(context);
 
-  final sp = Provider.of<SearchProvider>(context);
   return Container(
     height: 24,
     width: 24,

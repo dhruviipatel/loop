@@ -16,16 +16,6 @@ Widget Commentlist(mypostComment, context) {
           hp.mypost(context);
           var allusers = hp.allUsers;
 
-          //get current login user image
-          var currImage = "";
-          var currentuserid = hp.userid;
-          for (int i = 0; i < allusers.length; i++) {
-            if (allusers[i].id == currentuserid) {
-              currImage = "https://looptest.inventdi.com/profile_images/" +
-                  allusers[i].profileImage;
-            }
-          }
-
           final commentuserid = mypostComment[index].customerId;
 
           //set time ago in comment

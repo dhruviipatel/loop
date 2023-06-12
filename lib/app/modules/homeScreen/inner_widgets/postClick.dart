@@ -102,34 +102,37 @@ Widget InnerPage(context, postlist, isclicked, postuser, postuserImage) {
   final hasPostVideo = postlist.postVideo.isNotEmpty;
   return Stack(
     children: [
-      Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(),
-        child: hasPostImage
-            ? PageView.builder(
-                onPageChanged: (index1) {
-                  hp.ImageViews(postlist.postImage);
-                },
-                itemCount: postlist.postImage.length,
-                itemBuilder: (context, idx1) {
-                  return Image.network(
-                    postlist.postImage[idx1].postImage,
-                    fit: BoxFit.contain,
-                  );
-                },
-              )
-            : hasPostVideo
-                ? Image.asset(
-                    "assets/images/post1.png",
-                    fit: BoxFit.cover,
-                  )
-                : Center(
-                    child: Text(
-                      postlist.postCaption ?? "",
-                      style: TextStyle(color: Colors.white),
+      InkWell(
+        onTap: () => Navigator.pop(context),
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(),
+          child: hasPostImage
+              ? PageView.builder(
+                  onPageChanged: (index1) {
+                    hp.ImageViews(postlist.postImage);
+                  },
+                  itemCount: postlist.postImage.length,
+                  itemBuilder: (context, idx1) {
+                    return Image.network(
+                      postlist.postImage[idx1].postImage,
+                      fit: BoxFit.contain,
+                    );
+                  },
+                )
+              : hasPostVideo
+                  ? Image.asset(
+                      "assets/images/post1.png",
+                      fit: BoxFit.cover,
+                    )
+                  : Center(
+                      child: Text(
+                        postlist.postCaption ?? "",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
-                  ),
+        ),
       ),
       Padding(
         padding: const EdgeInsets.only(top: 20),

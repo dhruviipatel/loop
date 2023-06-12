@@ -101,7 +101,7 @@ class SearchScreen extends StatelessWidget {
                         ),
                       ),
                       title: Text(
-                        founduser[index].name,
+                        founduser[index].name ?? "Unknown",
                         style: GoogleFonts.ibmPlexMono(
                           textStyle: TextStyle(
                               color: Colors.white,

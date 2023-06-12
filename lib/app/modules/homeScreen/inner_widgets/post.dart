@@ -1,8 +1,11 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:loop/app/modules/commentScreen/comment_screen.dart';
 import 'package:loop/app/modules/homeScreen/inner_widgets/postClick.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:video_player/video_player.dart';
 import '../../../core/themes/themes.dart';
+import '../../../data/models/userPostModel.dart';
 import 'more.dart';
 
 Widget MyHomePost(hp, clickvalue, postlist, context) {
@@ -120,9 +123,19 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                             },
                           )
                         : mypostVideo.isNotEmpty
-                            ? Image.asset(
-                                "assets/images/post1.png",
-                                fit: BoxFit.cover,
+                            ? PageView.builder(
+                                onPageChanged: (index1) {
+                                  hp.ImageViews(mypostVideo);
+                                },
+                                itemCount: mypostVideo.length,
+                                itemBuilder: (context, idx2) {
+                                  return PostVideoPart(
+                                      mypostvideo: mypostVideo[idx2]);
+                                  // Image.network(
+                                  //   mypostImage[idx2].postImage,
+                                  //   fit: BoxFit.cover,
+                                  // );
+                                },
                               )
                             : Center(
                                 child: Text(
@@ -322,4 +335,51 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
       );
     },
   );
+}
+
+class PostVideoPart extends StatefulWidget {
+  final PostVideo mypostvideo;
+  const PostVideoPart({super.key, required this.mypostvideo});
+
+  @override
+  State<PostVideoPart> createState() => _PostVideoPartState();
+}
+
+class _PostVideoPartState extends State<PostVideoPart> {
+  VideoPlayerController? _videoPlayerController;
+  ChewieController? _chewieController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _videoPlayerController = VideoPlayerController.network(
+      widget.mypostvideo.postVideo,
+    );
+
+    _chewieController = ChewieController(
+      videoPlayerController: _videoPlayerController!,
+      autoPlay: true,
+      looping: false,
+      showControls: true,
+      allowFullScreen: false,
+      showControlsOnInitialize: false,
+    );
+  }
+
+  @override
+  void dispose() {
+    _chewieController!.dispose();
+    _videoPlayerController!.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      //height: 200,
+      width: MediaQuery.of(context).size.width,
+      child: Chewie(controller: _chewieController!),
+    );
+  }
 }
