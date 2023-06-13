@@ -100,9 +100,7 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                   context,
                   MaterialPageRoute(
                     builder: (context) => PostClick(
-                      postuser: postuser,
                       postlist: postlist[index],
-                      postuserImage: profileImageUrl,
                     ),
                   ),
                 ),
@@ -131,10 +129,6 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                                 itemBuilder: (context, idx2) {
                                   return PostVideoPart(
                                       mypostvideo: mypostVideo[idx2]);
-                                  // Image.network(
-                                  //   mypostImage[idx2].postImage,
-                                  //   fit: BoxFit.cover,
-                                  // );
                                 },
                               )
                             : Center(
