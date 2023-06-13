@@ -48,7 +48,7 @@ class HomeProvider with ChangeNotifier {
     }
   }
 
-  //get all users to match its id with costumer id and retrive data
+  //get all users to match its id with customer id and retrive data
   List myUsers = [];
   List postlist = [];
   List postUserlist = [];
@@ -73,7 +73,7 @@ class HomeProvider with ChangeNotifier {
       print("user not available");
     }
 
-    var mytoken = sp.getString("token")!;
+    var mytoken = sp.getString("token");
 
     final postUrl = "https://looptest.inventdi.com/api/Post/getUserPost";
     final headers = {
@@ -107,13 +107,15 @@ class HomeProvider with ChangeNotifier {
 
     if (response.statusCode == 200) {
       final postJson = response.body;
+      // print("postjson:${postJson}");
 
       var decodedpostJson = await json.decode(postJson);
       var maindata = decodedpostJson["data"];
       var data = maindata['post'];
-      // print(data);
+      //print("data:${data}");
+
       postlist = List.from(data).map<Post>((e) => Post.fromJson(e)).toList();
-      // print(postlist);
+      //print(postlist);
 
       allUsers.forEach((u) {
         postlist.forEach((p) {

@@ -5,7 +5,6 @@ import 'package:loop/app/core/themes/themes.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../userprofileScreen/inner_widgets/posts.dart';
 import 'editpost/editnavbar.dart';
 
 class NewpostScreen extends StatelessWidget {
@@ -13,6 +12,23 @@ class NewpostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List postlist = [
+      AssetImage("assets/images/post3.png"),
+      AssetImage("assets/images/post2.png"),
+      AssetImage("assets/images/post1.png"),
+      AssetImage("assets/images/post4.png"),
+      AssetImage("assets/images/post5.png"),
+      AssetImage("assets/images/post6.png"),
+      AssetImage("assets/images/post7.png"),
+      AssetImage("assets/images/post8.png"),
+      AssetImage("assets/images/post9.png"),
+      AssetImage("assets/images/post10.png"),
+      AssetImage("assets/images/post11.png"),
+      AssetImage("assets/images/post12.png"),
+      AssetImage("assets/images/post13.png"),
+      AssetImage("assets/images/post14.png"),
+      AssetImage("assets/images/post15.png"),
+    ];
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(

@@ -332,8 +332,9 @@ class Users {
         "facebook_id": facebookId,
         "google_id": googleId,
         "social_type": socialType,
-        "dob":
-            "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
+        "dob": dob != null
+            ? "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}"
+            : null,
         "gender": gender,
         "is_active": isActive,
         "access_token": accessToken,

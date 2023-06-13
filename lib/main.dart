@@ -6,12 +6,12 @@ import 'package:loop/app/modules/authenticationScreens/login_screen.dart';
 import 'package:loop/app/modules/authenticationScreens/resetpass_screen.dart';
 import 'package:loop/app/modules/homeScreen/home_screen.dart';
 import 'package:loop/app/modules/splashScreen/splash_screen.dart';
-import 'package:loop/app/modules/userprofileScreen/userprofileProvider.dart';
 import 'package:provider/provider.dart';
 import 'app/core/utils/routes.dart';
 import 'app/data/providers/BottomNavbarProvider.dart';
 import 'app/data/providers/HomeProvider.dart';
 import 'app/data/providers/SearchProvider.dart';
+import 'app/data/providers/UserProfileProvider.dart';
 import 'app/modules/newpostScreen/editpost/editnavbarProvider.dart';
 
 void main() {

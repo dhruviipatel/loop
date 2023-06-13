@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:loop/app/core/themes/themes.dart';
+import 'package:loop/app/data/providers/HomeProvider.dart';
 import 'package:loop/app/modules/authenticationScreens/Editprofile_screen.dart';
 import 'package:loop/app/modules/userprofileScreen/following_follower_scrren.dart';
 import 'package:loop/app/modules/userprofileScreen/inner_widgets/posts.dart';
 import 'package:loop/app/modules/userprofileScreen/inner_widgets/setting.dart';
-import 'package:loop/app/modules/userprofileScreen/userprofileProvider.dart';
 import 'package:provider/provider.dart';
 import '../../data/providers/AuthProvider.dart';
+import '../../data/providers/UserProfileProvider.dart';
 
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({super.key});
@@ -42,15 +43,33 @@ Widget UserProfile(context) {
   ap.getUserData.call();
   var user = ap.user;
 
+  var userid = 0;
   var profileImage = '';
   var username = '';
   if (user != null) {
     profileImage = user.profileImage;
     username = user.name;
+    userid = user.id;
+    print(userid);
   } else {
     print("we can't get user");
   }
 
+  final hp = Provider.of<HomeProvider>(context);
+  hp.mypost(context);
+  var postlist = hp.postlist;
+
+  up.getUserAllPost(postlist, userid);
+  var userpostlist = up.userpostlist;
+  print(userpostlist);
+
+  up.myfollowers(userid);
+  var followerlist = up.followerList;
+  print("followerlist:${followerlist}");
+
+  up.myfollowing(userid);
+  var followinglist = up.followingList;
+  print("followinglist:${followinglist}");
   return Column(
     children: [
       Padding(
@@ -94,8 +113,6 @@ Widget UserProfile(context) {
               color: const Color.fromARGB(255, 234, 226, 226),
               image: DecorationImage(
                 image: NetworkImage(profileImage),
-
-                //image: AssetImage("assets/images/profile.png"),
               ),
             ),
           ),
@@ -114,7 +131,7 @@ Widget UserProfile(context) {
             Column(
               children: [
                 Text(
-                  "+4590",
+                  userpostlist.length.toString(),
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w400,
@@ -139,7 +156,7 @@ Widget UserProfile(context) {
               child: Column(
                 children: [
                   Text(
-                    "5145",
+                    followinglist.length.toString(),
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w400,
@@ -165,7 +182,7 @@ Widget UserProfile(context) {
               child: Column(
                 children: [
                   Text(
-                    "6897",
+                    followerlist.length.toString(),
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w400,
@@ -186,7 +203,7 @@ Widget UserProfile(context) {
         ),
       ),
       Expanded(
-        child: PostWidget(),
+        child: PostWidget(userpostlist, context),
       ),
     ],
   );

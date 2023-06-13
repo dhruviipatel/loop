@@ -9,7 +9,7 @@ class User {
   String name;
   String email;
   int? mobile;
-  DateTime dob;
+  DateTime? dob;
   int gender;
   String profileImage;
   String? identify;
@@ -20,7 +20,7 @@ class User {
     required this.name,
     required this.email,
     this.mobile,
-    required this.dob,
+    this.dob,
     required this.gender,
     required this.profileImage,
     this.identify,
@@ -32,8 +32,10 @@ class User {
         name: json["name"],
         email: json["email"],
         mobile: json["mobile"],
-        dob: DateTime.parse(json["dob"]),
-        gender: json["gender"],
+        dob: json["dob"] != null ? DateTime.parse(json["dob"]) : null,
+
+        //dob: DateTime.parse(json["dob"]),
+        gender: json["gender"] ?? 0,
         profileImage: json["profile_image"],
         identify: json["identify"],
         profilePhotoUrl: json["profile_photo_url"],
@@ -44,8 +46,12 @@ class User {
         "name": name,
         "email": email,
         "mobile": mobile,
+        // "dob": dob != null
+        //     ? "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}"
+        //     : null,
+
         "dob":
-            "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
+            "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
         "gender": gender,
         "profile_image": profileImage,
         "identify": identify,
