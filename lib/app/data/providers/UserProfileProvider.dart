@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-
 import '../models/followersModel.dart';
 import '../models/followingsModel.dart';
 
@@ -17,6 +16,15 @@ class UserProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  //click on followers
+  bool _followerclick = false;
+  bool get followerclick => _followerclick;
+
+  onfollowerclick() {
+    _followerclick = !_followerclick;
+    notifyListeners();
+  }
+
   //get post
   List _userpostlist = [];
   get userpostlist => _userpostlist;
@@ -28,7 +36,6 @@ class UserProfileProvider with ChangeNotifier {
           print("already available");
         } else {
           _userpostlist.add(postlist[i]);
-          // print("user post list:${_userpostlist}");
         }
       }
     }
@@ -94,7 +101,7 @@ class UserProfileProvider with ChangeNotifier {
             (e) => Followers.fromJson(e),
           )
           .toList();
-      print("list:${followerList}");
+      // print("list:${followerList}");
     } else {
       print('failed to load followers');
     }
@@ -136,5 +143,105 @@ class UserProfileProvider with ChangeNotifier {
     } else {
       print('Failed to load followings');
     }
+  }
+
+  //remove follower
+  Future<void> removeFollower(int followerId, int userId, context) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    var mytoken = sp.getString("token");
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $mytoken',
+    };
+
+    final body = jsonEncode({
+      'user_id': userId,
+      'followed_user_id': followerId,
+    });
+
+    final deletefollowerurl =
+        'https://looptest.inventdi.com/api/User/sendUnfollowerRequest';
+
+    try {
+      var response = await http.post(Uri.parse(deletefollowerurl),
+          headers: headers, body: body);
+      if (response.statusCode == 200) {
+        print("successfully removed follower.");
+        notifyListeners();
+        Navigator.pop(context);
+      } else {
+        print("failed to removed follower.");
+      }
+    } catch (e) {
+      print("error ${e}");
+    }
+    notifyListeners();
+  }
+
+  //unfollow user
+  Future<void> UnFollowUser(int followinguserId, int userId, context) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    var mytoken = sp.getString("token");
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $mytoken',
+    };
+
+    final body = jsonEncode({
+      'user_id': userId,
+      'following_user_id': followinguserId,
+    });
+
+    final unfollowurl =
+        'https://looptest.inventdi.com/api/User/sendUnfollowingRequest';
+
+    try {
+      var response =
+          await http.post(Uri.parse(unfollowurl), headers: headers, body: body);
+      if (response.statusCode == 200) {
+        print("successfully unfollow user.");
+        Navigator.pop(context);
+        notifyListeners();
+      } else {
+        print("failed to unfollow user.");
+      }
+    } catch (e) {
+      print("error ${e}");
+    }
+    notifyListeners();
+  }
+
+  //started following user
+  //continue.......
+  Future<void> FollowUser(int followinguserId, int userId, context) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    var mytoken = sp.getString("token");
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $mytoken',
+    };
+
+    final body = jsonEncode({
+      'user_id': userId,
+      'following_user_id': followinguserId,
+    });
+
+    final unfollowurl =
+        'https://looptest.inventdi.com/api/User/sendUnfollowingRequest';
+
+    try {
+      var response =
+          await http.post(Uri.parse(unfollowurl), headers: headers, body: body);
+      if (response.statusCode == 200) {
+        print("successfully unfollow user.");
+        Navigator.pop(context);
+        notifyListeners();
+      } else {
+        print("failed to unfollow user.");
+      }
+    } catch (e) {
+      print("error ${e}");
+    }
+    notifyListeners();
   }
 }

@@ -1,20 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:loop/app/core/themes/themes.dart';
-
+import 'package:provider/provider.dart';
+import '../../data/providers/UserProfileProvider.dart';
 import 'inner_widgets/followingWidget.dart';
 
 class FollowingFollowerScreen extends StatelessWidget {
-  const FollowingFollowerScreen({super.key});
+  final int initialIndex;
+  final int userid;
+  final String username;
+  const FollowingFollowerScreen(
+      {super.key,
+      required this.userid,
+      required this.username,
+      required this.initialIndex});
 
   @override
   Widget build(BuildContext context) {
+    final up = Provider.of<UserProfileProvider>(context);
+    up.myfollowers(userid);
+    var followerlist = up.followerList;
+
+    up.myfollowing(userid);
+    var followinglist = up.followingList;
+
     return Scaffold(
       backgroundColor: appbBgColor,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: appbBgColor,
         title: Text(
-          "Leslie@123",
+          username,
           style: TextStyle(color: Colors.white),
         ),
         titleSpacing: 0,
@@ -24,6 +39,7 @@ class FollowingFollowerScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
         child: DefaultTabController(
+          initialIndex: initialIndex,
           length: 2,
           child: Column(
             children: [
@@ -43,7 +59,7 @@ class FollowingFollowerScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              "5145",
+                              followinglist.length.toString(),
                               style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400,
@@ -66,7 +82,7 @@ class FollowingFollowerScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              "6897",
+                              followerlist.length.toString(),
                               style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400,
@@ -87,7 +103,11 @@ class FollowingFollowerScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Expanded(child: TabBarView(children: [Following(), Followers()]))
+              Expanded(
+                  child: TabBarView(children: [
+                Following(followinglist),
+                Followers(followerlist)
+              ]))
             ],
           ),
         ),

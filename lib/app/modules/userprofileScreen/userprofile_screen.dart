@@ -39,6 +39,8 @@ Widget UserProfile(context) {
   final up = Provider.of<UserProfileProvider>(context);
   final clickvalue = up.buttonclicked;
 
+  final followerclick = up.followerclick;
+
   final ap = Provider.of<AuthProvider>(context);
   ap.getUserData.call();
   var user = ap.user;
@@ -50,7 +52,6 @@ Widget UserProfile(context) {
     profileImage = user.profileImage;
     username = user.name;
     userid = user.id;
-    print(userid);
   } else {
     print("we can't get user");
   }
@@ -61,15 +62,13 @@ Widget UserProfile(context) {
 
   up.getUserAllPost(postlist, userid);
   var userpostlist = up.userpostlist;
-  print(userpostlist);
 
   up.myfollowers(userid);
   var followerlist = up.followerList;
-  print("followerlist:${followerlist}");
 
   up.myfollowing(userid);
   var followinglist = up.followingList;
-  print("followinglist:${followinglist}");
+
   return Column(
     children: [
       Padding(
@@ -150,7 +149,11 @@ Widget UserProfile(context) {
             InkWell(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => FollowingFollowerScreen(),
+                  builder: (context) => FollowingFollowerScreen(
+                    initialIndex: 0,
+                    userid: userid,
+                    username: username,
+                  ),
                 ));
               },
               child: Column(
@@ -176,7 +179,11 @@ Widget UserProfile(context) {
             InkWell(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => FollowingFollowerScreen(),
+                  builder: (context) => FollowingFollowerScreen(
+                    initialIndex: 1,
+                    userid: userid,
+                    username: username,
+                  ),
                 ));
               },
               child: Column(

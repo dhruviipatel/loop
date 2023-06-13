@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/themes/themes.dart';
+import '../../../data/providers/UserProfileProvider.dart';
 
-Widget Following() {
+Widget Following(followinglist) {
   return ListView.builder(
-    itemCount: 4,
+    itemCount: followinglist.length,
     itemBuilder: (context, index) {
+      String email = followinglist[index].followingCustomer.email;
+      var splitemail = email.split("@");
+      var uid = splitemail[0];
+
+      var profile = followinglist[index].followingCustomer.profileImage;
+
+      var name = followinglist[index].followingCustomer.name;
+
+      String resulteduid = "";
+
+      if (uid.length > 15) {
+        resulteduid = uid.substring(0, 15) + "...";
+      } else {
+        resulteduid = uid;
+      }
+
       return Column(
         children: [
           Padding(
@@ -18,13 +36,14 @@ Widget Following() {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: const Color(0xff7c94b6),
+                        //color: const Color(0xff7c94b6),
                         image: DecorationImage(
-                          image: AssetImage(
-                            "assets/images/profile.png",
+                          image: NetworkImage(
+                            profile,
                           ),
                           fit: BoxFit.cover,
                         ),
+                        border: Border.all(color: appButtonColor),
                         borderRadius: BorderRadius.all(Radius.circular(50.0)),
                       ),
                     ),
@@ -33,31 +52,61 @@ Widget Following() {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Broo_Simmons",
+                          resulteduid,
                           style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                         SizedBox(height: 10),
-                        Text(
-                          "Brooklyn_Simmons",
-                          style:
-                              TextStyle(fontSize: 12, color: appHintTextColor),
-                        )
+                        if (followinglist[index].followingCustomer.name == null)
+                          Text(
+                            "Unknown",
+                            style: TextStyle(
+                                fontSize: 12, color: appHintTextColor),
+                          )
+                        else
+                          Text(
+                            followinglist[index].followingCustomer.name,
+                            style: TextStyle(
+                                fontSize: 12, color: appHintTextColor),
+                          )
                       ],
                     ),
                   ],
                 ),
                 Row(
                   children: [
-                    Container(
-                      height: 30,
-                      width: 90,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: appButtonColor),
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Center(
-                        child: Text(
-                          "Following",
-                          style: TextStyle(fontSize: 14, color: Colors.white),
+                    InkWell(
+                      onTap: () => {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          backgroundColor: appbBgColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(50))),
+                          context: context,
+                          builder: (context) => DraggableScrollableSheet(
+                            expand: false,
+                            initialChildSize: 0.45,
+                            minChildSize: 0.3,
+                            maxChildSize: 0.8,
+                            builder: (context, scrollController) =>
+                                SingleChildScrollView(
+                              child: UnFollowSheet(
+                                  context, profile, name, followinglist[index]),
+                            ),
+                          ),
+                        ),
+                      },
+                      child: Container(
+                        height: 30,
+                        width: 90,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: appButtonColor),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Center(
+                          child: Text(
+                            "Unfollow",
+                            style: TextStyle(fontSize: 14, color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
@@ -80,10 +129,26 @@ Widget Following() {
   );
 }
 
-Widget Followers() {
+Widget Followers(followerlist) {
   return ListView.builder(
-    itemCount: 4,
+    itemCount: followerlist.length,
     itemBuilder: (context, index) {
+      String email = followerlist[index].followedCustomer.email;
+      var splitemail = email.split("@");
+      var uid = splitemail[0];
+
+      var profile = followerlist[index].followedCustomer.profileImage;
+
+      var name = followerlist[index].followedCustomer.name;
+
+      String resulteduid = "";
+
+      if (uid.length > 15) {
+        resulteduid = uid.substring(0, 15) + "...";
+      } else {
+        resulteduid = uid;
+      }
+
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -98,27 +163,27 @@ Widget Followers() {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: const Color(0xff7c94b6),
-                        image: DecorationImage(
-                          image: AssetImage(
-                            "assets/images/profile.png",
+                          //color: const Color(0xff7c94b6),
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              profile,
+                            ),
+                            fit: BoxFit.cover,
                           ),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                          border: Border.all(color: appButtonColor)),
                     ),
                     SizedBox(width: 15),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Broo_Simmons",
+                          resulteduid,
                           style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                         SizedBox(height: 10),
                         Text(
-                          "Brooklyn_Simmons",
+                          name,
                           style:
                               TextStyle(fontSize: 12, color: appHintTextColor),
                         ),
@@ -142,7 +207,8 @@ Widget Followers() {
                         maxChildSize: 0.8,
                         builder: (context, scrollController) =>
                             SingleChildScrollView(
-                          child: RemoveFollowerSheet(context),
+                          child: RemoveFollowerSheet(
+                              context, profile, name, followerlist[index]),
                         ),
                       ),
                     ),
@@ -181,7 +247,12 @@ Widget Followers() {
   );
 }
 
-Widget RemoveFollowerSheet(context) {
+Widget RemoveFollowerSheet(context, profile, name, followerlist) {
+  final up = Provider.of<UserProfileProvider>(context);
+  var followerId = followerlist.customerId;
+  var userId = followerlist.followingCustomerId;
+  print(followerId);
+  print(userId);
   return Padding(
     padding: const EdgeInsets.only(left: 50, right: 50),
     child: Column(
@@ -197,10 +268,9 @@ Widget RemoveFollowerSheet(context) {
           width: 70,
           height: 70,
           decoration: BoxDecoration(
-            color: const Color(0xff7c94b6),
             image: DecorationImage(
-              image: AssetImage(
-                "assets/images/profile.png",
+              image: NetworkImage(
+                profile,
               ),
               fit: BoxFit.cover,
             ),
@@ -215,7 +285,7 @@ Widget RemoveFollowerSheet(context) {
         ),
         SizedBox(height: 10),
         Text(
-          "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.",
+          "Do you really want to remove ${name} from your follower list?",
           textAlign: TextAlign.center,
           style: TextStyle(
               color: appHintTextColor,
@@ -226,19 +296,121 @@ Widget RemoveFollowerSheet(context) {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              width: 120,
-              height: 35,
-              decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: appButtonColor),
-                  borderRadius: BorderRadius.circular(10)),
-              child: Center(
-                child: Text(
-                  "Remove",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400),
+            InkWell(
+              onTap: () {
+                up.removeFollower(followerId, userId, context);
+              },
+              child: Container(
+                width: 120,
+                height: 35,
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: appButtonColor),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Center(
+                  child: Text(
+                    "Remove",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                width: 120,
+                height: 35,
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: Colors.white),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Center(
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ),
+              ),
+            )
+          ],
+        )
+      ],
+    ),
+  );
+}
+
+Widget UnFollowSheet(context, profile, name, followinglist) {
+  final up = Provider.of<UserProfileProvider>(context);
+  var followingId = followinglist.followingCustomerId;
+  var userId = followinglist.customerId;
+  print(followingId);
+  print(userId);
+
+  return Padding(
+    padding: const EdgeInsets.only(left: 50, right: 50),
+    child: Column(
+      children: [
+        SizedBox(height: 30),
+        Container(
+          color: appHintTextColor,
+          height: 3,
+          width: 150,
+        ),
+        SizedBox(height: 30),
+        Container(
+          width: 70,
+          height: 70,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(
+                profile,
+              ),
+              fit: BoxFit.cover,
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+          ),
+        ),
+        SizedBox(height: 20),
+        Text(
+          name,
+          style: TextStyle(
+              color: Colors.white, fontSize: 21, fontWeight: FontWeight.w400),
+        ),
+        SizedBox(height: 10),
+        Text(
+          "Do you really want to unfollow ${name} ?",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: appHintTextColor,
+              fontSize: 12,
+              fontWeight: FontWeight.w400),
+        ),
+        SizedBox(height: 40),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              onTap: () {
+                up.UnFollowUser(followingId, userId, context);
+              },
+              child: Container(
+                width: 120,
+                height: 35,
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: appButtonColor),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Center(
+                  child: Text(
+                    "Unfollow",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400),
+                  ),
                 ),
               ),
             ),
