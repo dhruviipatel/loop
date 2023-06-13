@@ -3,26 +3,24 @@ import 'package:iconly/iconly.dart';
 import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/data/models/userPostModel.dart';
 import 'package:loop/app/data/providers/HomeProvider.dart';
+import 'package:loop/app/modules/homeScreen/inner_widgets/post.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'more.dart';
 
 class PostClick extends StatelessWidget {
-  final String postuser;
-  final String postuserImage;
   final Post postlist;
 
   PostClick({
     Key? key,
     required this.postlist,
-    required this.postuser,
-    required this.postuserImage,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final hp = Provider.of<HomeProvider>(context, listen: false);
     final clickvalue = hp.isclicked;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: appbBgColor,
@@ -77,8 +75,7 @@ class PostClick extends StatelessWidget {
         body: clickvalue == true
             ? Stack(
                 children: [
-                  InnerPage(
-                      context, postlist, clickvalue, postuser, postuserImage),
+                  InnerPage(context, postlist, clickvalue),
                   Container(
                     color: Colors.black.withOpacity(0.8),
                   )
@@ -86,8 +83,7 @@ class PostClick extends StatelessWidget {
               )
             : Stack(
                 children: [
-                  InnerPage(
-                      context, postlist, clickvalue, postuser, postuserImage),
+                  InnerPage(context, postlist, clickvalue),
                   Container()
                 ],
               ),
@@ -96,10 +92,18 @@ class PostClick extends StatelessWidget {
   }
 }
 
-Widget InnerPage(context, postlist, isclicked, postuser, postuserImage) {
+Widget InnerPage(context, postlist, isclicked) {
   final hp = Provider.of<HomeProvider>(context);
   final hasPostImage = postlist.postImage.isNotEmpty;
   final hasPostVideo = postlist.postVideo.isNotEmpty;
+
+  var postuserid = postlist.customerId;
+  hp.postuserdata(postuserid);
+  var postuser = hp.postuser;
+  var postuserprofile = hp.postuserprofile;
+  String profileImageUrl =
+      "https://looptest.inventdi.com/profile_images/" + postuserprofile;
+
   return Stack(
     children: [
       InkWell(
@@ -122,9 +126,15 @@ Widget InnerPage(context, postlist, isclicked, postuser, postuserImage) {
                   },
                 )
               : hasPostVideo
-                  ? Image.asset(
-                      "assets/images/post1.png",
-                      fit: BoxFit.cover,
+                  ? PageView.builder(
+                      onPageChanged: (index1) {
+                        hp.ImageViews(postlist.postVideo);
+                      },
+                      itemCount: postlist.postVideo.length,
+                      itemBuilder: (context, idx2) {
+                        return PostVideoPart(
+                            mypostvideo: postlist.postVideo[idx2]);
+                      },
                     )
                   : Center(
                       child: Text(
@@ -143,7 +153,7 @@ Widget InnerPage(context, postlist, isclicked, postuser, postuserImage) {
             decoration: BoxDecoration(
               color: const Color(0xff7c94b6),
               image: DecorationImage(
-                image: NetworkImage(postuserImage),
+                image: NetworkImage(profileImageUrl),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.all(Radius.circular(50.0)),
