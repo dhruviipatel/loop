@@ -13,7 +13,6 @@ class User {
   int gender;
   String profileImage;
   String? identify;
-  String profilePhotoUrl;
 
   User({
     required this.id,
@@ -24,21 +23,19 @@ class User {
     required this.gender,
     required this.profileImage,
     this.identify,
-    required this.profilePhotoUrl,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
-        name: json["name"],
-        email: json["email"],
+        name: json["name"] ?? "",
+        email: json["email"] ?? "",
         mobile: json["mobile"],
         dob: json["dob"] != null ? DateTime.parse(json["dob"]) : null,
 
         //dob: DateTime.parse(json["dob"]),
         gender: json["gender"] ?? 0,
-        profileImage: json["profile_image"],
+        profileImage: json["profile_image"] ?? "",
         identify: json["identify"],
-        profilePhotoUrl: json["profile_photo_url"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -55,6 +52,5 @@ class User {
         "gender": gender,
         "profile_image": profileImage,
         "identify": identify,
-        "profile_photo_url": profilePhotoUrl,
       };
 }

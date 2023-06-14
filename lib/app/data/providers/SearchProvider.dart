@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:loop/app/data/models/searchUserModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/userModel.dart';
 
 class SearchProvider with ChangeNotifier {
   var data = [];
@@ -29,11 +30,11 @@ class SearchProvider with ChangeNotifier {
       var alldata = jsonDecode(response.body);
 
       data = alldata["data"];
-      allUsers = data.map((e) => FoundUser.fromJson(e)).toList();
+      allUsers = data.map((e) => User.fromJson(e)).toList();
 
       foundUsers = allUsers;
       notifyListeners();
-
+      //print("found:${foundUsers}");
       return foundUsers;
     } else {
       print("users api error");

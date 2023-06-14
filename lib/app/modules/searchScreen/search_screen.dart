@@ -1,8 +1,8 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:loop/app/core/themes/themes.dart';
+import 'package:loop/app/modules/userprofileScreen/inner_widgets/profile.dart';
 import 'package:provider/provider.dart';
 import '../../data/providers/SearchProvider.dart';
 
@@ -15,6 +15,7 @@ class SearchScreen extends StatelessWidget {
     search.getAllUsers.call();
 
     var founduser = search.foundUsers;
+    print(founduser);
 
     return SafeArea(
       child: Scaffold(
@@ -74,39 +75,43 @@ class SearchScreen extends StatelessWidget {
                   //check profile pic value empty or not
                   var profile =
                       "https://looptest.inventdi.com/profile_images/default.png";
-                  if (founduser.isNotEmpty) {
-                    var fu = jsonDecode(jsonEncode(founduser));
-                    if (fu[index]['profile_image'] != null &&
-                        fu[index]['profile_image'].isNotEmpty) {
-                      profile =
-                          "https://looptest.inventdi.com/profile_images/" +
-                              fu[index]['profile_image'];
-                    }
+                  if (founduser[index].profileImage.isNotEmpty) {
+                    profile = "https://looptest.inventdi.com/profile_images/" +
+                        founduser[index].profileImage;
                   }
-                  return Container(
-                    height: 70,
-                    child: ListTile(
-                      leading: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: const Color(0xff7c94b6),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                              profile,
+
+                  return InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              Profile(user: founduser[index])));
+                    },
+                    child: Container(
+                      height: 70,
+                      child: ListTile(
+                        leading: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: const Color(0xff7c94b6),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                profile,
+                              ),
+                              fit: BoxFit.cover,
                             ),
-                            fit: BoxFit.cover,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50.0)),
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(50.0)),
                         ),
-                      ),
-                      title: Text(
-                        founduser[index].name ?? "Unknown",
-                        style: GoogleFonts.ibmPlexMono(
-                          textStyle: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16),
+                        title: Text(
+                          founduser[index].name ?? "Unknown",
+                          style: GoogleFonts.ibmPlexMono(
+                            textStyle: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16),
+                          ),
                         ),
                       ),
                     ),

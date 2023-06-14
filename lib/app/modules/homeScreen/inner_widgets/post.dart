@@ -18,7 +18,13 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
       final mypostVideo = postlist[index].postVideo;
       final mypostComment = postlist[index].postComments;
 
-      final postCaption = postlist[index].postCaption ?? "";
+      String postCaption = "";
+      final caption = postlist[index].postCaption ?? "";
+      if (caption.length > 35) {
+        postCaption = caption.substring(0, 40) + "...";
+      } else {
+        postCaption = caption;
+      }
 
       //get post user data
       final postuserId = postlist[index].customerId;

@@ -18,32 +18,34 @@ class UserProfileScreen extends StatelessWidget {
     final up = Provider.of<UserProfileProvider>(context);
     final clickvalue = up.buttonclicked;
 
+    final ap = Provider.of<AuthProvider>(context);
+    ap.getUserData.call();
+    var user = ap.user;
+    print("user: ${user}");
+
     return Scaffold(
         backgroundColor: appbBgColor,
         body: clickvalue == true
             ? Stack(
                 children: [
-                  UserProfile(context),
+                  UserProfile(context, user),
                   Container(
                     color: Colors.black.withOpacity(0.8),
                   )
                 ],
               )
             : Stack(
-                children: [UserProfile(context), Container()],
+                children: [UserProfile(context, user), Container()],
               ));
   }
 }
 
-Widget UserProfile(context) {
+Widget UserProfile(context, user) {
+  final ap = Provider.of<AuthProvider>(context);
   final up = Provider.of<UserProfileProvider>(context);
   final clickvalue = up.buttonclicked;
 
   final followerclick = up.followerclick;
-
-  final ap = Provider.of<AuthProvider>(context);
-  ap.getUserData.call();
-  var user = ap.user;
 
   var userid = 0;
   var profileImage = '';
@@ -83,20 +85,25 @@ Widget UserProfile(context) {
                   fontWeight: FontWeight.w400,
                   color: Colors.white),
             ),
-            Row(
-              children: [
-                InkWell(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EditProfileScreen(),
-                        )),
-                    child:
-                        Icon(IconlyLight.edit, size: 27, color: Colors.white)),
-                SizedBox(width: 18),
-                Setting(context, isbtnclicked: clickvalue),
-              ],
-            )
+            user == ap.user
+                ? Row(
+                    children: [
+                      InkWell(
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditProfileScreen(),
+                              )),
+                          child: Icon(IconlyLight.edit,
+                              size: 27, color: Colors.white)),
+                      SizedBox(width: 18),
+                      Setting(context, isbtnclicked: clickvalue),
+                    ],
+                  )
+                : Container(
+                    height: 5,
+                    width: 5,
+                  )
           ],
         ),
       ),

@@ -26,6 +26,13 @@ class Category extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: catalist.length,
         itemBuilder: (context, index) {
+          String cataname = "";
+          final name = catalist[index].name;
+          if (name.length > 10) {
+            cataname = name.substring(0, 10) + "...";
+          } else {
+            cataname = name;
+          }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -43,7 +50,7 @@ class Category extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 25),
                 child: Text(
-                  catalist[index].name,
+                  cataname,
                   style: TextStyle(color: Colors.white),
                 ),
               ),

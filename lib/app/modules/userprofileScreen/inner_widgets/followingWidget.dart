@@ -129,10 +129,12 @@ Widget Following(followinglist) {
   );
 }
 
-Widget Followers(followerlist) {
+Widget Followers(followerlist, followinglist) {
   return ListView.builder(
     itemCount: followerlist.length,
     itemBuilder: (context, index) {
+      final up = Provider.of<UserProfileProvider>(context);
+
       String email = followerlist[index].followedCustomer.email;
       var splitemail = email.split("@");
       var uid = splitemail[0];
@@ -141,12 +143,25 @@ Widget Followers(followerlist) {
 
       var name = followerlist[index].followedCustomer.name;
 
+      var followinguserid = followerlist[index].customerId;
+
+      var userid = followerlist[index].followingCustomerId;
+
       String resulteduid = "";
 
       if (uid.length > 15) {
         resulteduid = uid.substring(0, 15) + "...";
       } else {
         resulteduid = uid;
+      }
+
+      //check user following his follower or not
+      bool isfollowing = false;
+      var mycustid = followerlist[index].customerId;
+      for (var following in followinglist) {
+        if (mycustid == following.followingCustomerId) {
+          isfollowing = true;
+        }
       }
 
       return Column(
@@ -163,7 +178,6 @@ Widget Followers(followerlist) {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                          //color: const Color(0xff7c94b6),
                           image: DecorationImage(
                             image: NetworkImage(
                               profile,
@@ -231,12 +245,20 @@ Widget Followers(followerlist) {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 65, bottom: 15, top: 5),
-            child: Text(
-              "Follow",
-              style: TextStyle(fontSize: 12, color: appButtonColor),
-            ),
-          ),
+              padding: const EdgeInsets.only(left: 65, bottom: 15, top: 5),
+              child: isfollowing == true
+                  ? Text(
+                      "Following",
+                      style: TextStyle(fontSize: 12, color: Colors.white),
+                    )
+                  : InkWell(
+                      onTap: () =>
+                          up.followUser(followinguserid, userid, context),
+                      child: Text(
+                        "Follow",
+                        style: TextStyle(fontSize: 12, color: appButtonColor),
+                      ),
+                    )),
           Divider(
             thickness: 1,
             color: Colors.white,

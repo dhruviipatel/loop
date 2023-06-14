@@ -145,6 +145,40 @@ class UserProfileProvider with ChangeNotifier {
     }
   }
 
+  //started following user
+
+  Future<void> followUser(int followinguserId, int userId, context) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    var mytoken = sp.getString("token");
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $mytoken',
+    };
+
+    final body = jsonEncode({
+      'user_id': userId,
+      'following_user_id': followinguserId,
+    });
+
+    final followurl =
+        'https://looptest.inventdi.com/api/User/sendFollowingRequest';
+
+    try {
+      var response =
+          await http.post(Uri.parse(followurl), headers: headers, body: body);
+      if (response.statusCode == 200) {
+        print("successfully follow user.");
+
+        notifyListeners();
+      } else {
+        print("failed to follow user.");
+      }
+    } catch (e) {
+      print("error ${e}");
+    }
+    notifyListeners();
+  }
+
   //remove follower
   Future<void> removeFollower(int followerId, int userId, context) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
@@ -180,40 +214,6 @@ class UserProfileProvider with ChangeNotifier {
 
   //unfollow user
   Future<void> UnFollowUser(int followinguserId, int userId, context) async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    var mytoken = sp.getString("token");
-    final headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $mytoken',
-    };
-
-    final body = jsonEncode({
-      'user_id': userId,
-      'following_user_id': followinguserId,
-    });
-
-    final unfollowurl =
-        'https://looptest.inventdi.com/api/User/sendUnfollowingRequest';
-
-    try {
-      var response =
-          await http.post(Uri.parse(unfollowurl), headers: headers, body: body);
-      if (response.statusCode == 200) {
-        print("successfully unfollow user.");
-        Navigator.pop(context);
-        notifyListeners();
-      } else {
-        print("failed to unfollow user.");
-      }
-    } catch (e) {
-      print("error ${e}");
-    }
-    notifyListeners();
-  }
-
-  //started following user
-  //continue.......
-  Future<void> FollowUser(int followinguserId, int userId, context) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     var mytoken = sp.getString("token");
     final headers = {

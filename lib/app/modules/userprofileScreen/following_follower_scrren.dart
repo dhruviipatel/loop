@@ -106,7 +106,7 @@ class FollowingFollowerScreen extends StatelessWidget {
               Expanded(
                   child: TabBarView(children: [
                 Following(followinglist),
-                Followers(followerlist)
+                Followers(followerlist, followinglist)
               ]))
             ],
           ),

@@ -52,17 +52,17 @@ class AuthProvider with ChangeNotifier {
         //store users info into shared pref
 
         User user = User(
-            id: userdata['id'],
-            name: userdata['name'],
-            email: userdata['email'],
-            mobile: userdata['mobile'],
-            dob: DateTime.parse(
-              userdata['dob'],
-            ),
-            gender: userdata['gender'],
-            profileImage: userdata['profile_image'],
-            identify: userdata['identity'],
-            profilePhotoUrl: userdata['profile_photo_url']);
+          id: userdata['id'],
+          name: userdata['name'],
+          email: userdata['email'],
+          mobile: userdata['mobile'],
+          dob: DateTime.parse(
+            userdata['dob'],
+          ),
+          gender: userdata['gender'],
+          profileImage: userdata['profile_image'],
+          identify: userdata['identity'],
+        );
 
         String userinfo = jsonEncode(user);
         //print("user info:${userinfo}");
