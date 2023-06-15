@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/searchingModel.dart';
 import '../models/userModel.dart';
 
 class SearchProvider with ChangeNotifier {
@@ -34,7 +35,7 @@ class SearchProvider with ChangeNotifier {
 
       foundUsers = allUsers;
       notifyListeners();
-      //print("found:${foundUsers}");
+
       return foundUsers;
     } else {
       print("users api error");
@@ -62,5 +63,39 @@ class SearchProvider with ChangeNotifier {
 
     foundUsers = result;
     notifyListeners();
+  }
+
+  //get search data
+  List searchList = [];
+
+  searchusers(keyword) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    var mytoken = sp.getString("token");
+    final sUrl = "https://looptest.inventdi.com/api/User/getFollowersByUser";
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $mytoken',
+    };
+
+    final body = jsonEncode({
+      'keyword': keyword,
+    });
+    var response =
+        await http.post(Uri.parse(sUrl), headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      final followerJson = response.body;
+
+      var decodedJson = await json.decode(followerJson);
+      var data = decodedJson["data"];
+
+      searchList = List.from(data)
+          .map<Search>(
+            (e) => Search.fromJson(e),
+          )
+          .toList();
+    } else {
+      print('failed to load users');
+    }
   }
 }

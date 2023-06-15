@@ -15,7 +15,7 @@ class SearchScreen extends StatelessWidget {
     search.getAllUsers.call();
 
     var founduser = search.foundUsers;
-    print(founduser);
+    // print(founduser);
 
     return SafeArea(
       child: Scaffold(

@@ -29,8 +29,14 @@ class Profile extends StatelessWidget {
         "https://looptest.inventdi.com/profile_images/default.png";
     var username = '';
     if (user != null) {
-      profileImage =
-          "https://looptest.inventdi.com/profile_images/" + user.profileImage;
+      if (user.profileImage.isNotEmpty) {
+        profileImage =
+            "https://looptest.inventdi.com/profile_images/" + user.profileImage;
+      } else {
+        profileImage =
+            "https://looptest.inventdi.com/profile_images/default.png";
+      }
+
       username = user.name;
       userid = user.id;
     } else {
