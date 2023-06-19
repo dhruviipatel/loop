@@ -1,5 +1,7 @@
+//UserProvider.dart
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:loop/app/data/models/userPostModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../models/followersModel.dart';
@@ -28,16 +30,52 @@ class UserProfileProvider with ChangeNotifier {
   //get post
   List _userpostlist = [];
   get userpostlist => _userpostlist;
-  getUserAllPost(postlist, userid) {
-    _userpostlist.clear();
-    for (int i = 0; i < postlist.length; i++) {
-      if (postlist[i].customerId == userid) {
-        if (_userpostlist.contains(postlist[i].customerId)) {
-          print("already available");
-        } else {
-          _userpostlist.add(postlist[i]);
-        }
+  // getUserAllPost(postlist, userid) {
+  //   _userpostlist.clear();
+  //   for (int i = 0; i < postlist.length; i++) {
+  //     if (postlist[i].customerId == userid) {
+  //       if (_userpostlist.contains(postlist[i].customerId)) {
+  //         print("already available");
+  //       } else {
+  //         _userpostlist.add(postlist[i]);
+  //         print(_userpostlist);
+  //       }
+  //     }
+  //   }
+  // }
+
+  getmyuserpost(userid) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    var mytoken = sp.getString("token");
+    final userUrl = "https://looptest.inventdi.com/api/Post/getUserAllPost";
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $mytoken',
+    };
+
+    final body = jsonEncode({
+      'user_id': userid,
+      "category_id": 1,
+    });
+    var response =
+        await http.post(Uri.parse(userUrl), headers: headers, body: body);
+    if (response.statusCode == 200) {
+      final userJson = response.body;
+
+      var decodeduserJson = await json.decode(userJson);
+      var data = decodeduserJson["data"];
+
+      if (data is List) {
+        _userpostlist = data
+            .map<Post>(
+              (e) => Post.fromJson(e),
+            )
+            .toList();
+      } else {
+        print("Invalid data format: $data");
       }
+    } else {
+      print('failed to load posts');
     }
   }
 

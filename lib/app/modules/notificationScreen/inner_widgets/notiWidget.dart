@@ -25,7 +25,7 @@ Widget NotiContainer(context,
 Widget NotiRow(
     {required String name,
     required String notification,
-    required Widget icon}) {
+    required Widget leading}) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -37,7 +37,7 @@ Widget NotiRow(
               borderRadius: BorderRadius.circular(50)),
           height: 50,
           width: 50,
-          child: icon,
+          child: leading,
         ),
       ),
       SizedBox(width: 15),

@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'app/core/utils/routes.dart';
 import 'app/data/providers/BottomNavbarProvider.dart';
 import 'app/data/providers/HomeProvider.dart';
+import 'app/data/providers/NotificationProvider.dart';
 import 'app/data/providers/SearchProvider.dart';
 import 'app/data/providers/UserProfileProvider.dart';
 import 'app/modules/newpostScreen/editpost/editnavbarProvider.dart';
@@ -25,12 +26,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()..getUserData()),
         ChangeNotifierProvider(create: (_) => BottomNavbarProvider()),
         ChangeNotifierProvider(create: (_) => HomeProvider()),
         ChangeNotifierProvider(create: (_) => UserProfileProvider()),
         ChangeNotifierProvider(create: (_) => EditNavbarProvider()),
         ChangeNotifierProvider(create: (_) => SearchProvider()),
+        ChangeNotifierProvider(create: (_) => NotificationProvider()),
       ],
       child: DismissKeyboard(
         child: MaterialApp(

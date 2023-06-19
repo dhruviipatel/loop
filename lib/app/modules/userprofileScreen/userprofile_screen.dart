@@ -1,7 +1,7 @@
+//userrofileScreen
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:loop/app/core/themes/themes.dart';
-import 'package:loop/app/data/providers/HomeProvider.dart';
 import 'package:loop/app/modules/authenticationScreens/Editprofile_screen.dart';
 import 'package:loop/app/modules/userprofileScreen/following_follower_scrren.dart';
 import 'package:loop/app/modules/userprofileScreen/inner_widgets/posts.dart';
@@ -16,209 +16,188 @@ class UserProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final up = Provider.of<UserProfileProvider>(context);
+
     final clickvalue = up.buttonclicked;
 
     final ap = Provider.of<AuthProvider>(context);
-    ap.getUserData.call();
     var user = ap.user;
-    print("user: ${user}");
+
+    var userid = 0;
+    var profileImage = '';
+    var username = '';
+    if (user != null) {
+      profileImage = user.profileImage;
+      username = user.name;
+      userid = user.id;
+    } else {
+      print("we can't get user");
+    }
+
+    up.getmyuserpost(userid);
+    var userpostlist = up.userpostlist;
+
+    up.myfollowers(userid);
+    var followerlist = up.followerList;
+
+    up.myfollowing(userid);
+    var followinglist = up.followingList;
 
     return Scaffold(
         backgroundColor: appbBgColor,
-        body: clickvalue == true
-            ? Stack(
-                children: [
-                  UserProfile(context, user),
-                  Container(
-                    color: Colors.black.withOpacity(0.8),
-                  )
-                ],
-              )
-            : Stack(
-                children: [UserProfile(context, user), Container()],
-              ));
-  }
-}
-
-Widget UserProfile(context, user) {
-  final ap = Provider.of<AuthProvider>(context);
-  final up = Provider.of<UserProfileProvider>(context);
-  final clickvalue = up.buttonclicked;
-
-  final followerclick = up.followerclick;
-
-  var userid = 0;
-  var profileImage = '';
-  var username = '';
-  if (user != null) {
-    profileImage = user.profileImage;
-    username = user.name;
-    userid = user.id;
-  } else {
-    print("we can't get user");
-  }
-
-  final hp = Provider.of<HomeProvider>(context);
-  hp.mypost(context);
-  var postlist = hp.postlist;
-
-  up.getUserAllPost(postlist, userid);
-  var userpostlist = up.userpostlist;
-
-  up.myfollowers(userid);
-  var followerlist = up.followerList;
-
-  up.myfollowing(userid);
-  var followinglist = up.followingList;
-
-  return Column(
-    children: [
-      Padding(
-        padding: const EdgeInsets.all(20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Profile",
-              style: TextStyle(
-                  fontSize: 21,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white),
-            ),
-            user == ap.user
-                ? Row(
-                    children: [
-                      InkWell(
-                          onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EditProfileScreen(),
-                              )),
-                          child: Icon(IconlyLight.edit,
-                              size: 27, color: Colors.white)),
-                      SizedBox(width: 18),
-                      Setting(context, isbtnclicked: clickvalue),
-                    ],
-                  )
-                : Container(
-                    height: 5,
-                    width: 5,
-                  )
-          ],
-        ),
-      ),
-      Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Container(
-            height: 80,
-            width: 80,
-            decoration: BoxDecoration(
-              border: Border.all(width: 2, color: appButtonColor),
-              borderRadius: BorderRadius.circular(15),
-              color: const Color.fromARGB(255, 234, 226, 226),
-              image: DecorationImage(
-                image: NetworkImage(profileImage),
-              ),
-            ),
-          ),
-        ),
-      ),
-      Text(
-        username,
-        style: TextStyle(
-            fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white),
-      ),
-      Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: Stack(
           children: [
             Column(
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Profile",
+                        style: TextStyle(
+                            fontSize: 21,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white),
+                      ),
+                      Row(
+                        children: [
+                          InkWell(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditProfileScreen(),
+                                  )),
+                              child: Icon(IconlyLight.edit,
+                                  size: 27, color: Colors.white)),
+                          SizedBox(width: 18),
+                          Setting(context, isbtnclicked: clickvalue),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
+                      height: 80,
+                      width: 80,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 2, color: appButtonColor),
+                        borderRadius: BorderRadius.circular(15),
+                        color: const Color.fromARGB(255, 234, 226, 226),
+                        image: DecorationImage(
+                          image: NetworkImage(profileImage),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Text(
-                  userpostlist.length.toString(),
+                  username,
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w400,
                       color: Colors.white),
                 ),
-                SizedBox(height: 7),
-                Text(
-                  "Posts",
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: appHintTextColor),
-                )
+                Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            userpostlist.length.toString(),
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white),
+                          ),
+                          SizedBox(height: 7),
+                          Text(
+                            "Posts",
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: appHintTextColor),
+                          )
+                        ],
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => FollowingFollowerScreen(
+                              initialIndex: 0,
+                              userid: userid,
+                              username: username,
+                            ),
+                          ));
+                        },
+                        child: Column(
+                          children: [
+                            Text(
+                              followinglist.length.toString(),
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white),
+                            ),
+                            SizedBox(height: 7),
+                            Text(
+                              "Following",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: appHintTextColor),
+                            )
+                          ],
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => FollowingFollowerScreen(
+                              initialIndex: 1,
+                              userid: userid,
+                              username: username,
+                            ),
+                          ));
+                        },
+                        child: Column(
+                          children: [
+                            Text(
+                              followerlist.length.toString(),
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white),
+                            ),
+                            SizedBox(height: 7),
+                            Text(
+                              "Followers",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: appHintTextColor),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: PostWidget(userpostlist, context),
+                ),
               ],
             ),
-            InkWell(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => FollowingFollowerScreen(
-                    initialIndex: 0,
-                    userid: userid,
-                    username: username,
-                  ),
-                ));
-              },
-              child: Column(
-                children: [
-                  Text(
-                    followinglist.length.toString(),
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white),
-                  ),
-                  SizedBox(height: 7),
-                  Text(
-                    "Following",
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: appHintTextColor),
-                  )
-                ],
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => FollowingFollowerScreen(
-                    initialIndex: 1,
-                    userid: userid,
-                    username: username,
-                  ),
-                ));
-              },
-              child: Column(
-                children: [
-                  Text(
-                    followerlist.length.toString(),
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white),
-                  ),
-                  SizedBox(height: 7),
-                  Text(
-                    "Followers",
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: appHintTextColor),
-                  )
-                ],
-              ),
-            )
+            if (clickvalue == true)
+              Container(
+                color: Colors.black.withOpacity(0.8),
+              )
           ],
-        ),
-      ),
-      Expanded(
-        child: PostWidget(userpostlist, context),
-      ),
-    ],
-  );
+        ));
+  }
 }

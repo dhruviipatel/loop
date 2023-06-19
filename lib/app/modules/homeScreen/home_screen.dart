@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:loop/app/core/themes/themes.dart';
-import 'package:loop/app/modules/homeScreen/inner_widgets/category.dart';
 import 'package:loop/app/modules/homeScreen/inner_widgets/post.dart';
 import 'package:provider/provider.dart';
 import '../../data/providers/AuthProvider.dart';
@@ -51,8 +50,6 @@ class HomeScreen extends StatelessWidget {
                         SizedBox(
                           height: 28,
                         ),
-                        // horizontal categoty
-                        //Category(),
                         Container(
                           height: 145,
                           child: ListView.builder(
@@ -94,7 +91,6 @@ class HomeScreen extends StatelessWidget {
                             },
                           ),
                         ),
-
                         Expanded(
                             child:
                                 MyHomePost(hp, isclicked, postlist, context)),
@@ -111,30 +107,4 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget HomePost(hp, postlist, userlist, isclcked, context) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Padding(
-        padding: const EdgeInsets.only(left: 20, top: 10),
-        child: InkWell(
-          onTap: () => hp.click(),
-          child: Image.asset(
-            "assets/images/logo.png",
-            height: 43,
-            width: 97,
-          ),
-        ),
-      ),
-      SizedBox(
-        height: 28,
-      ),
-      // horizontal categoty
-      Category(),
-
-      Expanded(child: MyHomePost(hp, isclcked, postlist, context)),
-    ],
-  );
 }

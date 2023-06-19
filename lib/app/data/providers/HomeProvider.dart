@@ -43,9 +43,11 @@ class HomeProvider with ChangeNotifier {
             (e) => Category.fromJson(e),
           )
           .toList();
+      return catalist;
     } else {
       print('failed to load categories');
     }
+    notifyListeners();
   }
 
   //get all users to match its id with customer id and retrive data
@@ -75,7 +77,7 @@ class HomeProvider with ChangeNotifier {
 
     var mytoken = sp.getString("token");
 
-    final postUrl = "https://looptest.inventdi.com/api/Post/getUserPost";
+    final postUrl = "https://looptest.inventdi.com/api/Post/getUserAllPost";
     final headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $mytoken',
@@ -99,7 +101,6 @@ class HomeProvider with ChangeNotifier {
 
     final body = jsonEncode({
       'user_id': userid,
-      'page_index': 0,
       'category_id': 1,
     });
     var response =
@@ -122,16 +123,14 @@ class HomeProvider with ChangeNotifier {
           if (p.customerId == u.id) {
             postUserlist.add(u);
           }
-          // else {
-          //   print("123");
-          // }
         });
       });
       myUsers =
-          postUserlist.map<User>((e) => User.fromJson(e.toJson())).toList();
+          postUserlist.map<Users>((e) => Users.fromJson(e.toJson())).toList();
     } else {
       print('failed to load posts');
     }
+    notifyListeners();
   }
 
   //post user data

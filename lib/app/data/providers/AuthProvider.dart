@@ -94,6 +94,7 @@ class AuthProvider with ChangeNotifier {
       Map<String, dynamic> userjsondata = jsonDecode(userinfo);
       _user = User.fromJson(userjsondata);
     }
+    notifyListeners();
   }
 
   //logout button code

@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final userPost = userPostFromJson(jsonString);
-
 import 'dart:convert';
 
 UserPost userPostFromJson(String str) => UserPost.fromJson(json.decode(str));
@@ -296,30 +292,41 @@ class Users {
     this.follower,
   });
 
-  factory Users.fromJson(Map<String, dynamic> json) => Users(
-        id: json["id"] ?? 0,
-        name: json["name"] ?? "",
-        email: json["email"] ?? "",
-        emailVerifiedAt: json["email_verified_at"],
-        isAdmin: json["is_admin"] ?? 0,
-        countryCode: json["country_code"],
-        mobile: json["mobile"] ?? 0,
-        facebookId: json["facebook_id"],
-        googleId: json["google_id"],
-        socialType: json["social_type"],
-        dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
-        gender: json["gender"],
-        isActive: json["is_active"] ?? 0,
-        accessToken: json["access_token"],
-        deviceType: json["device_type"],
-        deviceToken: json["device_token"],
-        profileImage: json["profile_image"] ?? "",
-        isBlocked: json["is_blocked"] ?? 0,
-        identify: json["identify"],
-        profilePhotoUrl: json["profile_photo_url"] ?? "",
-        following: json["following"],
-        follower: json["follower"],
-      );
+  factory Users.fromJson(Map<String, dynamic> json) {
+    DateTime? dob;
+    if (json["dob"] != null) {
+      try {
+        dob = DateTime.parse(json["dob"]);
+      } catch (e) {
+        dob = null; // Set the field to null if parsing fails
+      }
+    }
+
+    return Users(
+      id: json["id"] ?? 0,
+      name: json["name"] ?? "",
+      email: json["email"] ?? "",
+      emailVerifiedAt: json["email_verified_at"],
+      isAdmin: json["is_admin"] ?? 0,
+      countryCode: json["country_code"],
+      mobile: json["mobile"] ?? 0,
+      facebookId: json["facebook_id"],
+      googleId: json["google_id"],
+      socialType: json["social_type"],
+      dob: dob,
+      gender: json["gender"],
+      isActive: json["is_active"] ?? 0,
+      accessToken: json["access_token"],
+      deviceType: json["device_type"],
+      deviceToken: json["device_token"],
+      profileImage: json["profile_image"] ?? "",
+      isBlocked: json["is_blocked"] ?? 0,
+      identify: json["identify"],
+      profilePhotoUrl: json["profile_photo_url"] ?? "",
+      following: json["following"],
+      follower: json["follower"],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,

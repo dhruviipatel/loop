@@ -43,12 +43,9 @@ class User {
         "name": name,
         "email": email,
         "mobile": mobile,
-        // "dob": dob != null
-        //     ? "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}"
-        //     : null,
-
-        "dob":
-            "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
+        "dob": dob != null
+            ? "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}"
+            : null,
         "gender": gender,
         "profile_image": profileImage,
         "identify": identify,

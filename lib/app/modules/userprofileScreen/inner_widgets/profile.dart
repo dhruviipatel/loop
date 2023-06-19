@@ -44,7 +44,7 @@ class Profile extends StatelessWidget {
     hp.mypost(context);
     var postlist = hp.postlist;
 
-    up.getUserAllPost(postlist, userid);
+    up.getmyuserpost(userid);
     var userpostlist = up.userpostlist;
 
     up.myfollowing(userid);

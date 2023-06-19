@@ -6,6 +6,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:video_player/video_player.dart';
 import '../../../core/themes/themes.dart';
 import '../../../data/models/userPostModel.dart';
+import 'package:intl/intl.dart';
 import 'more.dart';
 
 Widget MyHomePost(hp, clickvalue, postlist, context) {
@@ -193,7 +194,7 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                           size: 12,
                         ),
                         Text(
-                          postlist[index].humanReadableCreatedDate,
+                          postlist[index].humanReadableCreatedDate.toString(),
                           style: TextStyle(fontSize: 9, color: Colors.white),
                         ),
                       ],
