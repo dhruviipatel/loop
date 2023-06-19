@@ -30,19 +30,19 @@ class UserProfileProvider with ChangeNotifier {
   //get post
   List _userpostlist = [];
   get userpostlist => _userpostlist;
-  // getUserAllPost(postlist, userid) {
-  //   _userpostlist.clear();
-  //   for (int i = 0; i < postlist.length; i++) {
-  //     if (postlist[i].customerId == userid) {
-  //       if (_userpostlist.contains(postlist[i].customerId)) {
-  //         print("already available");
-  //       } else {
-  //         _userpostlist.add(postlist[i]);
-  //         print(_userpostlist);
-  //       }
-  //     }
-  //   }
-  // }
+  getUserAllPost(userid, postlist) {
+    _userpostlist.clear();
+    for (int i = 0; i < postlist.length; i++) {
+      if (postlist[i].customerId == userid) {
+        if (_userpostlist.contains(postlist[i].customerId)) {
+          print("already available");
+        } else {
+          _userpostlist.add(postlist[i]);
+          print(_userpostlist);
+        }
+      }
+    }
+  }
 
   getmyuserpost(userid) async {
     SharedPreferences sp = await SharedPreferences.getInstance();

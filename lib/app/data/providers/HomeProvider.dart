@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/categoryModel.dart';
-import '../models/userModel.dart';
 import '../models/userPostModel.dart';
 
 class HomeProvider with ChangeNotifier {
