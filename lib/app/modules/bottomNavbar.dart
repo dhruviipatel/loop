@@ -10,48 +10,48 @@ class BottomNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<BottomNavbarProvider>(
-        builder: (context, bottomprovider, child) => SafeArea(
-              child: Scaffold(
-                backgroundColor: appbBgColor,
-                body: bottomprovider.buildNavigator(),
-                bottomNavigationBar: BottomNavigationBar(
-                  type: BottomNavigationBarType.fixed,
-                  showSelectedLabels: false,
-                  selectedIconTheme:
-                      IconThemeData(size: 30, color: appButtonColor),
-                  unselectedIconTheme: IconThemeData(size: 30),
-                  showUnselectedLabels: false,
-                  selectedItemColor: appButtonColor,
-                  unselectedItemColor: Colors.white,
-                  backgroundColor: appbBgColor,
-                  items: [
-                    BottomNavigationBarItem(
-                        icon: Icon(IconlyLight.home),
-                        activeIcon: Icon(IconlyBold.home),
-                        label: "home"),
-                    BottomNavigationBarItem(
-                        icon: Icon(IconlyLight.search),
-                        activeIcon: Icon(IconlyBold.search),
-                        label: "search"),
-                    BottomNavigationBarItem(
-                        icon: Icon(IconlyLight.camera),
-                        activeIcon: Icon(IconlyBold.camera),
-                        label: "camera"),
-                    BottomNavigationBarItem(
-                        icon: Icon(IconlyLight.notification),
-                        activeIcon: Icon(IconlyBold.notification),
-                        label: "notification"),
-                    BottomNavigationBarItem(
-                        icon: Icon(IconlyLight.profile),
-                        activeIcon: Icon(IconlyBold.profile),
-                        label: "profile"),
-                  ],
-                  currentIndex: bottomprovider.currentTab,
-                  onTap: (int idx) {
-                    bottomprovider.currentTab = idx;
-                  },
-                ),
-              ),
-            ));
+      builder: (context, bottomprovider, child) => SafeArea(
+        child: Scaffold(
+          backgroundColor: appbBgColor,
+          body: bottomprovider.buildNavigator(),
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            showSelectedLabels: false,
+            selectedIconTheme: IconThemeData(size: 30, color: appButtonColor),
+            unselectedIconTheme: IconThemeData(size: 30),
+            showUnselectedLabels: false,
+            selectedItemColor: appButtonColor,
+            unselectedItemColor: Colors.white,
+            backgroundColor: appbBgColor,
+            items: [
+              BottomNavigationBarItem(
+                  icon: Icon(IconlyLight.home),
+                  activeIcon: Icon(IconlyBold.home),
+                  label: "home"),
+              BottomNavigationBarItem(
+                  icon: Icon(IconlyLight.search),
+                  activeIcon: Icon(IconlyBold.search),
+                  label: "search"),
+              BottomNavigationBarItem(
+                  icon: Icon(IconlyLight.camera),
+                  activeIcon: Icon(IconlyBold.camera),
+                  label: "camera"),
+              BottomNavigationBarItem(
+                  icon: Icon(IconlyLight.notification),
+                  activeIcon: Icon(IconlyBold.notification),
+                  label: "notification"),
+              BottomNavigationBarItem(
+                  icon: Icon(IconlyLight.profile),
+                  activeIcon: Icon(IconlyBold.profile),
+                  label: "profile"),
+            ],
+            currentIndex: bottomprovider.currentTab,
+            onTap: (int idx) {
+              bottomprovider.currentTab = idx;
+            },
+          ),
+        ),
+      ),
+    );
   }
 }

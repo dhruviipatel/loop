@@ -151,7 +151,7 @@ Widget InnerPage(context, postlist, isclicked) {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-              color: const Color(0xff7c94b6),
+              //color: const Color(0xff7c94b6),
               image: DecorationImage(
                 image: NetworkImage(profileImageUrl),
                 fit: BoxFit.cover,

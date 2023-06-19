@@ -71,7 +71,7 @@ class SearchProvider with ChangeNotifier {
   searchusers(keyword) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     var mytoken = sp.getString("token");
-    final sUrl = "https://looptest.inventdi.com/api/User/getFollowersByUser";
+    final sUrl = "https://looptest.inventdi.com/api/User/searchUser";
     final headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $mytoken',
@@ -84,16 +84,23 @@ class SearchProvider with ChangeNotifier {
         await http.post(Uri.parse(sUrl), headers: headers, body: body);
 
     if (response.statusCode == 200) {
-      final followerJson = response.body;
+      final searchJson = response.body;
 
-      var decodedJson = await json.decode(followerJson);
+      var decodedJson = await json.decode(searchJson);
       var data = decodedJson["data"];
 
-      searchList = List.from(data)
-          .map<Search>(
-            (e) => Search.fromJson(e),
-          )
-          .toList();
+      // print("data:${data}");
+
+      if (data is List<dynamic>) {
+        searchList = data
+            .map<Search>(
+              (e) => Search.fromJson(e),
+            )
+            .toList();
+      } else if (data is Map<String, dynamic>) {
+        searchList = [Search.fromJson(data)];
+      }
+      notifyListeners();
     } else {
       print('failed to load users');
     }

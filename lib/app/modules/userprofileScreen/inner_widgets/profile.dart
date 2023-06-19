@@ -5,7 +5,7 @@ import 'package:loop/app/modules/userprofileScreen/inner_widgets/setting.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/themes/themes.dart';
-import '../../../data/models/userModel.dart';
+import '../../../data/models/searchingModel.dart';
 import '../../../data/providers/AuthProvider.dart';
 import '../../../data/providers/HomeProvider.dart';
 import '../../../data/providers/UserProfileProvider.dart';
@@ -13,8 +13,8 @@ import '../../authenticationScreens/Editprofile_screen.dart';
 import '../following_follower_scrren.dart';
 
 class Profile extends StatelessWidget {
-  final User user;
-  const Profile({super.key, required this.user});
+  final Search searchuser;
+  const Profile({super.key, required this.searchuser});
 
   @override
   Widget build(BuildContext context) {
@@ -22,23 +22,20 @@ class Profile extends StatelessWidget {
     final up = Provider.of<UserProfileProvider>(context);
     final clickvalue = up.buttonclicked;
 
-    final followerclick = up.followerclick;
-
     var userid = 0;
     var profileImage =
         "https://looptest.inventdi.com/profile_images/default.png";
     var username = '';
-    if (user != null) {
-      if (user.profileImage.isNotEmpty) {
-        profileImage =
-            "https://looptest.inventdi.com/profile_images/" + user.profileImage;
+    if (searchuser != null) {
+      if (searchuser.profileImage.isNotEmpty) {
+        profileImage = searchuser.profileImage;
       } else {
         profileImage =
             "https://looptest.inventdi.com/profile_images/default.png";
       }
 
-      username = user.name;
-      userid = user.id;
+      username = searchuser.name;
+      userid = searchuser.id;
     } else {
       print("we can't get user");
     }
@@ -73,7 +70,7 @@ class Profile extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                     color: Colors.white),
               ),
-              user == ap.user
+              searchuser == ap.user
                   ? Row(
                       children: [
                         InkWell(

@@ -41,7 +41,7 @@ class AuthProvider with ChangeNotifier {
       var userdata = data['user'];
       //print(data);
       //print("userinfo");
-      print("userdata12:${userdata}");
+      // print("userdata12:${userdata}");
 
       if (response.statusCode == 200) {
         SharedPreferences sp = await SharedPreferences.getInstance();

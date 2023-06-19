@@ -11,115 +11,116 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final search = Provider.of<SearchProvider>(context);
-    search.getAllUsers.call();
-
-    var founduser = search.foundUsers;
-    // print(founduser);
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: appbBgColor,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 20, right: 20, bottom: 10, top: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: TextField(
-                      onChanged: (value) => search.runFilter(value),
-                      keyboardType: TextInputType.text,
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Search",
-                        hintStyle: GoogleFonts.ibmPlexMono(
-                          textStyle: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 21),
+        body: Consumer<SearchProvider>(
+          builder: (context, s1, _) {
+            var searchlist = s1.searchList;
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 20, right: 20, bottom: 10, top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          onChanged: (keyword) => s1.searchusers(keyword),
+                          keyboardType: TextInputType.text,
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Search",
+                            hintStyle: GoogleFonts.ibmPlexMono(
+                              textStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 21),
+                            ),
+                          ),
+                          cursorColor: Colors.white,
                         ),
                       ),
-                      cursorColor: Colors.white,
+                      Icon(
+                        IconlyLight.search,
+                        color: Colors.white,
+                      )
+                    ],
+                  ),
+                ),
+                Divider(thickness: 1, color: Colors.white),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 20, right: 20, top: 20, bottom: 20),
+                  child: Text(
+                    "Search result",
+                    style: GoogleFonts.ibmPlexMono(
+                      textStyle: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16),
                     ),
                   ),
-                  Icon(
-                    IconlyLight.search,
-                    color: Colors.white,
-                  )
-                ],
-              ),
-            ),
-            Divider(thickness: 1, color: Colors.white),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 20, right: 20, top: 20, bottom: 20),
-              child: Text(
-                "Search result",
-                style: GoogleFonts.ibmPlexMono(
-                  textStyle: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16),
                 ),
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: founduser.length,
-                itemBuilder: (context, index) {
-                  //check profile pic value empty or not
-                  var profile =
-                      "https://looptest.inventdi.com/profile_images/default.png";
-                  if (founduser[index].profileImage.isNotEmpty) {
-                    profile = "https://looptest.inventdi.com/profile_images/" +
-                        founduser[index].profileImage;
-                  }
+                Expanded(
+                  child: ListView.builder(
+                    //itemCount: founduser.length,
+                    itemCount: searchlist.length,
+                    itemBuilder: (context, index) {
+                      var profile =
+                          "https://looptest.inventdi.com/profile_images/default.png";
+                      if (searchlist[index].profileImage.isNotEmpty) {
+                        profile = searchlist[index].profileImage;
+                      }
 
-                  return InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              Profile(user: founduser[index])));
-                    },
-                    child: Container(
-                      height: 70,
-                      child: ListTile(
-                        leading: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: const Color(0xff7c94b6),
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                profile,
+                      return InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  Profile(searchuser: searchlist[index])));
+                        },
+                        child: Container(
+                          height: 70,
+                          child: ListTile(
+                            leading: Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: const Color(0xff7c94b6),
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    profile,
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50.0)),
                               ),
-                              fit: BoxFit.cover,
                             ),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(50.0)),
+                            title: Text(
+                              searchlist[index].name
+                                  //founduser[index].name
+                                  ??
+                                  "Unknown",
+                              style: GoogleFonts.ibmPlexMono(
+                                textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16),
+                              ),
+                            ),
                           ),
                         ),
-                        title: Text(
-                          founduser[index].name ?? "Unknown",
-                          style: GoogleFonts.ibmPlexMono(
-                            textStyle: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            )
-          ],
+                      );
+                    },
+                  ),
+                )
+              ],
+            );
+          },
         ),
       ),
     );

@@ -40,7 +40,7 @@ class Search {
   dynamic facebookId;
   dynamic googleId;
   dynamic socialType;
-  DateTime dob;
+  DateTime? dob;
   int? gender;
   int isActive;
   dynamic accessToken;
@@ -85,31 +85,31 @@ class Search {
   });
 
   factory Search.fromJson(Map<String, dynamic> json) => Search(
-        id: json["id"],
-        name: json["name"],
-        email: json["email"],
+        id: json["id"] ?? 0,
+        name: json["name"] ?? "",
+        email: json["email"] ?? "",
         emailVerifiedAt: json["email_verified_at"],
-        isAdmin: json["is_admin"],
+        isAdmin: json["is_admin"] ?? 0,
         countryCode: json["country_code"],
-        mobile: json["mobile"],
+        mobile: json["mobile"] ?? 0,
         facebookId: json["facebook_id"],
         googleId: json["google_id"],
         socialType: json["social_type"],
-        dob: DateTime.parse(json["dob"]),
-        gender: json["gender"],
-        isActive: json["is_active"],
-        accessToken: json["access_token"],
+        dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
+        gender: json["gender"] ?? 0,
+        isActive: json["is_active"] ?? 0,
+        accessToken: json["access_token"] ?? "",
         deviceType: json["device_type"],
         deviceToken: json["device_token"],
-        profileImage: json["profile_image"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-        deletedAt: json["deleted_at"],
-        isBlocked: json["is_blocked"],
-        identify: json["identify"],
-        profilePhotoUrl: json["profile_photo_url"],
-        following: json["following"],
-        follower: json["follower"],
+        profileImage: json["profile_image"] ?? "",
+        createdAt: json["created_at"] ?? "",
+        updatedAt: json["updated_at"] ?? "",
+        deletedAt: json["deleted_at"] ?? "",
+        isBlocked: json["is_blocked"] ?? 0,
+        identify: json["identify"] ?? "",
+        profilePhotoUrl: json["profile_photo_url"] ?? "",
+        following: json["following"] ?? 0,
+        follower: json["follower"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -124,7 +124,7 @@ class Search {
         "google_id": googleId,
         "social_type": socialType,
         "dob":
-            "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
+            "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
         "gender": gender,
         "is_active": isActive,
         "access_token": accessToken,
