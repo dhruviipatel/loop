@@ -9,6 +9,7 @@ import 'package:loop/app/modules/splashScreen/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'app/core/utils/routes.dart';
 import 'app/data/providers/BottomNavbarProvider.dart';
+import 'app/data/providers/CommentProvider.dart';
 import 'app/data/providers/HomeProvider.dart';
 import 'app/data/providers/NotificationProvider.dart';
 import 'app/data/providers/SearchProvider.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => EditNavbarProvider()),
         ChangeNotifierProvider(create: (_) => SearchProvider()),
         ChangeNotifierProvider(create: (_) => NotificationProvider()),
+        ChangeNotifierProvider(create: (_) => CommentProvider()),
       ],
       child: DismissKeyboard(
         child: MaterialApp(

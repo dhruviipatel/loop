@@ -53,6 +53,11 @@ class Profile extends StatelessWidget {
     up.myfollowers(userid);
     var followerlist = up.followerList;
 
+    up.getUserImageList(userpostlist);
+    var userimagelist = up.userimagelist;
+    up.getUserVideoList(userpostlist);
+    var uservideolist = up.uservideolist;
+
     // print(followinglist);
     print("profile111111:${profileImage}");
 
@@ -202,7 +207,8 @@ class Profile extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: PostWidget(userpostlist, context),
+          child:
+              PostWidget(userpostlist, userimagelist, uservideolist, context),
         ),
       ],
     );

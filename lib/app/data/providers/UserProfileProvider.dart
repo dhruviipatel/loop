@@ -38,7 +38,6 @@ class UserProfileProvider with ChangeNotifier {
           print("already available");
         } else {
           _userpostlist.add(postlist[i]);
-          print(_userpostlist);
         }
       }
     }
@@ -87,9 +86,8 @@ class UserProfileProvider with ChangeNotifier {
     for (int i = 0; i < userpostlist.length; i++) {
       if (userpostlist[i].postImage.isNotEmpty) {
         _userimagelist.add(userpostlist[i]);
-        //print("user imagelist:${_userimagelist}");
       } else {
-        print("empty ");
+        print("empty img ");
       }
     }
   }
@@ -104,7 +102,7 @@ class UserProfileProvider with ChangeNotifier {
         _uservideolist.add(userpostlist[i]);
         //print("user videolist:${_uservideolist}");
       } else {
-        print("empty ");
+        print("empty vdo");
       }
     }
   }

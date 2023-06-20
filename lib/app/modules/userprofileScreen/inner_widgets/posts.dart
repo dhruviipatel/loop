@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:loop/app/data/providers/UserProfileProvider.dart';
 import 'package:loop/app/modules/userprofileScreen/inner_widgets/videotab.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
-
 import '../../../core/themes/themes.dart';
 import '../../homeScreen/inner_widgets/postClick.dart';
 
-Widget PostWidget(userpostlist, context) {
+Widget PostWidget(userpostlist, userimagelist, uservideolist, context) {
   return DefaultTabController(
     length: 3,
     child: Column(
@@ -40,20 +37,15 @@ Widget PostWidget(userpostlist, context) {
         Expanded(
             child: TabBarView(children: [
           userHomeTab(userpostlist, context),
-          userVideoTab(userpostlist, context),
-          userPicTab(userpostlist, context)
+          userVideoTab(uservideolist, context),
+          userPicTab(userimagelist, context)
         ]))
       ],
     ),
   );
 }
 
-Widget userPicTab(userpostlist, context) {
-  final up = Provider.of<UserProfileProvider>(context);
-  up.getUserImageList(userpostlist);
-  var userimagelist = up.userimagelist;
-  // print("my image list:${userimagelist}");
-
+Widget userPicTab(userimagelist, context) {
   return GridView.builder(
     itemCount: userimagelist.length,
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -118,12 +110,7 @@ Widget userPicTab(userpostlist, context) {
   );
 }
 
-Widget userVideoTab(userpostlist, context) {
-  final up = Provider.of<UserProfileProvider>(context);
-  up.getUserVideoList(userpostlist);
-  var uservideolist = up.uservideolist;
-  // print("my video list:${uservideolist}");
-
+Widget userVideoTab(uservideolist, context) {
   return GridView.builder(
     itemCount: uservideolist.length,
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

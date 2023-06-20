@@ -15,10 +15,11 @@ class CommentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mypostComment = post.postComments;
+    final postid = post.postId;
 
     return SafeArea(
       child: Scaffold(
-        bottomSheet: AddComment(context),
+        bottomSheet: AddComment(context, postid),
         appBar: AppBar(
           elevation: 0,
           backgroundColor: appbBgColor,

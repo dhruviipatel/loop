@@ -1,15 +1,18 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:loop/app/data/providers/CommentProvider.dart';
 import 'package:loop/app/modules/commentScreen/comment_screen.dart';
 import 'package:loop/app/modules/homeScreen/inner_widgets/postClick.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import '../../../core/themes/themes.dart';
 import '../../../data/models/userPostModel.dart';
-import 'package:intl/intl.dart';
 import 'more.dart';
 
 Widget MyHomePost(hp, clickvalue, postlist, context) {
+  var CommentController = new TextEditingController();
+  final cp = Provider.of<CommentProvider>(context, listen: false);
   return ListView.builder(
     itemCount: postlist.length,
     itemBuilder: (context, index) {
@@ -18,6 +21,7 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
       final mypostImage = postlist[index].postImage;
       final mypostVideo = postlist[index].postVideo;
       final mypostComment = postlist[index].postComments;
+      final mypostId = postlist[index].postId;
 
       String postCaption = "";
       final caption = postlist[index].postCaption ?? "";
@@ -33,7 +37,14 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
       var postuser = hp.postuser;
       var postuserprofile = hp.postuserprofile;
       String profileImageUrl =
-          "https://looptest.inventdi.com/profile_images/" + postuserprofile;
+          "https://looptest.inventdi.com/profile_images/default.png";
+      if (postuserprofile != null) {
+        profileImageUrl =
+            "https://looptest.inventdi.com/profile_images/" + postuserprofile;
+      } else {
+        profileImageUrl =
+            "https://looptest.inventdi.com/profile_images/default.png";
+      }
 
       var cmuser = "";
       //get post first comment user name
@@ -45,6 +56,7 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
 
       //get login user profile image
       var userProImage = hp.userProImage;
+      var userid = hp.userid;
 
       return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
@@ -309,7 +321,8 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                             width: 15,
                           ),
                           Expanded(
-                            child: TextField(
+                            child: TextFormField(
+                              controller: CommentController,
                               cursorColor: Colors.white,
                               style:
                                   TextStyle(color: Colors.white, fontSize: 14),
@@ -323,9 +336,20 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                         ],
                       ),
                     ),
-                    Text(
-                      "Post",
-                      style: TextStyle(color: appButtonColor, fontSize: 10),
+                    InkWell(
+                      onTap: () {
+                        if (CommentController.text.isNotEmpty) {
+                          context.read<CommentProvider>().AddNewComment(
+                              mypostId, CommentController.text, userid);
+                          // cp.AddNewComment(
+                          //     mypostId, CommentController.text, userid);
+                          CommentController.text = "";
+                        }
+                      },
+                      child: Text(
+                        "Post",
+                        style: TextStyle(color: appButtonColor, fontSize: 10),
+                      ),
                     ),
                   ],
                 ),
