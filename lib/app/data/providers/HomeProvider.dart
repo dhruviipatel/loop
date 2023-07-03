@@ -19,7 +19,8 @@ class HomeProvider with ChangeNotifier {
 
   //get category list from API
 
-  List catalist = [];
+  List _catalist = [];
+  get catalist => _catalist;
 
   mycata() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
@@ -37,21 +38,24 @@ class HomeProvider with ChangeNotifier {
       var decodedCatagoryJson = await json.decode(catagoryJson);
       var data = decodedCatagoryJson["data"];
 
-      catalist = List.from(data)
+      _catalist = List.from(data)
           .map<Category>(
             (e) => Category.fromJson(e),
           )
           .toList();
-      return catalist;
+      print("catalist:${_catalist}");
+      return _catalist;
     } else {
       print('failed to load categories');
     }
     notifyListeners();
   }
 
+  List _postlist = [];
+  get postlist => _postlist;
   //get all users to match its id with customer id and retrive data
   List myUsers = [];
-  List postlist = [];
+
   List postUserlist = [];
   List allUsers = [];
   String postusername = "";
@@ -92,7 +96,6 @@ class HomeProvider with ChangeNotifier {
 
       var mydata = alldata["data"];
 
-      // print("data = ${mydata}");
       allUsers = mydata.map((e) => Users.fromJson(e)).toList();
     } else {
       print("users api error");
@@ -114,8 +117,8 @@ class HomeProvider with ChangeNotifier {
       var data = maindata['post'];
       //print("data:${data}");
 
-      postlist = List.from(data).map<Post>((e) => Post.fromJson(e)).toList();
-      //print(postlist);
+      _postlist = List.from(data).map<Post>((e) => Post.fromJson(e)).toList();
+      print(postlist);
 
       allUsers.forEach((u) {
         postlist.forEach((p) {
@@ -160,6 +163,100 @@ class HomeProvider with ChangeNotifier {
   //post image view
   ImageViews(mypostImage) {
     _currentIndex = mypostImage.length;
+    notifyListeners();
+  }
+
+  bool _isPostLiked = false;
+  get isPostLiked => _isPostLiked;
+
+  List _likedpostList = [];
+  get likedpostList => _likedpostList;
+
+  void getlikedpostlist(post, userid) {
+    for (var i = 0; i < post.length; i++) {
+      if (post[i].customerId.toString() == userid) {
+        _likedpostList.add(post[i]);
+        // print(_likedpostList);
+      } else {
+        print("get liked post ");
+      }
+    }
+    // notifyListeners();
+  }
+
+  Future doPostLike(postindex, postid, userid) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    var mytoken = sp.getString("token")!;
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $mytoken',
+    };
+
+    var postlikeApi = "https://looptest.inventdi.com/api/Post/postLike";
+    final body = jsonEncode({
+      'post_id': postid.toString(),
+      'user_id': userid,
+    });
+
+    // print("JSON data: ${body}");
+
+    var response =
+        await http.post(Uri.parse(postlikeApi), body: body, headers: headers);
+
+    if (response.statusCode == 200) {
+      _isPostLiked = true;
+      print("post like successfull");
+      //_likedpostList.add(postindex);
+      notifyListeners();
+      // print("post like successfull");
+    } else {
+      print("post like failed");
+    }
+    notifyListeners();
+  }
+
+  Future doPostDislike(postlikeid, postid, userid) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    var mytoken = sp.getString("token")!;
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $mytoken',
+    };
+
+    var postdislikeApi = "https://looptest.inventdi.com/api/Post/postDislike";
+    final body = jsonEncode({
+      'post_id': postid.toString(),
+      'user_id': userid,
+      'post_likes_id': postlikeid,
+    });
+
+    // print("JSON data: ${body}");
+
+    var response = await http.post(Uri.parse(postdislikeApi),
+        body: body, headers: headers);
+
+    if (response.statusCode == 200) {
+      _isPostLiked = true;
+      print("post like remove successfull");
+    } else {
+      print("post like remove failed");
+    }
+    notifyListeners();
+  }
+
+  catawisepost(myid) {
+    List postlist1 = [];
+
+    _postlist.forEach((p) {
+      if (p.categoryId.toString() == myid.toString()) {
+        postlist1.add(p);
+        print("101010 ${postlist1}");
+        notifyListeners();
+      }
+    });
+    _postlist = postlist1;
     notifyListeners();
   }
 }

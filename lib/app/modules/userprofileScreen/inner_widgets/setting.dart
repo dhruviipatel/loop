@@ -11,7 +11,7 @@ import '../../../data/providers/UserProfileProvider.dart';
 Widget Setting(context, {required isbtnclicked}) {
   final up = Provider.of<UserProfileProvider>(context);
   final ap = Provider.of<AuthProvider>(context);
-  final bp = Provider.of<BottomNavbarProvider>(context);
+  final bp = Provider.of<BottomNavbarProvider>(context, listen: false);
   return InkWell(
     onTap: () {
       up.onbtnclick();

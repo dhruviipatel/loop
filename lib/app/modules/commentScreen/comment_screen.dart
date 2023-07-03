@@ -9,13 +9,16 @@ import 'inner_widgets/commentlist.dart';
 
 class CommentScreen extends StatelessWidget {
   final Post post;
+  final String userid;
 
-  const CommentScreen({Key? key, required this.post}) : super(key: key);
+  const CommentScreen({Key? key, required this.post, required this.userid})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final mypostComment = post.postComments;
     final postid = post.postId;
+    int myuserid = int.parse(userid);
 
     return SafeArea(
       child: Scaffold(
@@ -58,7 +61,7 @@ class CommentScreen extends StatelessWidget {
           ),
         ),
         backgroundColor: appbBgColor,
-        body: CommentList(mypostComment),
+        body: CommentList(mypostComment, myuserid),
       ),
     );
   }

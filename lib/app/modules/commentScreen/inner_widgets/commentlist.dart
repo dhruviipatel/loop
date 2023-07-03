@@ -11,15 +11,17 @@ import '../../../data/models/userPostModel.dart';
 
 class CommentList extends StatelessWidget {
   final List<PostComment> mypostComment;
+  final int userid;
 
-  CommentList(this.mypostComment);
+  CommentList(this.mypostComment, this.userid);
 
   @override
   Widget build(BuildContext context) {
-    final cp = Provider.of<CommentProvider>(context, listen: false);
-    var cmtlikedlist = context.watch<CommentProvider>().cmtlikeList;
+    print(mypostComment);
+    // final cp = Provider.of<CommentProvider>(context, listen: false);
+    context.read<CommentProvider>().getcmtlikeList(context, mypostComment);
 
-    print("1111:${cmtlikedlist}");
+    bool iscmtliked = context.watch<CommentProvider>().isCommentLiked;
 
     return Consumer<HomeProvider>(
       builder: (context, hp, _) {
@@ -33,7 +35,19 @@ class CommentList extends StatelessWidget {
               final commentuserid = mypostComment[index].customerId;
               final postCommentId = mypostComment[index].postCommentId;
               final postId = mypostComment[index].postId;
-              final commentIndex = mypostComment[index];
+              final commentlikeList = mypostComment[index].postCommentsLikes;
+
+              var cmtlikeList = [];
+
+              for (var i = 0; i < commentlikeList.length; i++) {
+                if (commentlikeList[i].customerId == userid) {
+                  cmtlikeList.add(commentlikeList[i]);
+                  print("cmtlikeindex");
+                } else {
+                  //cmtlikeList.clear();
+                  print("cmtlist cleared");
+                }
+              }
 
               // Set time ago in comment
               final createdat = DateFormat("dd-MM-yyyy hh:mm:ss")
@@ -113,19 +127,22 @@ class CommentList extends StatelessWidget {
                               Column(children: [
                                 InkWell(
                                   onTap: () {
-                                    if (!cmtlikedlist.contains(commentIndex)) {
+                                    if (cmtlikeList.isEmpty) {
                                       context
                                           .read<CommentProvider>()
-                                          .doCommentLike(commentIndex, cuserid,
-                                              postId, postCommentId);
+                                          .doCommentLike(
+                                              userid, postId, postCommentId);
                                     } else {
                                       context
                                           .read<CommentProvider>()
-                                          .undoCommentLike(commentIndex,
-                                              cuserid, postId, postCommentId);
+                                          .undoCommentLike(
+                                              userid,
+                                              cmtlikeList[0].postCommentLikeId,
+                                              postId,
+                                              postCommentId);
                                     }
                                   },
-                                  child: cmtlikedlist.contains(commentIndex)
+                                  child: cmtlikeList.isNotEmpty
                                       ? Icon(
                                           MdiIcons.heart,
                                           color: Colors.orange,

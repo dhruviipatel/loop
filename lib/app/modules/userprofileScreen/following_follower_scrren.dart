@@ -16,7 +16,8 @@ class FollowingFollowerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final up = Provider.of<UserProfileProvider>(context);
+    final up = context.read<UserProfileProvider>();
+    //final up = Provider.of<UserProfileProvider>(context);
     up.myfollowers(userid);
     var followerlist = up.followerList;
 
@@ -58,12 +59,17 @@ class FollowingFollowerScreen extends StatelessWidget {
                       child: Container(
                         child: Column(
                           children: [
-                            Text(
-                              followinglist.length.toString(),
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white),
+                            Consumer<UserProfileProvider>(
+                              builder: (context, up, child) {
+                                return Text(
+                                  up.followingList.length.toString(),
+                                  //up.followinglist.length.toString(),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white),
+                                );
+                              },
                             ),
                             SizedBox(height: 5),
                             Text(
@@ -81,12 +87,17 @@ class FollowingFollowerScreen extends StatelessWidget {
                       child: Container(
                         child: Column(
                           children: [
-                            Text(
-                              followerlist.length.toString(),
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white),
+                            Consumer<UserProfileProvider>(
+                              builder: (context, up, child) {
+                                return Text(
+                                  up.followerList.length.toString(),
+                                  // followerlist.length.toString(),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white),
+                                );
+                              },
                             ),
                             SizedBox(height: 5),
                             Text(

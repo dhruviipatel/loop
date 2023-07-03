@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CommentProvider with ChangeNotifier {
@@ -42,7 +41,13 @@ class CommentProvider with ChangeNotifier {
   List _cmtlikeList = [];
   get cmtlikeList => _cmtlikeList;
 
-  Future doCommentLike(commentIndex, postid, userid, postcommentid) async {
+  void getcmtlikeList(context, commentlikeList) {
+    _cmtlikeList = commentlikeList;
+
+    print(_cmtlikeList);
+  }
+
+  Future doCommentLike(userid, postid, postcommentid) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     var mytoken = sp.getString("token")!;
 
@@ -65,7 +70,6 @@ class CommentProvider with ChangeNotifier {
         body: body, headers: headers);
 
     if (response.statusCode == 200) {
-      _cmtlikeList.add(commentIndex);
       _isCommentLiked = true;
       print("comment like successfull");
     } else {
@@ -74,7 +78,8 @@ class CommentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future undoCommentLike(commentIndex, cuserid, postId, postCommentId) async {
+  Future undoCommentLike(
+      cuserid, postcommentlikeid, postId, postCommentId) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     var mytoken = sp.getString("token")!;
 
@@ -87,8 +92,9 @@ class CommentProvider with ChangeNotifier {
         "https://looptest.inventdi.com/api/Post/postCommentDislike";
     final body = jsonEncode({
       'post_id': postId.toString(),
-      'user_id': cuserid,
+      'post_comment_like_id': postcommentlikeid,
       'post_comment_id': postCommentId,
+      'user_id': cuserid,
     });
 
     print("JSON data: ${body}");
@@ -97,10 +103,10 @@ class CommentProvider with ChangeNotifier {
         body: body, headers: headers);
 
     if (response.statusCode == 200) {
-      _cmtlikeList.remove(commentIndex);
       print("likelist:${_cmtlikeList}");
       _isCommentLiked = false;
       print("comment like remove successfull");
+      notifyListeners();
     } else {
       print("comment like remove failed");
     }

@@ -132,11 +132,12 @@ class UserProfileProvider with ChangeNotifier {
       var decodedfollowerJson = await json.decode(followerJson);
       var data = decodedfollowerJson["data"];
 
-      followerList = List.from(data)
+      followerList = List.from(data ?? [])
           .map<Followers>(
             (e) => Followers.fromJson(e),
           )
           .toList();
+
       // print("list:${followerList}");
     } else {
       print('failed to load followers');

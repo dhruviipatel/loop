@@ -10,6 +10,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int selectedIndex = 0;
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<AuthProvider>(
@@ -70,14 +71,46 @@ class HomeScreen extends StatelessWidget {
                                   Padding(
                                       padding: const EdgeInsets.only(
                                           left: 20, bottom: 15),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.network(
-                                          catalist[index].image,
-                                          height: 110.0,
-                                          width: 80.0,
-                                          fit: BoxFit.cover,
-                                        ),
+                                      child: InkWell(
+                                        onTap: () async {
+                                          selectedIndex = index;
+                                          await hp.mypost(context);
+                                          await hp.catawisepost(
+                                            catalist[index].categoryId,
+                                          );
+                                        },
+                                        child: Stack(children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            child: Image.network(
+                                              catalist[index].image,
+                                              height: 110.0,
+                                              width: 80.0,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          selectedIndex == index
+                                              ? Container(
+                                                  height: 110.0,
+                                                  width: 80.0,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: Colors.orange
+                                                          .withOpacity(0.75)),
+                                                )
+                                              : Container(
+                                                  height: 110.0,
+                                                  width: 80.0,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
+                                                )
+                                        ]),
                                       )),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 25),
@@ -91,9 +124,15 @@ class HomeScreen extends StatelessWidget {
                             },
                           ),
                         ),
-                        Expanded(
-                            child:
-                                MyHomePost(hp, isclicked, postlist, context)),
+                        postlist.length > 0
+                            ? Expanded(
+                                child: MyHomePost(
+                                    hp, isclicked, postlist, context))
+                            : Expanded(
+                                child: Center(
+                                    child: CircularProgressIndicator(
+                                color: Colors.orange,
+                              )))
                       ],
                     ),
                     if (isclicked == true)

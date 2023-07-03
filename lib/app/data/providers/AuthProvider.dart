@@ -39,41 +39,45 @@ class AuthProvider with ChangeNotifier {
       var jsonData = json.decode(response.body);
       var data = jsonData['data'];
       var userdata = data['user'];
-
-      if (response.statusCode == 200) {
-        SharedPreferences sp = await SharedPreferences.getInstance();
-        //store token
-
-        await sp.setString("token", data['token']);
-
-        //store users info into shared pref
-
-        User user = User(
-          id: userdata['id'],
-          name: userdata['name'],
-          email: userdata['email'],
-          mobile: userdata['mobile'],
-          dob: DateTime.parse(
-            userdata['dob'],
-          ),
-          gender: userdata['gender'],
-          profileImage: userdata['profile_image'],
-          identify: userdata['identity'],
-        );
-
-        String userinfo = jsonEncode(user);
-        //print("user info:${userinfo}");
-
-        sp.setString('userinfo', userinfo);
-
-        //navigate to homepage
-
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => BottomNavbar()),
-            (Route<dynamic> route) => false);
-      } else {
+      if (userdata == null) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("Invalid credentials")));
+      } else {
+        if (response.statusCode == 200) {
+          SharedPreferences sp = await SharedPreferences.getInstance();
+          //store token
+
+          await sp.setString("token", data['token']);
+
+          //store users info into shared pref
+
+          User user = User(
+            id: userdata['id'],
+            name: userdata['name'],
+            email: userdata['email'],
+            mobile: userdata['mobile'],
+            dob: DateTime.parse(
+              userdata['dob'],
+            ),
+            gender: userdata['gender'],
+            profileImage: userdata['profile_image'],
+            identify: userdata['identity'],
+          );
+
+          String userinfo = jsonEncode(user);
+          //print("user info:${userinfo}");
+
+          sp.setString('userinfo', userinfo);
+
+          //navigate to homepage
+
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => BottomNavbar()),
+              (Route<dynamic> route) => false);
+        } else {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Invalid credentials")));
+        }
       }
     } else {
       ScaffoldMessenger.of(context)

@@ -1,6 +1,7 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:loop/app/data/providers/CommentProvider.dart';
+import 'package:loop/app/data/providers/HomeProvider.dart';
 import 'package:loop/app/modules/commentScreen/comment_screen.dart';
 import 'package:loop/app/modules/homeScreen/inner_widgets/postClick.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -12,7 +13,7 @@ import 'more.dart';
 
 Widget MyHomePost(hp, clickvalue, postlist, context) {
   var CommentController = new TextEditingController();
-  final cp = Provider.of<CommentProvider>(context, listen: false);
+  // final cp = Provider.of<CommentProvider>(context, listen: false);
   return ListView.builder(
     itemCount: postlist.length,
     itemBuilder: (context, index) {
@@ -22,14 +23,24 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
       final mypostVideo = postlist[index].postVideo;
       final mypostComment = postlist[index].postComments;
       final mypostId = postlist[index].postId;
+      final mypostlike = postlist[index].postLikes;
 
       String postCaption = "";
       final caption = postlist[index].postCaption ?? "";
       if (caption.length > 35) {
-        postCaption = caption.substring(0, 40) + "...";
+        postCaption = caption.substring(0, 35) + "...";
       } else {
         postCaption = caption;
       }
+
+      //get login user profile image
+      var userProImage = hp.userProImage;
+      var userid = hp.userid;
+
+      context.read<HomeProvider>().getlikedpostlist(mypostlike, userid);
+      //get post like data
+      var likepostlist = context.watch<HomeProvider>().likedpostList;
+      print("liked post list:${likepostlist}");
 
       //get post user data
       final postuserId = postlist[index].customerId;
@@ -54,9 +65,16 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
         cmuser = hp.cmuser;
       }
 
-      //get login user profile image
-      var userProImage = hp.userProImage;
-      var userid = hp.userid;
+      var checklikeuser = [];
+      for (var i = 0; i < mypostlike.length; i++) {
+        if (mypostlike[i].customerId.toString() == userid) {
+          checklikeuser.add(mypostlike[i]);
+          // print("22222 ${checklikeuser}");
+          // print("added");
+        } else {
+          checklikeuser = [];
+        }
+      }
 
       return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
@@ -170,11 +188,29 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(
-                            Icons.favorite_outline,
-                            color: Colors.white,
-                            size: 15,
-                          ),
+                          InkWell(
+                              onTap: () {
+                                if (checklikeuser.isEmpty) {
+                                  context.read<HomeProvider>().doPostLike(
+                                      postlist[index], mypostId, userid);
+                                } else {
+                                  context.read<HomeProvider>().doPostDislike(
+                                      checklikeuser[0].postLikesId,
+                                      mypostId,
+                                      userid);
+                                }
+                              },
+                              child: checklikeuser.isEmpty
+                                  ? Icon(
+                                      MdiIcons.heartOutline,
+                                      color: Colors.white,
+                                      size: 15,
+                                    )
+                                  : Icon(
+                                      MdiIcons.heart,
+                                      color: Colors.orange,
+                                      size: 15,
+                                    )),
                           Text(
                             postlist[index].postLikesCount.toString(),
                             style: TextStyle(fontSize: 15, color: Colors.white),
@@ -242,6 +278,7 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                             MaterialPageRoute(
                               builder: (context) => CommentScreen(
                                 post: post,
+                                userid: userid,
                               ),
                             )),
                         child: Text(
