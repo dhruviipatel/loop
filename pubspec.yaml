@@ -55,6 +55,8 @@ dependencies:
   
   video_player: ^2.6.1
   chewie: ^1.5.0
+  photo_manager: ^2.6.0
+  iconsax: ^0.0.8
 
 dev_dependencies:
   flutter_test:

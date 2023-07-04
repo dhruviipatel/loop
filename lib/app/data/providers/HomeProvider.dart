@@ -43,7 +43,7 @@ class HomeProvider with ChangeNotifier {
             (e) => Category.fromJson(e),
           )
           .toList();
-      print("catalist:${_catalist}");
+      //print("catalist:${_catalist}");
       return _catalist;
     } else {
       print('failed to load categories');
@@ -63,7 +63,6 @@ class HomeProvider with ChangeNotifier {
   var userProImage = "https://looptest.inventdi.com/profile_images/default.png";
   mypost(context) async {
     //get users data
-
     SharedPreferences sp = await SharedPreferences.getInstance();
     var user = sp.getString('userinfo');
 
@@ -118,7 +117,7 @@ class HomeProvider with ChangeNotifier {
       //print("data:${data}");
 
       _postlist = List.from(data).map<Post>((e) => Post.fromJson(e)).toList();
-      print(postlist);
+      // print(postlist);
 
       allUsers.forEach((u) {
         postlist.forEach((p) {
@@ -252,7 +251,7 @@ class HomeProvider with ChangeNotifier {
     _postlist.forEach((p) {
       if (p.categoryId.toString() == myid.toString()) {
         postlist1.add(p);
-        print("101010 ${postlist1}");
+        // print("101010 ${postlist1}");
         notifyListeners();
       }
     });

@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:loop/app/core/themes/themes.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../data/providers/HomeProvider.dart';
-import 'editpost/editnavbar.dart';
-import 'inner_widgets/Scrollbar.dart';
-import 'inner_widgets/media_service.dart';
+import '../core/themes/themes.dart';
+import '../data/providers/HomeProvider.dart';
+import 'newpostScreen/editpost/editnavbar.dart';
+import 'newpostScreen/inner_widgets/Scrollbar.dart';
+import 'newpostScreen/inner_widgets/media_service.dart';
 
-class NewpostScreen extends StatefulWidget {
-  const NewpostScreen({super.key});
+class NewpostScreen1 extends StatefulWidget {
+  const NewpostScreen1({Key? key}) : super(key: key);
 
   @override
-  State<NewpostScreen> createState() => _NewpostScreenState();
+  State<NewpostScreen1> createState() => _NewpostScreen1State();
 }
 
-class _NewpostScreenState extends State<NewpostScreen> {
+class _NewpostScreen1State extends State<NewpostScreen1> {
+  bool isStrechedDropDown = false;
+  int? groupValue;
+  String title = 'Choose Category';
+
   AssetEntity? selectedEntity;
   AssetPathEntity? selectedAlbum;
   List<AssetPathEntity> albumList = [];
@@ -27,10 +31,6 @@ class _NewpostScreenState extends State<NewpostScreen> {
   List<AssetEntity> selectedAssetList = [];
 
   bool isMultiple = false;
-
-  bool isStrechedDropDown = false;
-  int? groupValue;
-  String title = 'Choose Category';
 
   @override
   void initState() {
@@ -40,7 +40,7 @@ class _NewpostScreenState extends State<NewpostScreen> {
           albumList = value;
           selectedAlbum = value[0];
         });
-        //LOAD RECENT ASSETS
+        // LOAD RECENT ASSETS
         MediaServices().loadAssets(selectedAlbum!).then(
           (value) {
             setState(() {
@@ -56,9 +56,10 @@ class _NewpostScreenState extends State<NewpostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
     context.read<HomeProvider>().mycata();
     var catalist = context.read<HomeProvider>().catalist;
+
+    var height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         backgroundColor: appbBgColor,
@@ -95,12 +96,13 @@ class _NewpostScreenState extends State<NewpostScreen> {
             ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
-          child: Column(
-            children: [
-              SizedBox(
-                height: height * 0.3,
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 20, right: 20, top: 10, bottom: 10),
+              child: SizedBox(
+                height: height * 0.31,
                 child: selectedEntity == null
                     ? const SizedBox.shrink()
                     : Stack(
@@ -134,10 +136,10 @@ class _NewpostScreenState extends State<NewpostScreen> {
                         ],
                       ),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Flexible(
+            ),
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -172,14 +174,12 @@ class _NewpostScreenState extends State<NewpostScreen> {
                         IconButton(
                           onPressed: () {
                             setState(() {
-                              isMultiple = isMultiple == true ? false : true;
+                              isMultiple = !isMultiple;
                               selectedAssetList = [];
                             });
                           },
                           icon: Icon(
-                            isMultiple == true
-                                ? Iconsax.note_215
-                                : Iconsax.note_2,
+                            isMultiple ? Iconsax.note_215 : Iconsax.note_2,
                             color: Colors.white,
                             size: 30,
                           ),
@@ -218,7 +218,7 @@ class _NewpostScreenState extends State<NewpostScreen> {
                                         BorderRadius.all(Radius.circular(9)),
                                   ),
                                   constraints: BoxConstraints(
-                                    minHeight: 45,
+                                    minHeight: 50,
                                     minWidth: double.infinity,
                                   ),
                                   alignment: Alignment.center,
@@ -325,14 +325,14 @@ class _NewpostScreenState extends State<NewpostScreen> {
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  void albums(height) {
+  void albums(double height) {
     showModalBottomSheet(
       backgroundColor: appbBgColor,
       context: context,
@@ -344,13 +344,6 @@ class _NewpostScreenState extends State<NewpostScreen> {
           physics: const BouncingScrollPhysics(),
           itemCount: albumList.length,
           itemBuilder: (context, index) {
-            String albumname = "";
-            var albumnm = albumList[index].name;
-            if (albumnm.length > 20) {
-              albumname = albumnm.substring(0, 20) + "...";
-            } else {
-              albumname = albumnm;
-            }
             return ListTile(
               onTap: () {
                 setState(() {
@@ -367,7 +360,9 @@ class _NewpostScreenState extends State<NewpostScreen> {
                 Navigator.pop(context);
               },
               title: Text(
-                albumname == "Recent" ? "Gallery" : albumname,
+                albumList[index].name == "Recent"
+                    ? "Gallery"
+                    : albumList[index].name,
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w500,
@@ -433,50 +428,28 @@ class _NewpostScreenState extends State<NewpostScreen> {
                 ),
               ),
             Positioned.fill(
-              child: Container(
-                color: assetEntity == selectedEntity
-                    ? Colors.orange.withOpacity(0.65)
-                    : Colors.transparent,
-              ),
-            ),
-            if (isMultiple == true)
-              Positioned.fill(
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: GestureDetector(
-                    onTap: () {
-                      selectAsset(assetEntity: assetEntity);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: selectedAssetList.contains(assetEntity) == true
-                              ? Colors.blue
-                              : Colors.white12,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 1.5,
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Text(
-                            "${selectedAssetList.indexOf(assetEntity) + 1}",
-                            style: TextStyle(
-                              color: selectedAssetList.contains(assetEntity) ==
-                                      true
-                                  ? Colors.white
-                                  : Colors.transparent,
-                            ),
-                          ),
-                        ),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.5),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(20),
                       ),
                     ),
+                    child: selectedAssetList.contains(assetEntity)
+                        ? const Icon(
+                            Icons.check_circle,
+                            color: Colors.green,
+                            size: 20,
+                          )
+                        : const SizedBox.shrink(),
                   ),
                 ),
               ),
+            ),
           ],
         ),
       );
