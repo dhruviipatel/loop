@@ -202,16 +202,35 @@ class HomeProvider with ChangeNotifier {
 
     var response =
         await http.post(Uri.parse(postlikeApi), body: body, headers: headers);
-
+    print("resonse ${response.body}");
     if (response.statusCode == 200) {
       _isPostLiked = true;
       print("post like successfull");
+      incrementLike(postid);
       //_likedpostList.add(postindex);
-      notifyListeners();
+      //notifyListeners();
       // print("post like successfull");
     } else {
       print("post like failed");
     }
+    notifyListeners();
+  }
+
+  // replacePost(Post post){
+  //   _postlist.indexWhere((element) => element.postId)
+  // }
+
+  incrementLike(postid) {
+    int storelikedata =
+        _postlist.indexWhere((element) => element.postId == postid);
+    _postlist[storelikedata].postLikesCount++;
+    notifyListeners();
+  }
+
+  decrementLike(postid) {
+    int storelikedata =
+        _postlist.indexWhere((element) => element.postId == postid);
+    _postlist[storelikedata].postLikesCount--;
     notifyListeners();
   }
 
