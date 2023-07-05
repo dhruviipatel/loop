@@ -17,6 +17,7 @@ class SmileyScreen extends StatelessWidget {
           return Container(
             height: 290,
             child: EmojiSelector(
+              withTitle: false,
               onSelected: (emoji) {
                 print('Selected emoji ${emoji.char}');
               },

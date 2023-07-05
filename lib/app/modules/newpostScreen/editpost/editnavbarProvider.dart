@@ -11,13 +11,13 @@ class EditNavbarProvider with ChangeNotifier {
   get currentScreen => this._screens[this._currentTab];
 
   Map<int, GlobalKey<NavigatorState>> navigatorKeys = {
-    0: GlobalKey<NavigatorState>(),
-    1: GlobalKey<NavigatorState>(),
-    2: GlobalKey<NavigatorState>(),
-    3: GlobalKey<NavigatorState>(),
-    4: GlobalKey<NavigatorState>(),
+    01: GlobalKey<NavigatorState>(),
+    02: GlobalKey<NavigatorState>(),
+    03: GlobalKey<NavigatorState>(),
+    04: GlobalKey<NavigatorState>(),
+    05: GlobalKey<NavigatorState>(),
   };
-  int _currentTab = 0;
+  int _currentTab = 01;
   List<Widget> _screens = [
     CropScreen(),
     FilterScreen(),
@@ -25,6 +25,14 @@ class EditNavbarProvider with ChangeNotifier {
     TextScreen(),
     BrightnessScreen()
   ];
+
+  List _selectedImage = [];
+  get selectedImage => _selectedImage;
+
+  myselectedImage(List image) {
+    _selectedImage = image;
+    notifyListeners();
+  }
 
   set currentTab(int tab) {
     this._currentTab = tab;

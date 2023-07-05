@@ -3,13 +3,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconoir_icons/iconoir_icons.dart';
 import 'package:loop/app/modules/newpostScreen/addpostInfo_screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:photo_manager/src/types/entity.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/themes/themes.dart';
 import 'editnavbarProvider.dart';
 
 class EditNavbar extends StatelessWidget {
-  const EditNavbar({super.key});
+  final selectedAssetList = List<AssetEntity>;
+  const EditNavbar(List<AssetEntity> selectedAssetList, {super.key});
 
   @override
   Widget build(BuildContext context) {

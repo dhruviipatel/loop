@@ -29,7 +29,7 @@ class _NewpostScreenState extends State<NewpostScreen> {
   bool isMultiple = false;
 
   bool isStrechedDropDown = false;
-  int? groupValue;
+  int? cataid;
   String title = 'Choose Category';
 
   @override
@@ -56,6 +56,17 @@ class _NewpostScreenState extends State<NewpostScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String selectedtitle = "";
+    if (selectedAlbum != null) {
+      selectedtitle = selectedAlbum!.name;
+      var selectedname = selectedAlbum!.name;
+      if (selectedname.length > 15) {
+        selectedtitle = selectedname.substring(0, 15) + "...";
+      } else {
+        selectedtitle = selectedname;
+      }
+    }
+
     var height = MediaQuery.of(context).size.height;
     context.read<HomeProvider>().mycata();
     var catalist = context.read<HomeProvider>().catalist;
@@ -84,7 +95,9 @@ class _NewpostScreenState extends State<NewpostScreen> {
               onPressed: () {
                 Navigator.of(context, rootNavigator: true).push(
                   MaterialPageRoute(
-                    builder: (context) => EditNavbar(),
+                    builder: (context) => EditNavbar(
+                      selectedAssetList,
+                    ),
                   ),
                 );
               },
@@ -100,7 +113,7 @@ class _NewpostScreenState extends State<NewpostScreen> {
           child: Column(
             children: [
               SizedBox(
-                height: height * 0.3,
+                height: height * 0.35,
                 child: selectedEntity == null
                     ? const SizedBox.shrink()
                     : Stack(
@@ -149,9 +162,9 @@ class _NewpostScreenState extends State<NewpostScreen> {
                               albums(height);
                             },
                             child: Text(
-                              selectedAlbum!.name == "Recent"
+                              selectedtitle == "Recent"
                                   ? "Gallery"
-                                  : selectedAlbum!.name,
+                                  : selectedtitle,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500,
@@ -184,13 +197,10 @@ class _NewpostScreenState extends State<NewpostScreen> {
                             size: 30,
                           ),
                         ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Iconsax.camera,
-                            color: Colors.white,
-                            size: 30,
-                          ),
+                        Icon(
+                          Iconsax.camera,
+                          color: Colors.white,
+                          size: 30,
                         ),
                       ],
                     ),
@@ -282,8 +292,9 @@ class _NewpostScreenState extends State<NewpostScreen> {
                                           ),
                                           onTap: () {
                                             setState(() {
-                                              groupValue = index;
-                                              print(groupValue);
+                                              cataid =
+                                                  catalist[index].categoryId;
+                                              print(cataid);
                                               title = catalist[index].name;
                                               isStrechedDropDown =
                                                   !isStrechedDropDown;
@@ -344,13 +355,6 @@ class _NewpostScreenState extends State<NewpostScreen> {
           physics: const BouncingScrollPhysics(),
           itemCount: albumList.length,
           itemBuilder: (context, index) {
-            String albumname = "";
-            var albumnm = albumList[index].name;
-            if (albumnm.length > 20) {
-              albumname = albumnm.substring(0, 20) + "...";
-            } else {
-              albumname = albumnm;
-            }
             return ListTile(
               onTap: () {
                 setState(() {
@@ -367,7 +371,9 @@ class _NewpostScreenState extends State<NewpostScreen> {
                 Navigator.pop(context);
               },
               title: Text(
-                albumname == "Recent" ? "Gallery" : albumname,
+                albumList[index].name == "Recent"
+                    ? "Gallery"
+                    : albumList[index].name,
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w500,
@@ -387,10 +393,12 @@ class _NewpostScreenState extends State<NewpostScreen> {
     if (selectedAssetList.contains(assetEntity)) {
       setState(() {
         selectedAssetList.remove(assetEntity);
+        print("assetlist:${selectedAssetList}");
       });
     } else {
       setState(() {
         selectedAssetList.add(assetEntity);
+        print("assetlist:${selectedAssetList}");
       });
     }
   }
@@ -399,6 +407,11 @@ class _NewpostScreenState extends State<NewpostScreen> {
         onTap: () {
           setState(() {
             selectedEntity = assetEntity;
+
+            //set selected value in selected asset list for take single asset.
+            selectedAssetList = [];
+            selectedAssetList.add(assetEntity);
+            print(selectedAssetList);
           });
         },
         child: Stack(
@@ -427,7 +440,7 @@ class _NewpostScreenState extends State<NewpostScreen> {
                     padding: EdgeInsets.all(10),
                     child: Icon(
                       Iconsax.video5,
-                      color: Colors.red,
+                      color: Colors.white,
                     ),
                   ),
                 ),

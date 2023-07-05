@@ -83,11 +83,11 @@ class _NewpostScreen1State extends State<NewpostScreen1> {
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.of(context, rootNavigator: true).push(
-                  MaterialPageRoute(
-                    builder: (context) => EditNavbar(),
-                  ),
-                );
+                // Navigator.of(context, rootNavigator: true).push(
+                //   MaterialPageRoute(
+                //     builder: (context) => EditNavbar(),
+                //   ),
+                // );
               },
               icon: Icon(
                 Icons.arrow_forward_ios,
