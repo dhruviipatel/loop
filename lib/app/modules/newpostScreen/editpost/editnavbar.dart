@@ -2,90 +2,111 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconoir_icons/iconoir_icons.dart';
 import 'package:loop/app/modules/newpostScreen/addpostInfo_screen.dart';
+import 'package:loop/app/modules/newpostScreen/editpost/smiley_screen.dart';
+import 'package:loop/app/modules/newpostScreen/editpost/text_screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:photo_manager/src/types/entity.dart';
-import 'package:provider/provider.dart';
-
 import '../../../core/themes/themes.dart';
-import 'editnavbarProvider.dart';
+import 'brightness_screen.dart';
+import 'crop_screen.dart';
+import 'filter_screen.dart';
 
-class EditNavbar extends StatelessWidget {
-  final selectedAssetList = List<AssetEntity>;
-  const EditNavbar(List<AssetEntity> selectedAssetList, {super.key});
+class EditPost extends StatelessWidget {
+  final List<AssetEntity> selectedAssetList;
+  const EditPost({super.key, required this.selectedAssetList});
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: appbBgColor,
-          elevation: 0.0,
-          titleSpacing: 0,
-          leading: InkWell(
-            onTap: () => Navigator.pop(context),
-            child: Icon(
-              Icons.arrow_back_ios,
-              color: appButtonColor,
-            ),
-          ),
-          title: Text("New Post",
-              style: GoogleFonts.ibmPlexMono(
-                textStyle: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 21),
-              )),
-          centerTitle: false,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: InkWell(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => AddpostInfoscreen(),
+    return DefaultTabController(
+      length: 5,
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: appbBgColor,
+            elevation: 0,
+            iconTheme: IconThemeData(color: Colors.white),
+            title: Text("New Post",
+                style: GoogleFonts.ibmPlexMono(
+                  textStyle: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 21),
                 )),
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  color: appButtonColor,
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: InkWell(
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => AddpostInfoscreen(),
+                  )),
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    color: appButtonColor,
+                  ),
+                ),
+              )
+            ],
+          ),
+          body: TabBarView(
+            children: [
+              CropScreen(
+                selectedAssetList: selectedAssetList,
+              ),
+              FilterScreen(
+                selectedAssetList: selectedAssetList,
+              ),
+              SmileyScreen(
+                selectedAssetList: selectedAssetList,
+              ),
+              TextScreen(
+                selectedAssetList: selectedAssetList,
+              ),
+              BrightnessScreen(
+                selectedAssetList: selectedAssetList,
+              )
+            ],
+          ),
+          bottomNavigationBar: Container(
+            color: appbBgColor,
+            child: TabBar(
+              unselectedLabelColor:
+                  Colors.white, // Color for unselected tab icons
+              labelColor: Colors.orange, // Color for selected tab icon
+              tabs: [
+                Tab(
+                  icon: Icon(
+                    Icons.crop,
+                  ),
+                ),
+                Tab(
+                  icon: Iconoir(
+                    IconoirIcons.colorFilter,
+                  ),
+                ),
+                Tab(
+                  icon: Icon(
+                    MdiIcons.emoticonOutline,
+                  ),
+                ),
+                Tab(
+                  icon: Iconoir(
+                    IconoirIcons.textSize,
+                  ),
+                ),
+                Tab(
+                  icon: Iconoir(
+                    IconoirIcons.sunLight,
+                  ),
+                )
+              ],
+              indicator: BoxDecoration(
+                border: Border(
+                  top: BorderSide(color: Colors.transparent, width: 0.0),
                 ),
               ),
-            )
-          ],
+            ),
+          ),
         ),
-        body: Consumer<EditNavbarProvider>(
-            builder: (context, editprovider, child) => SafeArea(
-                  child: Scaffold(
-                    backgroundColor: appbBgColor,
-                    body: editprovider.currentScreen,
-                    bottomNavigationBar: BottomNavigationBar(
-                      type: BottomNavigationBarType.fixed,
-                      showSelectedLabels: false,
-                      selectedIconTheme:
-                          IconThemeData(size: 30, color: appButtonColor),
-                      unselectedIconTheme: IconThemeData(size: 30),
-                      showUnselectedLabels: false,
-                      selectedItemColor: appButtonColor,
-                      unselectedItemColor: Colors.white,
-                      backgroundColor: appbBgColor,
-                      items: [
-                        BottomNavigationBarItem(
-                            icon: Icon(Icons.crop), label: "1"),
-                        BottomNavigationBarItem(
-                            icon: Iconoir(IconoirIcons.colorFilter),
-                            label: "2"),
-                        BottomNavigationBarItem(
-                            icon: Icon(MdiIcons.emoticonOutline), label: "3"),
-                        BottomNavigationBarItem(
-                            icon: Iconoir(IconoirIcons.textSize), label: "4"),
-                        BottomNavigationBarItem(
-                            icon: Iconoir(IconoirIcons.sunLight), label: "5"),
-                      ],
-                      currentIndex: editprovider.currentTab,
-                      onTap: (int idx) {
-                        editprovider.currentTab = idx;
-                      },
-                    ),
-                  ),
-                )),
       ),
     );
   }

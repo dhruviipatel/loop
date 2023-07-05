@@ -42,7 +42,6 @@ class Profile extends StatelessWidget {
 
     final hp = Provider.of<HomeProvider>(context);
     hp.mypost(context);
-    var postlist = hp.postlist;
 
     up.getmyuserpost(userid);
     var userpostlist = up.userpostlist;

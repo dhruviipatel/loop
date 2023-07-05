@@ -7,14 +7,16 @@ import '../../modules/searchScreen/search_screen.dart';
 import '../../modules/userprofileScreen/userprofile_screen.dart';
 
 class BottomNavbarProvider with ChangeNotifier {
+  List<GlobalKey<NavigatorState>> navigatorKeys =
+      List.generate(5, (_) => GlobalKey<NavigatorState>());
   //bottom navbar
-  Map<int, GlobalKey<NavigatorState>> navigatorKeys = {
-    0: GlobalKey<NavigatorState>(),
-    1: GlobalKey<NavigatorState>(),
-    2: GlobalKey<NavigatorState>(),
-    3: GlobalKey<NavigatorState>(),
-    4: GlobalKey<NavigatorState>(),
-  };
+  // Map<int, GlobalKey<NavigatorState>> navigatorKeys = {
+  //   0: GlobalKey<NavigatorState>(),
+  //   1: GlobalKey<NavigatorState>(),
+  //   2: GlobalKey<NavigatorState>(),
+  //   3: GlobalKey<NavigatorState>(),
+  //   4: GlobalKey<NavigatorState>(),
+  // };
   int _currentTab = 0;
   List<Widget> _screens = [
     HomeScreen(),

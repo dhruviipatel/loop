@@ -4,6 +4,10 @@ import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/data/providers/BottomNavbarProvider.dart';
 import 'package:provider/provider.dart';
 
+import '../data/providers/AuthProvider.dart';
+import '../data/providers/HomeProvider.dart';
+import '../data/providers/UserProfileProvider.dart';
+
 class BottomNavbar extends StatelessWidget {
   const BottomNavbar({super.key});
 
@@ -47,7 +51,28 @@ class BottomNavbar extends StatelessWidget {
             ],
             currentIndex: bottomprovider.currentTab,
             onTap: (int idx) {
+              if (idx == 4) {
+                var user = context.read<AuthProvider>().user;
+                var userid = 0;
+                var profileImage = "";
+                var username = "";
+                if (user != null) {
+                  userid = user.id;
+                  profileImage = user.profileImage;
+                  username = user.name;
+                }
+
+                var postlist = context.read<HomeProvider>().postlist;
+                context.read<HomeProvider>().mypost(context);
+                context
+                    .read<UserProfileProvider>()
+                    .getUserAllPost(userid, postlist);
+                context.read<UserProfileProvider>().myfollowers(userid);
+                context.read<UserProfileProvider>().myfollowing(userid);
+              }
+
               bottomprovider.currentTab = idx;
+              print("idx ${idx}");
             },
           ),
         ),

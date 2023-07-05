@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loop/app/core/themes/themes.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 class TextScreen extends StatelessWidget {
-  const TextScreen({super.key});
+  final List<AssetEntity> selectedAssetList;
+  const TextScreen({super.key, required this.selectedAssetList});
 
   @override
   Widget build(BuildContext context) {

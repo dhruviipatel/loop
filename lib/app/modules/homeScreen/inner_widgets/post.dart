@@ -193,6 +193,7 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                                 if (checklikeuser.isEmpty) {
                                   context.read<HomeProvider>().doPostLike(
                                       postlist[index], mypostId, userid);
+                                  //context.read<HomeProvider>()
                                 } else {
                                   context.read<HomeProvider>().doPostDislike(
                                       checklikeuser[0].postLikesId,

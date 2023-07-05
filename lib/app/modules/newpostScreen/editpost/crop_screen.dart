@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:loop/app/core/themes/themes.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 class CropScreen extends StatelessWidget {
-  const CropScreen({super.key});
+  final List<AssetEntity> selectedAssetList;
+  const CropScreen({super.key, required this.selectedAssetList});
 
   @override
   Widget build(BuildContext context) {
+    print(selectedAssetList);
     return Scaffold(
         backgroundColor: appbBgColor,
         body: Padding(

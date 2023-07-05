@@ -95,8 +95,8 @@ class _NewpostScreenState extends State<NewpostScreen> {
               onPressed: () {
                 Navigator.of(context, rootNavigator: true).push(
                   MaterialPageRoute(
-                    builder: (context) => EditNavbar(
-                      selectedAssetList,
+                    builder: (context) => EditPost(
+                      selectedAssetList: selectedAssetList,
                     ),
                   ),
                 );

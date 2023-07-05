@@ -1,9 +1,11 @@
 import 'package:emoji_selector/emoji_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:loop/app/core/themes/themes.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 class SmileyScreen extends StatelessWidget {
-  const SmileyScreen({super.key});
+  final List<AssetEntity> selectedAssetList;
+  const SmileyScreen({super.key, required this.selectedAssetList});
 
   @override
   Widget build(BuildContext context) {
