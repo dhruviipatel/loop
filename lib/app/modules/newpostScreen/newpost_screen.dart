@@ -1,14 +1,19 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:image_editor_plus/image_editor_plus.dart';
+import 'package:image_editor_plus/utils.dart';
 import 'package:loop/app/core/themes/themes.dart';
+import 'package:loop/app/modules/newpostScreen/addpostInfo_screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../data/providers/HomeProvider.dart';
-import 'editpost/editnavbar.dart';
 import 'inner_widgets/Scrollbar.dart';
 import 'inner_widgets/media_service.dart';
 
@@ -92,14 +97,60 @@ class _NewpostScreenState extends State<NewpostScreen> {
           ),
           actions: [
             IconButton(
-              onPressed: () {
-                Navigator.of(context, rootNavigator: true).push(
-                  MaterialPageRoute(
-                    builder: (context) => EditPost(
-                      selectedAssetList: selectedAssetList,
-                    ),
-                  ),
-                );
+              onPressed: () async {
+                if (imageBytesList.isNotEmpty) {
+                  if (imageBytesList.length > 1) {
+                    var editedImage =
+                        await Navigator.of(context, rootNavigator: true).push(
+                      MaterialPageRoute(
+                        builder: (context) => ImageEditor(
+                          images: imageBytesList,
+                          maxLength: 10,
+                          allowMultiple: true,
+                          features: const ImageEditorFeatures(
+                            // pickFromGallery: true,
+                            // captureFromCamera: true,
+                            crop: true,
+                            blur: true,
+                            brush: true,
+                            emoji: true,
+                            filters: true,
+                            flip: true,
+                            rotate: true,
+                            text: true,
+                          ),
+                        ),
+                      ),
+                    );
+                    await Navigator.of(context, rootNavigator: true)
+                        .push(MaterialPageRoute(
+                      builder: (context) => AddpostInfoscreen(),
+                    ));
+
+                    // replace with edited image
+                    if (editedImage != null) {
+                      imageBytesList = editedImage;
+                      setState(() {});
+                    }
+                  } else {
+                    var editedImage =
+                        await Navigator.of(context, rootNavigator: true).push(
+                      MaterialPageRoute(
+                        builder: (context) => ImageEditor(
+                          image: imageBytesList[0],
+                        ),
+                      ),
+                    );
+
+                    // replace with edited image
+                    if (editedImage != null) {
+                      imageBytesList[0] = editedImage;
+                      setState(() {});
+                    }
+                  }
+                }
+                await Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => AddpostInfoscreen()));
               },
               icon: Icon(
                 Icons.arrow_forward_ios,
@@ -394,13 +445,45 @@ class _NewpostScreenState extends State<NewpostScreen> {
       setState(() {
         selectedAssetList.remove(assetEntity);
         print("assetlist:${selectedAssetList}");
+
+        getImagesBytes();
       });
     } else {
       setState(() {
         selectedAssetList.add(assetEntity);
         print("assetlist:${selectedAssetList}");
+
+        getImagesBytes();
       });
     }
+  }
+
+  // Convert List<AssetEntity> to List<Uint8List>
+  Future<List<Uint8List>> convertAssetListToUint8List(
+      List<AssetEntity> selectedAssetList) async {
+    List<Uint8List> result = [];
+
+    for (var asset in selectedAssetList) {
+      File? file = await asset.file;
+      if (file != null) {
+        Uint8List imageBytes = await file.readAsBytes();
+        result.add(imageBytes);
+
+        print("imagebyte ${imageBytes}");
+      }
+    }
+
+    return result;
+  }
+
+  List<Uint8List> imageBytesList = [];
+// Usage example
+  void getImagesBytes() async {
+    imageBytesList = await convertAssetListToUint8List(selectedAssetList);
+    setState(() {});
+    print("ibytelist ${imageBytesList}");
+
+    // Do something with the imageBytesList, such as displaying each image or uploading them
   }
 
   Widget assetWidget(AssetEntity assetEntity) => GestureDetector(
@@ -411,6 +494,8 @@ class _NewpostScreenState extends State<NewpostScreen> {
             //set selected value in selected asset list for take single asset.
             selectedAssetList = [];
             selectedAssetList.add(assetEntity);
+
+            getImagesBytes();
             print(selectedAssetList);
           });
         },

@@ -51,26 +51,6 @@ class BottomNavbar extends StatelessWidget {
             ],
             currentIndex: bottomprovider.currentTab,
             onTap: (int idx) {
-              if (idx == 4) {
-                var user = context.read<AuthProvider>().user;
-                var userid = 0;
-                var profileImage = "";
-                var username = "";
-                if (user != null) {
-                  userid = user.id;
-                  profileImage = user.profileImage;
-                  username = user.name;
-                }
-
-                var postlist = context.read<HomeProvider>().postlist;
-                context.read<HomeProvider>().mypost(context);
-                context
-                    .read<UserProfileProvider>()
-                    .getUserAllPost(userid, postlist);
-                context.read<UserProfileProvider>().myfollowers(userid);
-                context.read<UserProfileProvider>().myfollowing(userid);
-              }
-
               bottomprovider.currentTab = idx;
               print("idx ${idx}");
             },

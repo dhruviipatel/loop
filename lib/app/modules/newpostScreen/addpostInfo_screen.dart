@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loop/app/core/themes/themes.dart';
+import 'package:loop/app/data/providers/BottomNavbarProvider.dart';
 import 'package:loop/app/modules/bottomNavbar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class AddpostInfoscreen extends StatelessWidget {
@@ -36,9 +38,12 @@ class AddpostInfoscreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: InkWell(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => BottomNavbar(),
-                )),
+                onTap: () {
+                  context.read<BottomNavbarProvider>().clearNavigatorKeys();
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => BottomNavbar(),
+                  ));
+                },
                 child: Icon(
                   Icons.arrow_forward_ios,
                   color: appButtonColor,
