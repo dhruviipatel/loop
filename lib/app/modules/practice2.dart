@@ -7,11 +7,11 @@ import 'package:loop/app/modules/userprofileScreen/following_follower_scrren.dar
 import 'package:loop/app/modules/userprofileScreen/inner_widgets/posts.dart';
 import 'package:loop/app/modules/userprofileScreen/inner_widgets/setting.dart';
 import 'package:provider/provider.dart';
-import '../../data/providers/AuthProvider.dart';
-import '../../data/providers/UserProfileProvider.dart';
+import '../data/providers/AuthProvider.dart';
+import '../data/providers/UserProfileProvider.dart';
 
-class UserProfileScreen extends StatelessWidget {
-  const UserProfileScreen({Key? key}) : super(key: key);
+class UserProfileScreen2 extends StatelessWidget {
+  const UserProfileScreen2({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +30,7 @@ class UserProfileScreen extends StatelessWidget {
       child: Consumer<HomeProvider>(
         builder: (BuildContext context, hp, child) {
           var postlist = hp.postlist;
-
-          if (postlist.isEmpty) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+          print(postlist);
           return ChangeNotifierProvider<UserProfileProvider>(
             create: (BuildContext context) => UserProfileProvider()
               ..getUserAllPost(userid, postlist)
@@ -44,9 +39,9 @@ class UserProfileScreen extends StatelessWidget {
             child: Consumer<UserProfileProvider>(
               builder: (context, up, child) {
                 var userpostlist = up.userpostlist;
+                print(userpostlist);
                 var followerlist = up.followerList;
                 var followinglist = up.followingList;
-
                 up.getUserImageList(userpostlist);
                 up.getUserVideoList(userpostlist);
 

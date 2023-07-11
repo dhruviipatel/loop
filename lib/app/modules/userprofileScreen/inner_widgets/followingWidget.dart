@@ -252,8 +252,11 @@ Widget Followers(followerlist, followinglist) {
                       style: TextStyle(fontSize: 12, color: Colors.white),
                     )
                   : InkWell(
-                      onTap: () =>
-                          up.followUser(followinguserid, userid, context),
+                      onTap: () => up.followUser(
+                        followinguserid,
+                        userid,
+                        context,
+                      ),
                       child: Text(
                         "Follow",
                         style: TextStyle(fontSize: 12, color: appButtonColor),
@@ -321,6 +324,7 @@ Widget RemoveFollowerSheet(context, profile, name, followerlist) {
             InkWell(
               onTap: () {
                 up.removeFollower(followerId, userId, context);
+                up.myfollowing(userId);
               },
               child: Container(
                 width: 120,
@@ -418,6 +422,7 @@ Widget UnFollowSheet(context, profile, name, followinglist) {
             InkWell(
               onTap: () {
                 up.UnFollowUser(followingId, userId, context);
+                Navigator.pop(context);
               },
               child: Container(
                 width: 120,

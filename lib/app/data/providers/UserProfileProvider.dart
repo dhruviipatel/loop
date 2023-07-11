@@ -1,4 +1,3 @@
-//UserProvider.dart
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:loop/app/data/models/userPostModel.dart';
@@ -70,12 +69,14 @@ class UserProfileProvider with ChangeNotifier {
               (e) => Post.fromJson(e),
             )
             .toList();
+        notifyListeners();
       } else {
         print("Invalid data format: $data");
       }
     } else {
       print('failed to load posts');
     }
+    notifyListeners();
   }
 
   //get user's all image post
@@ -137,8 +138,7 @@ class UserProfileProvider with ChangeNotifier {
             (e) => Followers.fromJson(e),
           )
           .toList();
-
-      // print("list:${followerList}");
+      notifyListeners();
     } else {
       print('failed to load followers');
     }
@@ -174,6 +174,7 @@ class UserProfileProvider with ChangeNotifier {
               (e) => Following.fromJson(e),
             )
             .toList();
+        notifyListeners();
       } else {
         print('Empty response body');
       }
@@ -205,7 +206,7 @@ class UserProfileProvider with ChangeNotifier {
           await http.post(Uri.parse(followurl), headers: headers, body: body);
       if (response.statusCode == 200) {
         print("successfully follow user.");
-
+        //incrementfollower(searchuser);
         notifyListeners();
       } else {
         print("failed to follow user.");
@@ -271,7 +272,8 @@ class UserProfileProvider with ChangeNotifier {
           await http.post(Uri.parse(unfollowurl), headers: headers, body: body);
       if (response.statusCode == 200) {
         print("successfully unfollow user.");
-        Navigator.pop(context);
+        getupdatedfollowing(userId, followinguserId);
+
         notifyListeners();
       } else {
         print("failed to unfollow user.");
@@ -279,6 +281,57 @@ class UserProfileProvider with ChangeNotifier {
     } catch (e) {
       print("error ${e}");
     }
+    notifyListeners();
+  }
+
+  void getupdatedfollowing(int userId, int followinguserId) {
+    int followingIndex = followingList.indexWhere(
+      (element) => element.followingCustomerId == followinguserId,
+    );
+    followingList.removeAt(followingIndex);
+
+    notifyListeners();
+  }
+
+  void getupdatedFollower(int userId, int followeruserId) {
+    int followerIndex = followerList.indexWhere(
+      (element) => element.followedCustomerId == followeruserId,
+    );
+    followingList.removeAt(followerIndex);
+
+    notifyListeners();
+  }
+
+  bool isprofilefollowing = false;
+
+  void getprofilefollowing(followerlist, loginuserid) {
+    for (var i = 0; i < followerlist.length; i++) {
+      if (followerlist[i].customerId == loginuserid) {
+        isprofilefollowing = true;
+      }
+    }
+  }
+
+  void profilefollowingcheck(followerlist, loginuserid, searchuser) {
+    for (var i = 0; i < followerlist.length; i++) {
+      if (followerlist[i].customerId == loginuserid) {
+        isprofilefollowing = true;
+        incrementfollower(searchuser);
+        notifyListeners();
+      } else {
+        decrementfollower(searchuser);
+        notifyListeners();
+      }
+    }
+  }
+
+  incrementfollower(searchuser) {
+    searchuser.follower++;
+    notifyListeners();
+  }
+
+  decrementfollower(searchuser) {
+    searchuser.follower--;
     notifyListeners();
   }
 }

@@ -17,6 +17,9 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  bool _postlikebyuser = false;
+  get postlikebyuser => _postlikebyuser;
+
   //get category list from API
 
   List _catalist = [];
@@ -117,6 +120,7 @@ class HomeProvider with ChangeNotifier {
       //print("data:${data}");
 
       _postlist = List.from(data).map<Post>((e) => Post.fromJson(e)).toList();
+      notifyListeners();
       // print(postlist);
 
       allUsers.forEach((u) {
@@ -206,18 +210,57 @@ class HomeProvider with ChangeNotifier {
     if (response.statusCode == 200) {
       _isPostLiked = true;
       print("post like successfull");
+
       incrementLike(postid);
-      //_likedpostList.add(postindex);
-      //notifyListeners();
-      // print("post like successfull");
     } else {
       print("post like failed");
     }
     notifyListeners();
   }
 
-  // replacePost(Post post){
-  //   _postlist.indexWhere((element) => element.postId)
+  List _checklikeuser = [];
+  get checklikeuser => _checklikeuser;
+
+  userlikecheck(mypostlike) {
+    for (var i = 0; i < mypostlike.length; i++) {
+      if (mypostlike[i].customerId.toString() == userid) {
+        checklikeuser.add(mypostlike[i]);
+      } else {
+        _checklikeuser = [];
+      }
+    }
+  }
+
+  userlikeupdate(mypostlike) {
+    for (var i = 0; i < mypostlike.length; i++) {
+      if (mypostlike[i].customerId.toString() == userid) {
+        checklikeuser.add(mypostlike[i]);
+        notifyListeners();
+      } else {
+        _checklikeuser = [];
+        notifyListeners();
+      }
+    }
+  }
+
+  // updatelikebyuser(mypostlike) {
+  //   if (mypostlike.length > 0) {
+  //     for (var i = 0; i < mypostlike.length; i++) {
+  //       if (mypostlike[i].customerId.toString() == userid) {
+  //         checklikeuser.add(mypostlike[i]);
+  //         _postlikebyuser = true;
+  //         print("1234567 ${_postlikebyuser}");
+  //         notifyListeners();
+  //       } else {
+  //         _checklikeuser = [];
+  //         _postlikebyuser = false;
+  //         notifyListeners();
+  //       }
+  //     }
+  //   } else {
+  //     _postlikebyuser == false;
+  //     notifyListeners();
+  //   }
   // }
 
   incrementLike(postid) {
@@ -258,6 +301,9 @@ class HomeProvider with ChangeNotifier {
     if (response.statusCode == 200) {
       _isPostLiked = true;
       print("post like remove successfull");
+      decrementLike(postid);
+      //updatelikebyuser(mypostlike);
+      notifyListeners();
     } else {
       print("post like remove failed");
     }

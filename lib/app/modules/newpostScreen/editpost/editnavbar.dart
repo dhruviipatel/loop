@@ -36,9 +36,9 @@ class EditPost extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: InkWell(
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => AddpostInfoscreen(),
-                  )),
+                  // onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  //   builder: (context) => AddpostInfoscreen(),
+                  // )),
                   child: Icon(
                     Icons.arrow_forward_ios,
                     color: appButtonColor,

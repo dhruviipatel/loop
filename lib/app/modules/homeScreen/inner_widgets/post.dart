@@ -38,6 +38,8 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
       var userid = hp.userid;
 
       context.read<HomeProvider>().getlikedpostlist(mypostlike, userid);
+      context.read<HomeProvider>().userlikecheck(mypostlike);
+      var checklikeuser = context.read<HomeProvider>().checklikeuser;
       //get post like data
       var likepostlist = context.watch<HomeProvider>().likedpostList;
       print("liked post list:${likepostlist}");
@@ -65,12 +67,10 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
         cmuser = hp.cmuser;
       }
 
-      var checklikeuser = [];
+      // var checklikeuser = [];
       for (var i = 0; i < mypostlike.length; i++) {
         if (mypostlike[i].customerId.toString() == userid) {
           checklikeuser.add(mypostlike[i]);
-          // print("22222 ${checklikeuser}");
-          // print("added");
         } else {
           checklikeuser = [];
         }
@@ -189,29 +189,75 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           InkWell(
-                              onTap: () {
-                                if (checklikeuser.isEmpty) {
-                                  context.read<HomeProvider>().doPostLike(
-                                      postlist[index], mypostId, userid);
-                                  //context.read<HomeProvider>()
-                                } else {
-                                  context.read<HomeProvider>().doPostDislike(
-                                      checklikeuser[0].postLikesId,
-                                      mypostId,
-                                      userid);
-                                }
-                              },
-                              child: checklikeuser.isEmpty
-                                  ? Icon(
-                                      MdiIcons.heartOutline,
-                                      color: Colors.white,
-                                      size: 15,
-                                    )
-                                  : Icon(
-                                      MdiIcons.heart,
-                                      color: Colors.orange,
-                                      size: 15,
-                                    )),
+                            onTap: () {
+                              if (checklikeuser.isEmpty) {
+                                context.read<HomeProvider>().doPostLike(
+                                    postlist[index], mypostId, userid);
+                                context
+                                    .read<HomeProvider>()
+                                    .userlikeupdate(mypostlike);
+                                //context.read<HomeProvider>()
+                              } else {
+                                context.read<HomeProvider>().doPostDislike(
+                                    checklikeuser[0].postLikesId,
+                                    mypostId,
+                                    userid);
+                                context
+                                    .read<HomeProvider>()
+                                    .userlikeupdate(mypostlike);
+                              }
+                            },
+                            child: checklikeuser.isEmpty
+                                ? Icon(
+                                    MdiIcons.heartOutline,
+                                    color: Colors.white,
+                                    size: 15,
+                                  )
+                                : Icon(
+                                    MdiIcons.heart,
+                                    color: Colors.orange,
+                                    size: 15,
+                                  ),
+
+                            // onTap: () {
+                            //   // context
+                            //   //     .read<HomeProvider>()
+                            //   //     .updatelikebyuser(mypostlike);
+                            //   print(
+                            //       "check like user ${context.read<HomeProvider>().postlikebyuser}");
+                            //   if (context.read<HomeProvider>().postlikebyuser ==
+                            //       false) {
+                            //     context.read<HomeProvider>().doPostLike(
+                            //         postlist[index], mypostId, userid);
+                            //     context
+                            //         .read<HomeProvider>()
+                            //         .updatelikebyuser(mypostlike);
+                            //   } else {
+                            //     context.read<HomeProvider>().doPostDislike(
+                            //         context
+                            //             .read<HomeProvider>()
+                            //             .checklikeuser[0]
+                            //             .postLikesId,
+                            //         mypostId,
+                            //         userid,
+                            //         mypostlike);
+                            //   }
+                            // },
+
+                            // child:
+                            //     context.read<HomeProvider>().postlikebyuser ==
+                            //             false
+                            //         ? Icon(
+                            //             MdiIcons.heartOutline,
+                            //             color: Colors.white,
+                            //             size: 15,
+                            //           )
+                            //         : Icon(
+                            //             MdiIcons.heart,
+                            //             color: Colors.orange,
+                            //             size: 15,
+                            //           ),
+                          ),
                           Text(
                             postlist[index].postLikesCount.toString(),
                             style: TextStyle(fontSize: 15, color: Colors.white),

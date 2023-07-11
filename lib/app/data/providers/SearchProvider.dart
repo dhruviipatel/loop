@@ -44,8 +44,6 @@ class SearchProvider with ChangeNotifier {
     return foundUsers;
   }
 
-  void checkfoundprofile() {}
-
   void runFilter(String enteredText) {
     List result = [];
     if (enteredText.isEmpty) {
@@ -99,6 +97,8 @@ class SearchProvider with ChangeNotifier {
             .toList();
       } else if (data is Map<String, dynamic>) {
         searchList = [Search.fromJson(data)];
+
+        print(searchList);
       }
       notifyListeners();
     } else {

@@ -122,25 +122,24 @@ class _NewpostScreenState extends State<NewpostScreen> {
                         ),
                       ),
                     );
-                    await Navigator.of(context, rootNavigator: true)
-                        .push(MaterialPageRoute(
-                      builder: (context) => AddpostInfoscreen(),
-                    ));
 
                     // replace with edited image
                     if (editedImage != null) {
                       imageBytesList = editedImage;
                       setState(() {});
                     }
+                    await Navigator.of(context, rootNavigator: true)
+                        .push(MaterialPageRoute(
+                      builder: (context) => AddpostInfoscreen(
+                        imageBytesList: imageBytesList,
+                      ),
+                    ));
                   } else {
                     var editedImage =
                         await Navigator.of(context, rootNavigator: true).push(
-                      MaterialPageRoute(
-                        builder: (context) => ImageEditor(
-                          image: imageBytesList[0],
-                        ),
-                      ),
-                    );
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ImageEditor(image: imageBytesList[0])));
 
                     // replace with edited image
                     if (editedImage != null) {
@@ -149,8 +148,11 @@ class _NewpostScreenState extends State<NewpostScreen> {
                     }
                   }
                 }
-                await Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => AddpostInfoscreen()));
+                await Navigator.of(context, rootNavigator: true)
+                    .push(MaterialPageRoute(
+                        builder: (context) => AddpostInfoscreen(
+                              imageBytesList: imageBytesList,
+                            )));
               },
               icon: Icon(
                 Icons.arrow_forward_ios,
@@ -164,7 +166,7 @@ class _NewpostScreenState extends State<NewpostScreen> {
           child: Column(
             children: [
               SizedBox(
-                height: height * 0.35,
+                height: height * 0.3,
                 child: selectedEntity == null
                     ? const SizedBox.shrink()
                     : Stack(
@@ -199,7 +201,7 @@ class _NewpostScreenState extends State<NewpostScreen> {
                       ),
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
               Flexible(
                 child: Column(
@@ -325,7 +327,7 @@ class _NewpostScreenState extends State<NewpostScreen> {
                                 AnimatedContainer(
                                   duration: const Duration(milliseconds: 200),
                                   curve: Curves.easeInOut,
-                                  height: isStrechedDropDown ? 200 : 0,
+                                  height: isStrechedDropDown ? 170 : 0,
                                   child: MyScrollbar(
                                     builder: (context, scrollController2) =>
                                         ListView.builder(
@@ -482,8 +484,6 @@ class _NewpostScreenState extends State<NewpostScreen> {
     imageBytesList = await convertAssetListToUint8List(selectedAssetList);
     setState(() {});
     print("ibytelist ${imageBytesList}");
-
-    // Do something with the imageBytesList, such as displaying each image or uploading them
   }
 
   Widget assetWidget(AssetEntity assetEntity) => GestureDetector(

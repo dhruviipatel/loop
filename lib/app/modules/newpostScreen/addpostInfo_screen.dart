@@ -1,14 +1,59 @@
+import 'dart:async';
+import 'dart:typed_data' as ui;
+import 'dart:typed_data';
+import 'package:image/image.dart' as img;
+
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/data/providers/BottomNavbarProvider.dart';
 import 'package:loop/app/modules/bottomNavbar.dart';
+import 'package:loop/app/modules/homeScreen/home_screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class AddpostInfoscreen extends StatelessWidget {
-  const AddpostInfoscreen({super.key});
+class AddpostInfoscreen extends StatefulWidget {
+  final List<Uint8List> imageBytesList;
+  const AddpostInfoscreen({super.key, required this.imageBytesList});
+
+  @override
+  State<AddpostInfoscreen> createState() => _AddpostInfoscreenState();
+}
+
+class _AddpostInfoscreenState extends State<AddpostInfoscreen> {
+  Uint8List convertUint8ListToJpeg(Uint8List imageData) {
+    final image = img.decodeImage(imageData);
+    final jpegData = img.encodeJpg(image!, quality: 85);
+    print("jpeg data ${jpegData}");
+    return Uint8List.fromList(jpegData);
+  }
+
+  Future<List<Uint8List>> convertUint8ListImagesToJpeg(
+      List<Uint8List> imagesData) async {
+    final List<Uint8List> jpegImages = [];
+
+    for (final imageData in imagesData) {
+      final jpegData = await FlutterImageCompress.compressWithList(
+        imageData,
+        format: CompressFormat.jpeg,
+        quality: 85,
+      );
+
+      jpegImages.add(jpegData);
+      print("jpeg images : ${jpegImages}");
+    }
+
+    return jpegImages;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    convertUint8ListImagesToJpeg(widget.imageBytesList);
+    convertUint8ListToJpeg(widget.imageBytesList[0]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +84,7 @@ class AddpostInfoscreen extends StatelessWidget {
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: InkWell(
                 onTap: () {
-                  context.read<BottomNavbarProvider>().clearNavigatorKeys();
+                  //context.read<BottomNavbarProvider>().clearNavigatorKeys();
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => BottomNavbar(),
                   ));
