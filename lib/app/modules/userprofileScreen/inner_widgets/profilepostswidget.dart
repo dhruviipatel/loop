@@ -4,7 +4,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../../../core/themes/themes.dart';
 import '../../homeScreen/inner_widgets/postClick.dart';
 
-Widget PostWidget(userpostlist, userimagelist, uservideolist, context) {
+Widget ProfilePostWidget(userpostlist, userimagelist, uservideolist, context) {
   return DefaultTabController(
     length: 3,
     child: Column(
@@ -36,16 +36,16 @@ Widget PostWidget(userpostlist, userimagelist, uservideolist, context) {
         ),
         Expanded(
             child: TabBarView(children: [
-          userHomeTab(userpostlist, context),
-          userVideoTab(uservideolist, context),
-          userPicTab(userimagelist, context)
+          proUserHomeTab(userpostlist, context),
+          proUserVideoTab(uservideolist, context),
+          proUserPicTab(userimagelist, context)
         ]))
       ],
     ),
   );
 }
 
-Widget userPicTab(userimagelist, context) {
+Widget proUserPicTab(userimagelist, context) {
   return GridView.builder(
     itemCount: userimagelist.length,
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -60,7 +60,7 @@ Widget userPicTab(userimagelist, context) {
               MaterialPageRoute(
                 builder: (context) => PostClick(
                   postlist: userimagelist[index],
-                  isProfilePage: true,
+                  isProfilePage: false,
                 ),
               ),
             ),
@@ -91,7 +91,7 @@ Widget userPicTab(userimagelist, context) {
               MaterialPageRoute(
                 builder: (context) => PostClick(
                   postlist: userimagelist[index],
-                  isProfilePage: true,
+                  isProfilePage: false,
                 ),
               ),
             ),
@@ -112,7 +112,7 @@ Widget userPicTab(userimagelist, context) {
   );
 }
 
-Widget userVideoTab(uservideolist, context) {
+Widget proUserVideoTab(uservideolist, context) {
   return GridView.builder(
     itemCount: uservideolist.length,
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -136,7 +136,7 @@ Widget userVideoTab(uservideolist, context) {
   );
 }
 
-Widget userHomeTab(userpostlist, context) {
+Widget proUserHomeTab(userpostlist, context) {
   return GridView.builder(
     itemCount: userpostlist.length,
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -152,7 +152,7 @@ Widget userHomeTab(userpostlist, context) {
                 MaterialPageRoute(
                   builder: (context) => PostClick(
                     postlist: userpostlist[index],
-                    isProfilePage: true,
+                    isProfilePage: false,
                   ),
                 ),
               ),
@@ -182,7 +182,7 @@ Widget userHomeTab(userpostlist, context) {
                 context,
                 MaterialPageRoute(
                   builder: (context) => PostClick(
-                    isProfilePage: true,
+                    isProfilePage: false,
                     postlist: userpostlist[index],
                   ),
                 ),
@@ -203,7 +203,7 @@ Widget userHomeTab(userpostlist, context) {
               MaterialPageRoute(
                 builder: (context) => PostClick(
                   postlist: userpostlist[index],
-                  isProfilePage: true,
+                  isProfilePage: false,
                 ),
               ),
             ),
@@ -226,7 +226,7 @@ Widget userHomeTab(userpostlist, context) {
               MaterialPageRoute(
                 builder: (context) => PostClick(
                   postlist: userpostlist[index],
-                  isProfilePage: true,
+                  isProfilePage: false,
                 ),
               ),
             ),

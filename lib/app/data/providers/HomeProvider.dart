@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:loop/app/data/models/reportModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:http/http.dart' as http;
@@ -321,6 +322,38 @@ class HomeProvider with ChangeNotifier {
       }
     });
     _postlist = postlist1;
+    notifyListeners();
+  }
+
+  List _reportlist = [];
+  List get reportlist => _reportlist;
+  getreportlist() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    var mytoken = sp.getString("token")!;
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $mytoken',
+    };
+
+    var reportApi = "https://looptest.inventdi.com/api/Post/getReportList";
+
+    var response = await http.get(Uri.parse(reportApi), headers: headers);
+
+    if (response.statusCode == 200) {
+      var alldata = jsonDecode(response.body);
+
+      var mydata = alldata["data"];
+
+      _reportlist = mydata.map((e) => Report.fromJson(e)).toList();
+
+      print(_reportlist);
+      print("get reportlist successfully.");
+
+      notifyListeners();
+    } else {
+      print("failed to get reportlist");
+    }
     notifyListeners();
   }
 }

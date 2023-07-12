@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loop/app/data/providers/UserProfileProvider.dart';
+import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../core/themes/themes.dart';
 
-Widget BottomUnfollowSheet(context) {
+Widget BottomUnfollowSheet(context,
+    {required postuserid,
+    required loginuserid,
+    required postuserprofile,
+    required postusername}) {
+  final up = Provider.of<UserProfileProvider>(context);
   return Padding(
     padding: const EdgeInsets.only(left: 35, right: 35),
     child: Column(
       children: [
         SizedBox(height: 30),
-        Text("Unfollow",
-            style: GoogleFonts.ibmPlexMono(
-              textStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 21,
-                  fontWeight: FontWeight.w500),
-            )),
+        Text(
+          "Unfollow",
+          style: GoogleFonts.ibmPlexMono(
+            textStyle: TextStyle(
+                color: Colors.white, fontSize: 21, fontWeight: FontWeight.w500),
+          ),
+        ),
         SizedBox(height: 15),
         Container(
           color: Colors.white,
@@ -30,9 +37,7 @@ Widget BottomUnfollowSheet(context) {
           decoration: BoxDecoration(
             color: const Color(0xff7c94b6),
             image: DecorationImage(
-              image: AssetImage(
-                "assets/images/profile.png",
-              ),
+              image: NetworkImage(postuserprofile),
               fit: BoxFit.cover,
             ),
             borderRadius: BorderRadius.all(Radius.circular(50.0)),
@@ -47,7 +52,7 @@ Widget BottomUnfollowSheet(context) {
         ),
         SizedBox(height: 22),
         Text(
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+          "Are you sure that you want to unfollow this user ?",
           textAlign: TextAlign.center,
           style: TextStyle(
               color: appHintTextColor,
@@ -55,19 +60,27 @@ Widget BottomUnfollowSheet(context) {
               fontWeight: FontWeight.w400),
         ),
         SizedBox(height: 45),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: 35,
-          decoration: BoxDecoration(
-              border: Border.all(width: 1, color: Colors.white),
-              borderRadius: BorderRadius.circular(10)),
-          child: Center(
-            child: Text(
-              "Unfollow Texting User",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400),
+        InkWell(
+          onTap: () {
+            up.UnFollowUser(postuserid, int.parse(loginuserid), context);
+            Navigator.pop(context);
+            //   ScaffoldMessenger.of(context)
+            // .showSnackBar(SnackBar(content: Text("Unfollow user successfull")));
+          },
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: 35,
+            decoration: BoxDecoration(
+                border: Border.all(width: 1, color: Colors.white),
+                borderRadius: BorderRadius.circular(10)),
+            child: Center(
+              child: Text(
+                "Unfollow $postusername",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400),
+              ),
             ),
           ),
         )
@@ -76,7 +89,7 @@ Widget BottomUnfollowSheet(context) {
   );
 }
 
-Widget BottomReportSheet(context) {
+Widget BottomReportSheet(context, reportlist) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -120,60 +133,37 @@ Widget BottomReportSheet(context) {
         ),
       ),
       SizedBox(height: 15),
-      Padding(
-        padding: const EdgeInsets.only(left: 32, right: 32),
-        child: Divider(
-          thickness: 1,
-          color: Colors.white,
-        ),
-      ),
-      SizedBox(height: 15),
-      Padding(
-        padding: const EdgeInsets.only(left: 32, right: 32),
-        child: Text(
-          "It's Spam?",
-          style: GoogleFonts.ibmPlexMono(
-            textStyle: TextStyle(
-                color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
-          ),
-        ),
-      ),
-      SizedBox(height: 15),
-      Padding(
-        padding: const EdgeInsets.only(left: 32, right: 32),
-        child: Divider(
-          thickness: 1,
-          color: Colors.white,
-        ),
-      ),
-      SizedBox(height: 15),
-      Padding(
-        padding: const EdgeInsets.only(left: 32, right: 32),
-        child: Text(
-          "I just don't like it?",
-          style: GoogleFonts.ibmPlexMono(
-            textStyle: TextStyle(
-                color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
-          ),
-        ),
-      ),
-      SizedBox(height: 15),
-      Padding(
-        padding: const EdgeInsets.only(left: 32, right: 32),
-        child: Divider(
-          thickness: 1,
-          color: Colors.white,
-        ),
-      ),
-      SizedBox(height: 15),
-      Padding(
-        padding: const EdgeInsets.only(left: 32, right: 32),
-        child: Text(
-          "False Information?",
-          style: GoogleFonts.ibmPlexMono(
-            textStyle: TextStyle(
-                color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
-          ),
+      Expanded(
+        child: ListView.builder(
+          itemCount: reportlist.length,
+          itemBuilder: (context, index) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.only(left: 32, right: 32),
+                  child: Text(
+                    reportlist[index].title,
+                    style: GoogleFonts.ibmPlexMono(
+                      textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.only(left: 32, right: 32),
+                  child: Divider(
+                    thickness: 1,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     ],
@@ -268,6 +258,98 @@ Widget BottomSharetoSheet(context) {
             ),
           ),
         )
+      ],
+    ),
+  );
+}
+
+Widget BottomDeletePostSheet(
+  context,
+  // {required postuserid,
+  // required loginuserid,
+  // required postuserprofile,
+  // required postusername}
+) {
+  final up = Provider.of<UserProfileProvider>(context);
+  return Padding(
+    padding: const EdgeInsets.only(left: 35, right: 35),
+    child: Column(
+      children: [
+        SizedBox(height: 30),
+        Text(
+          "Delete",
+          style: GoogleFonts.ibmPlexMono(
+            textStyle: TextStyle(
+                color: Colors.white, fontSize: 21, fontWeight: FontWeight.w500),
+          ),
+        ),
+        SizedBox(height: 15),
+        Container(
+          color: Colors.white,
+          height: 4,
+          width: 203,
+        ),
+        SizedBox(height: 30),
+        Text(
+          "Are you sure that you want to delete this post ?",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: appHintTextColor,
+              fontSize: 17,
+              fontWeight: FontWeight.w400),
+        ),
+        SizedBox(height: 35),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              onTap: () {
+                //up.UnFollowUser(postuserid, int.parse(loginuserid), context);
+                Navigator.pop(context);
+                //   ScaffoldMessenger.of(context)
+                // .showSnackBar(SnackBar(content: Text("Unfollow user successfull")));
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width / 3,
+                height: 35,
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: appButtonColor),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Center(
+                  child: Text(
+                    "Delete",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                //up.UnFollowUser(postuserid, int.parse(loginuserid), context);
+                Navigator.pop(context);
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width / 3,
+                height: 35,
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: Colors.white),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Center(
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ],
     ),
   );

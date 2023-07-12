@@ -127,7 +127,14 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                           )
                         ],
                       ),
-                      More(clickvalue: clickvalue, context: context),
+                      More(
+                        clickvalue: clickvalue,
+                        context: context,
+                        postuserid: postuserId,
+                        postuserimage: profileImageUrl,
+                        postusername: postuser,
+                        userid: userid,
+                      ),
                     ],
                   ),
                 ),
@@ -138,6 +145,7 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                   MaterialPageRoute(
                     builder: (context) => PostClick(
                       postlist: postlist[index],
+                      isProfilePage: false,
                     ),
                   ),
                 ),

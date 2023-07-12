@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loop/app/modules/userprofileScreen/inner_widgets/posts.dart';
+import 'package:loop/app/modules/userprofileScreen/inner_widgets/profilepostswidget.dart';
 import 'package:provider/provider.dart';
 import '../../../core/themes/themes.dart';
 import '../../../data/models/searchingModel.dart';
@@ -55,7 +56,7 @@ class Profile extends StatelessWidget {
       child: Consumer<HomeProvider>(
         builder: (BuildContext context, hp, child) {
           var postlist = hp.postlist;
-
+          print(postlist);
           if (postlist.isEmpty) {
             return Center(
               child: CircularProgressIndicator(),
@@ -278,8 +279,8 @@ class Profile extends StatelessWidget {
                             ),
                           ),
                           Expanded(
-                            child: PostWidget(userpostlist, userimagelist,
-                                uservideolist, context),
+                            child: ProfilePostWidget(userpostlist,
+                                userimagelist, uservideolist, context),
                           ),
                         ],
                       ),

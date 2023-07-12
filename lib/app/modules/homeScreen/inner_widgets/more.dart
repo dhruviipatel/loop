@@ -6,7 +6,13 @@ import 'package:provider/provider.dart';
 import '../../../data/providers/HomeProvider.dart';
 import 'bottomsheet.dart';
 
-Widget More({required clickvalue, required context}) {
+Widget More(
+    {required clickvalue,
+    required context,
+    required userid,
+    required postuserid,
+    required postusername,
+    required postuserimage}) {
   final hp = Provider.of<HomeProvider>(context);
 
   return Container(
@@ -40,7 +46,7 @@ Widget More({required clickvalue, required context}) {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15, bottom: 5),
                     child: InkWell(
-                      onTap: () => {
+                      onTap: () {
                         showModalBottomSheet(
                           isScrollControlled: true,
                           backgroundColor: appbBgColor,
@@ -55,10 +61,16 @@ Widget More({required clickvalue, required context}) {
                             maxChildSize: 0.8,
                             builder: (context, scrollController) =>
                                 SingleChildScrollView(
-                              child: BottomUnfollowSheet(context),
+                              child: BottomUnfollowSheet(
+                                context,
+                                loginuserid: userid,
+                                postuserid: postuserid,
+                                postusername: postusername,
+                                postuserprofile: postuserimage,
+                              ),
                             ),
                           ),
-                        ),
+                        );
                       },
                       child: Text("Unfollow",
                           style: GoogleFonts.ibmPlexMono(
@@ -88,6 +100,7 @@ Widget More({required clickvalue, required context}) {
                     padding: const EdgeInsets.only(left: 15, bottom: 5),
                     child: InkWell(
                       onTap: () => {
+                        hp.getreportlist(),
                         showModalBottomSheet(
                           isScrollControlled: true,
                           backgroundColor: appbBgColor,
@@ -101,9 +114,7 @@ Widget More({required clickvalue, required context}) {
                             minChildSize: 0.3,
                             maxChildSize: 0.8,
                             builder: (context, scrollController) =>
-                                SingleChildScrollView(
-                              child: BottomReportSheet(context),
-                            ),
+                                BottomReportSheet(context, hp.reportlist),
                           ),
                         ),
                       },

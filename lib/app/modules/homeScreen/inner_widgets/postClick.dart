@@ -6,14 +6,17 @@ import 'package:loop/app/data/providers/HomeProvider.dart';
 import 'package:loop/app/modules/homeScreen/inner_widgets/post.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'bottomsheet.dart';
 import 'more.dart';
 
 class PostClick extends StatelessWidget {
   final Post postlist;
+  final bool isProfilePage;
 
   PostClick({
     Key? key,
     required this.postlist,
+    required this.isProfilePage,
   }) : super(key: key);
 
   @override
@@ -25,6 +28,8 @@ class PostClick extends StatelessWidget {
 
           var postuserid = postlist.customerId;
           hp.postuserdata(postuserid);
+
+          var postusername = hp.postuser;
 
           return Scaffold(
             backgroundColor: appbBgColor,
@@ -79,7 +84,12 @@ class PostClick extends StatelessWidget {
             ),
             body: Stack(
               children: [
-                InnerPage(postlist: postlist, isclicked: clickvalue),
+                InnerPage(
+                  postlist: postlist,
+                  isclicked: clickvalue,
+                  postusername: postusername,
+                  isProfilePage: isProfilePage,
+                ),
                 if (clickvalue)
                   Container(
                     color: Colors.black.withOpacity(0.8),
@@ -96,11 +106,15 @@ class PostClick extends StatelessWidget {
 class InnerPage extends StatelessWidget {
   final Post postlist;
   final bool isclicked;
+  final String postusername;
+  final bool isProfilePage;
 
   InnerPage({
     Key? key,
     required this.postlist,
     required this.isclicked,
+    required this.postusername,
+    required this.isProfilePage,
   }) : super(key: key);
 
   @override
@@ -110,8 +124,16 @@ class InnerPage extends StatelessWidget {
         final hasPostImage = postlist.postImage.isNotEmpty;
         final hasPostVideo = postlist.postVideo.isNotEmpty;
         String profileImageUrl =
-            "https://looptest.inventdi.com/profile_images/" +
-                hp.postuserprofile;
+            "https://looptest.inventdi.com/profile_images/default.png";
+        if (hp.postuserprofile.isEmptyOrNull) {
+          profileImageUrl =
+              "https://looptest.inventdi.com/profile_images/default.png";
+        } else {
+          profileImageUrl = "https://looptest.inventdi.com/profile_images/" +
+              hp.postuserprofile;
+        }
+
+        var postuserid = postlist.customerId;
 
         return Stack(
           children: [
@@ -172,7 +194,51 @@ class InnerPage extends StatelessWidget {
                   hp.postuser,
                   style: TextStyle(color: Colors.white),
                 ),
-                trailing: More(clickvalue: isclicked, context: context),
+                trailing: isProfilePage == true
+                    ? InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                            isScrollControlled: true,
+                            backgroundColor: appbBgColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(50))),
+                            context: context,
+                            builder: (context) => DraggableScrollableSheet(
+                              expand: false,
+                              initialChildSize: 0.35,
+                              minChildSize: 0.3,
+                              maxChildSize: 0.8,
+                              builder: (context, scrollController) =>
+                                  SingleChildScrollView(
+                                child: BottomDeletePostSheet(
+                                  context,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          height: 30,
+                          width: 60,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(color: Colors.white)),
+                          child: Center(
+                            child: Text(
+                              "Delete",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      )
+                    : More(
+                        clickvalue: isclicked,
+                        context: context,
+                        postuserid: postuserid,
+                        postuserimage: profileImageUrl,
+                        postusername: postusername,
+                        userid: hp.userid),
               ),
             ),
           ],
