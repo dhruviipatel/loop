@@ -3,6 +3,7 @@ import 'package:iconly/iconly.dart';
 import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/data/models/userPostModel.dart';
 import 'package:loop/app/data/providers/HomeProvider.dart';
+import 'package:loop/app/modules/commentScreen/comment_screen.dart';
 import 'package:loop/app/modules/homeScreen/inner_widgets/post.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -12,12 +13,20 @@ import 'more.dart';
 class PostClick extends StatelessWidget {
   final Post postlist;
   final bool isProfilePage;
+  final String postuserimage;
+  final String postusername;
+  final int postuserid;
+  final String userid;
 
-  PostClick({
-    Key? key,
-    required this.postlist,
-    required this.isProfilePage,
-  }) : super(key: key);
+  PostClick(
+      {Key? key,
+      required this.postlist,
+      required this.isProfilePage,
+      required this.userid,
+      required this.postuserid,
+      required this.postusername,
+      required this.postuserimage})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +35,7 @@ class PostClick extends StatelessWidget {
         builder: (context, hp, _) {
           final clickvalue = hp.isclicked;
 
-          var postuserid = postlist.customerId;
           hp.postuserdata(postuserid);
-
-          var postusername = hp.postuser;
 
           return Scaffold(
             backgroundColor: appbBgColor,
@@ -67,9 +73,16 @@ class PostClick extends StatelessWidget {
                             color: Colors.white,
                           ),
                         ),
-                        Icon(
-                          IconlyLight.chat,
-                          color: Colors.white,
+                        InkWell(
+                          onTap: () =>
+                              Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                CommentScreen(post: postlist, userid: userid),
+                          )),
+                          child: Icon(
+                            IconlyLight.chat,
+                            color: Colors.white,
+                          ),
                         ),
                         6.widthBox,
                         Text(
@@ -89,6 +102,7 @@ class PostClick extends StatelessWidget {
                   isclicked: clickvalue,
                   postusername: postusername,
                   isProfilePage: isProfilePage,
+                  postuserimage: postuserimage,
                 ),
                 if (clickvalue)
                   Container(
@@ -108,32 +122,26 @@ class InnerPage extends StatelessWidget {
   final bool isclicked;
   final String postusername;
   final bool isProfilePage;
+  final String postuserimage;
 
-  InnerPage({
-    Key? key,
-    required this.postlist,
-    required this.isclicked,
-    required this.postusername,
-    required this.isProfilePage,
-  }) : super(key: key);
+  InnerPage(
+      {Key? key,
+      required this.postlist,
+      required this.isclicked,
+      required this.postusername,
+      required this.isProfilePage,
+      required this.postuserimage})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeProvider>(
       builder: (context, hp, _) {
+        var postuserid = postlist.customerId;
+        hp.postuserdata(postuserid);
+
         final hasPostImage = postlist.postImage.isNotEmpty;
         final hasPostVideo = postlist.postVideo.isNotEmpty;
-        String profileImageUrl =
-            "https://looptest.inventdi.com/profile_images/default.png";
-        if (hp.postuserprofile.isEmptyOrNull) {
-          profileImageUrl =
-              "https://looptest.inventdi.com/profile_images/default.png";
-        } else {
-          profileImageUrl = "https://looptest.inventdi.com/profile_images/" +
-              hp.postuserprofile;
-        }
-
-        var postuserid = postlist.customerId;
 
         return Stack(
           children: [
@@ -183,7 +191,7 @@ class InnerPage extends StatelessWidget {
                   height: 50,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: NetworkImage(profileImageUrl),
+                      image: NetworkImage(postuserimage),
                       fit: BoxFit.cover,
                     ),
                     borderRadius: BorderRadius.all(Radius.circular(50.0)),
@@ -236,7 +244,7 @@ class InnerPage extends StatelessWidget {
                         clickvalue: isclicked,
                         context: context,
                         postuserid: postuserid,
-                        postuserimage: profileImageUrl,
+                        postuserimage: postuserimage,
                         postusername: postusername,
                         userid: hp.userid),
               ),

@@ -4,7 +4,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../../../core/themes/themes.dart';
 import '../../homeScreen/inner_widgets/postClick.dart';
 
-Widget ProfilePostWidget(userpostlist, userimagelist, uservideolist, context) {
+Widget ProfilePostWidget(userpostlist, userimagelist, uservideolist, userid,
+    username, profileImage, context) {
   return DefaultTabController(
     length: 3,
     child: Column(
@@ -36,16 +37,17 @@ Widget ProfilePostWidget(userpostlist, userimagelist, uservideolist, context) {
         ),
         Expanded(
             child: TabBarView(children: [
-          proUserHomeTab(userpostlist, context),
-          proUserVideoTab(uservideolist, context),
-          proUserPicTab(userimagelist, context)
+          proUserHomeTab(userpostlist, userid, username, profileImage, context),
+          proUserVideoTab(
+              uservideolist, userid, username, profileImage, context),
+          proUserPicTab(userimagelist, userid, username, profileImage, context)
         ]))
       ],
     ),
   );
 }
 
-Widget proUserPicTab(userimagelist, context) {
+Widget proUserPicTab(userimagelist, userid, username, profileImage, context) {
   return GridView.builder(
     itemCount: userimagelist.length,
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -61,6 +63,10 @@ Widget proUserPicTab(userimagelist, context) {
                 builder: (context) => PostClick(
                   postlist: userimagelist[index],
                   isProfilePage: false,
+                  postuserid: userid,
+                  postuserimage: profileImage,
+                  postusername: username,
+                  userid: userid,
                 ),
               ),
             ),
@@ -92,6 +98,10 @@ Widget proUserPicTab(userimagelist, context) {
                 builder: (context) => PostClick(
                   postlist: userimagelist[index],
                   isProfilePage: false,
+                  postuserid: userid,
+                  postuserimage: profileImage,
+                  postusername: username,
+                  userid: userid,
                 ),
               ),
             ),
@@ -112,7 +122,7 @@ Widget proUserPicTab(userimagelist, context) {
   );
 }
 
-Widget proUserVideoTab(uservideolist, context) {
+Widget proUserVideoTab(uservideolist, userid, username, profileImage, context) {
   return GridView.builder(
     itemCount: uservideolist.length,
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -136,7 +146,7 @@ Widget proUserVideoTab(uservideolist, context) {
   );
 }
 
-Widget proUserHomeTab(userpostlist, context) {
+Widget proUserHomeTab(userpostlist, userid, username, profileImage, context) {
   return GridView.builder(
     itemCount: userpostlist.length,
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -153,6 +163,10 @@ Widget proUserHomeTab(userpostlist, context) {
                   builder: (context) => PostClick(
                     postlist: userpostlist[index],
                     isProfilePage: false,
+                    postuserid: userid,
+                    postuserimage: profileImage,
+                    postusername: username,
+                    userid: userid,
                   ),
                 ),
               ),
@@ -184,6 +198,10 @@ Widget proUserHomeTab(userpostlist, context) {
                   builder: (context) => PostClick(
                     isProfilePage: false,
                     postlist: userpostlist[index],
+                    postuserid: userid,
+                    postuserimage: profileImage,
+                    postusername: username,
+                    userid: userid,
                   ),
                 ),
               ),
@@ -204,6 +222,10 @@ Widget proUserHomeTab(userpostlist, context) {
                 builder: (context) => PostClick(
                   postlist: userpostlist[index],
                   isProfilePage: false,
+                  postuserid: userid,
+                  postuserimage: profileImage,
+                  postusername: username,
+                  userid: userid,
                 ),
               ),
             ),
@@ -227,6 +249,10 @@ Widget proUserHomeTab(userpostlist, context) {
                 builder: (context) => PostClick(
                   postlist: userpostlist[index],
                   isProfilePage: false,
+                  postuserid: userid,
+                  postuserimage: profileImage,
+                  postusername: username,
+                  userid: userid,
                 ),
               ),
             ),

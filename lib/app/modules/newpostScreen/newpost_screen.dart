@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:image_editor_plus/data/image_item.dart';
 import 'package:image_editor_plus/image_editor_plus.dart';
 import 'package:image_editor_plus/utils.dart';
 import 'package:loop/app/core/themes/themes.dart';
@@ -108,8 +109,6 @@ class _NewpostScreenState extends State<NewpostScreen> {
                           maxLength: 10,
                           allowMultiple: true,
                           features: const ImageEditorFeatures(
-                            // pickFromGallery: true,
-                            // captureFromCamera: true,
                             crop: true,
                             blur: true,
                             brush: true,
@@ -124,14 +123,15 @@ class _NewpostScreenState extends State<NewpostScreen> {
                     );
 
                     // replace with edited image
-                    if (editedImage != null) {
-                      imageBytesList = editedImage;
-                      setState(() {});
-                    }
+                    // if (editedImage != null) {
+                    //   print("editedImage ${editedImage}");
+                    //   imageBytesList = editedImage;
+                    //   setState(() {});
+                    // }
                     await Navigator.of(context, rootNavigator: true)
                         .push(MaterialPageRoute(
                       builder: (context) => AddpostInfoscreen(
-                        imageBytesList: imageBytesList,
+                        imageBytesList: editedImage,
                       ),
                     ));
                   } else {
@@ -142,17 +142,25 @@ class _NewpostScreenState extends State<NewpostScreen> {
                                     ImageEditor(image: imageBytesList[0])));
 
                     // replace with edited image
+                    List<ImageItem> editedlist = [];
                     if (editedImage != null) {
-                      imageBytesList[0] = editedImage;
+                      editedlist[0] = editedImage;
+                      print("edi $editedImage");
+                      //imageBytesList[0] = editedImage;
                       setState(() {});
                     }
+                    await Navigator.of(context, rootNavigator: true)
+                        .push(MaterialPageRoute(
+                            builder: (context) => AddpostInfoscreen(
+                                  imageBytesList: editedImage,
+                                )));
                   }
                 }
-                await Navigator.of(context, rootNavigator: true)
-                    .push(MaterialPageRoute(
-                        builder: (context) => AddpostInfoscreen(
-                              imageBytesList: imageBytesList,
-                            )));
+                // await Navigator.of(context, rootNavigator: true)
+                //     .push(MaterialPageRoute(
+                //         builder: (context) => AddpostInfoscreen(
+                //               imageBytesList: editedImage,
+                //             )));
               },
               icon: Icon(
                 Icons.arrow_forward_ios,

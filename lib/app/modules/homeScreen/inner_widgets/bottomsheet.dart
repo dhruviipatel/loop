@@ -270,7 +270,6 @@ Widget BottomDeletePostSheet(
   // required postuserprofile,
   // required postusername}
 ) {
-  final up = Provider.of<UserProfileProvider>(context);
   return Padding(
     padding: const EdgeInsets.only(left: 35, right: 35),
     child: Column(

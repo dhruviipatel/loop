@@ -221,10 +221,10 @@ class UserProfileScreen2 extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Expanded(
-                            child: PostWidget(userpostlist, userimagelist,
-                                uservideolist, context),
-                          ),
+                          // Expanded(
+                          //   child: PostWidget(userpostlist, userimagelist,
+                          //       uservideolist, context),
+                          // ),
                         ],
                       ),
                       if (clickvalue == true)

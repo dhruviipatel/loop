@@ -4,10 +4,6 @@ import 'package:loop/app/core/themes/themes.dart';
 import 'package:loop/app/data/providers/BottomNavbarProvider.dart';
 import 'package:provider/provider.dart';
 
-import '../data/providers/AuthProvider.dart';
-import '../data/providers/HomeProvider.dart';
-import '../data/providers/UserProfileProvider.dart';
-
 class BottomNavbar extends StatelessWidget {
   const BottomNavbar({super.key});
 

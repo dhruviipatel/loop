@@ -13,7 +13,7 @@ import 'more.dart';
 
 Widget MyHomePost(hp, clickvalue, postlist, context) {
   var CommentController = new TextEditingController();
-  // final cp = Provider.of<CommentProvider>(context, listen: false);
+
   return ListView.builder(
     itemCount: postlist.length,
     itemBuilder: (context, index) {
@@ -37,12 +37,12 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
       var userProImage = hp.userProImage;
       var userid = hp.userid;
 
-      context.read<HomeProvider>().getlikedpostlist(mypostlike, userid);
+      // context.read<HomeProvider>().getlikedpostlist(mypostlike, userid);
       context.read<HomeProvider>().userlikecheck(mypostlike);
       var checklikeuser = context.read<HomeProvider>().checklikeuser;
       //get post like data
-      var likepostlist = context.watch<HomeProvider>().likedpostList;
-      print("liked post list:${likepostlist}");
+      //var likepostlist = context.watch<HomeProvider>().likedpostList;
+      // print("liked post list:${likepostlist}");
 
       //get post user data
       final postuserId = postlist[index].customerId;
@@ -60,11 +60,20 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
       }
 
       var cmuser = "";
+      String firstcomment = "";
       //get post first comment user name
       if (mypostComment.isNotEmpty) {
         final cmuserId = mypostComment[0].customerId;
         hp.cmuserdata(cmuserId);
         cmuser = hp.cmuser;
+
+        String comment = mypostComment[0].postComment ?? "";
+
+        if (comment.length > 45) {
+          firstcomment = comment.substring(0, 45) + "...";
+        } else {
+          firstcomment = comment;
+        }
       }
 
       // var checklikeuser = [];
@@ -144,8 +153,12 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                   context,
                   MaterialPageRoute(
                     builder: (context) => PostClick(
+                      postuserid: postuserId,
+                      postuserimage: profileImageUrl,
+                      postusername: postuser,
                       postlist: postlist[index],
                       isProfilePage: false,
+                      userid: userid,
                     ),
                   ),
                 ),
@@ -306,8 +319,9 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 25, top: 14),
+                padding: const EdgeInsets.only(left: 25, top: 6),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       postuser,
@@ -364,7 +378,7 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                                 width: 5,
                               ),
                               Text(
-                                mypostComment[0].postComment,
+                                firstcomment,
                                 style: TextStyle(
                                     fontSize: 9, color: appHintTextColor),
                               )
@@ -433,8 +447,7 @@ Widget MyHomePost(hp, clickvalue, postlist, context) {
                         if (CommentController.text.isNotEmpty) {
                           context.read<CommentProvider>().AddNewComment(
                               mypostId, CommentController.text, userid);
-                          // cp.AddNewComment(
-                          //     mypostId, CommentController.text, userid);
+
                           CommentController.text = "";
                         }
                       },

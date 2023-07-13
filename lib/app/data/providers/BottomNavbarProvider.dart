@@ -44,7 +44,8 @@ class BottomNavbarProvider with ChangeNotifier {
   }
 
   void clearNavigatorKeys() {
-    navigatorKeys.clear();
+    //navigatorKeys.currentTab=0;
     _currentTab = 0;
+    notifyListeners();
   }
 }

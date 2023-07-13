@@ -14,7 +14,6 @@ import 'app/data/providers/HomeProvider.dart';
 import 'app/data/providers/NotificationProvider.dart';
 import 'app/data/providers/SearchProvider.dart';
 import 'app/data/providers/UserProfileProvider.dart';
-import 'app/modules/newpostScreen/editpost/editnavbarProvider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +30,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => BottomNavbarProvider()),
         ChangeNotifierProvider(create: (_) => HomeProvider()),
         ChangeNotifierProvider(create: (_) => UserProfileProvider()),
-        ChangeNotifierProvider(create: (_) => EditNavbarProvider()),
         ChangeNotifierProvider(create: (_) => SearchProvider()),
         ChangeNotifierProvider(create: (_) => NotificationProvider()),
         ChangeNotifierProvider(create: (_) => CommentProvider()),
@@ -52,7 +50,6 @@ class MyApp extends StatelessWidget {
             MyRoute.forgotpassRoute: (context) => ForgotPassScreen(),
             MyRoute.forgotpassotpRoute: (context) => forgetOtpScreen(),
             MyRoute.resetpassRoute: (context) => ResetPassScreen(),
-            // MyRoute.onPostclickRoute: (context) => PostClick(),
           },
         ),
       ),

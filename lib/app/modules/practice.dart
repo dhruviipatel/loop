@@ -205,10 +205,10 @@ class Profile1 extends StatelessWidget {
             ],
           ),
         ),
-        Expanded(
-          child:
-              PostWidget(userpostlist, userimagelist, uservideolist, context),
-        ),
+        // Expanded(
+        //   child:
+        //       PostWidget(userpostlist, userimagelist, uservideolist, context),
+        // ),
       ],
     );
   }

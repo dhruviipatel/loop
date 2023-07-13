@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loop/app/modules/userprofileScreen/inner_widgets/posts.dart';
 import 'package:loop/app/modules/userprofileScreen/inner_widgets/profilepostswidget.dart';
 import 'package:provider/provider.dart';
 import '../../../core/themes/themes.dart';
@@ -279,8 +278,14 @@ class Profile extends StatelessWidget {
                             ),
                           ),
                           Expanded(
-                            child: ProfilePostWidget(userpostlist,
-                                userimagelist, uservideolist, context),
+                            child: ProfilePostWidget(
+                                userpostlist,
+                                userimagelist,
+                                uservideolist,
+                                userid,
+                                username,
+                                profileImage,
+                                context),
                           ),
                         ],
                       ),

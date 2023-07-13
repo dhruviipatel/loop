@@ -143,9 +143,9 @@ Widget Setting(context, {required isbtnclicked}) {
               padding: const EdgeInsets.only(left: 15),
               child: InkWell(
                 onTap: () {
-                  bp.clearNavigatorKeys();
                   up.onbtnclick();
                   ap.Logout(context);
+                  bp.clearNavigatorKeys();
                 },
                 child: Text("Logout",
                     style: GoogleFonts.ibmPlexMono(

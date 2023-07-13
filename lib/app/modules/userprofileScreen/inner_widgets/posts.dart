@@ -4,7 +4,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../../../core/themes/themes.dart';
 import '../../homeScreen/inner_widgets/postClick.dart';
 
-Widget PostWidget(userpostlist, userimagelist, uservideolist, context) {
+Widget PostWidget(userpostlist, userimagelist, uservideolist, userid, username,
+    profileImage, context) {
   return DefaultTabController(
     length: 3,
     child: Column(
@@ -36,16 +37,16 @@ Widget PostWidget(userpostlist, userimagelist, uservideolist, context) {
         ),
         Expanded(
             child: TabBarView(children: [
-          userHomeTab(userpostlist, context),
-          userVideoTab(uservideolist, context),
-          userPicTab(userimagelist, context)
+          userHomeTab(userpostlist, userid, username, profileImage, context),
+          userVideoTab(uservideolist, userid, username, profileImage, context),
+          userPicTab(userimagelist, userid, username, profileImage, context)
         ]))
       ],
     ),
   );
 }
 
-Widget userPicTab(userimagelist, context) {
+Widget userPicTab(userimagelist, userid, username, profileImage, context) {
   return GridView.builder(
     itemCount: userimagelist.length,
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -61,6 +62,10 @@ Widget userPicTab(userimagelist, context) {
                 builder: (context) => PostClick(
                   postlist: userimagelist[index],
                   isProfilePage: true,
+                  postuserid: userid,
+                  postuserimage: profileImage,
+                  postusername: username,
+                  userid: userid.toString(),
                 ),
               ),
             ),
@@ -92,6 +97,10 @@ Widget userPicTab(userimagelist, context) {
                 builder: (context) => PostClick(
                   postlist: userimagelist[index],
                   isProfilePage: true,
+                  postuserid: userid,
+                  postuserimage: profileImage,
+                  postusername: username,
+                  userid: userid.toString(),
                 ),
               ),
             ),
@@ -112,7 +121,7 @@ Widget userPicTab(userimagelist, context) {
   );
 }
 
-Widget userVideoTab(uservideolist, context) {
+Widget userVideoTab(uservideolist, userid, username, profileImage, context) {
   return GridView.builder(
     itemCount: uservideolist.length,
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -136,7 +145,7 @@ Widget userVideoTab(uservideolist, context) {
   );
 }
 
-Widget userHomeTab(userpostlist, context) {
+Widget userHomeTab(userpostlist, userid, username, profileImage, context) {
   return GridView.builder(
     itemCount: userpostlist.length,
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -153,6 +162,10 @@ Widget userHomeTab(userpostlist, context) {
                   builder: (context) => PostClick(
                     postlist: userpostlist[index],
                     isProfilePage: true,
+                    postuserid: userid,
+                    postuserimage: profileImage,
+                    postusername: username,
+                    userid: userid.toString(),
                   ),
                 ),
               ),
@@ -184,6 +197,10 @@ Widget userHomeTab(userpostlist, context) {
                   builder: (context) => PostClick(
                     isProfilePage: true,
                     postlist: userpostlist[index],
+                    postuserid: userid,
+                    postuserimage: profileImage,
+                    postusername: username,
+                    userid: userid.toString(),
                   ),
                 ),
               ),
@@ -204,6 +221,10 @@ Widget userHomeTab(userpostlist, context) {
                 builder: (context) => PostClick(
                   postlist: userpostlist[index],
                   isProfilePage: true,
+                  postuserid: userid,
+                  postuserimage: profileImage,
+                  postusername: username,
+                  userid: userid.toString(),
                 ),
               ),
             ),
@@ -227,6 +248,10 @@ Widget userHomeTab(userpostlist, context) {
                 builder: (context) => PostClick(
                   postlist: userpostlist[index],
                   isProfilePage: true,
+                  postuserid: userid,
+                  postuserimage: profileImage,
+                  postusername: username,
+                  userid: userid.toString(),
                 ),
               ),
             ),

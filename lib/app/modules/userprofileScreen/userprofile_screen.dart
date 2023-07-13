@@ -227,8 +227,14 @@ class UserProfileScreen extends StatelessWidget {
                             ),
                           ),
                           Expanded(
-                            child: PostWidget(userpostlist, userimagelist,
-                                uservideolist, context),
+                            child: PostWidget(
+                                userpostlist,
+                                userimagelist,
+                                uservideolist,
+                                userid,
+                                username,
+                                profileImage,
+                                context),
                           ),
                         ],
                       ),

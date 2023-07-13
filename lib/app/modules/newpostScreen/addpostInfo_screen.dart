@@ -1,21 +1,18 @@
 import 'dart:async';
-import 'dart:typed_data' as ui;
 import 'dart:typed_data';
 import 'package:image/image.dart' as img;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_editor_plus/data/image_item.dart';
 import 'package:loop/app/core/themes/themes.dart';
-import 'package:loop/app/data/providers/BottomNavbarProvider.dart';
 import 'package:loop/app/modules/bottomNavbar.dart';
-import 'package:loop/app/modules/homeScreen/home_screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class AddpostInfoscreen extends StatefulWidget {
-  final List<Uint8List> imageBytesList;
+  final List<ImageItem> imageBytesList;
   const AddpostInfoscreen({super.key, required this.imageBytesList});
 
   @override
@@ -51,8 +48,8 @@ class _AddpostInfoscreenState extends State<AddpostInfoscreen> {
   @override
   void initState() {
     super.initState();
-    convertUint8ListImagesToJpeg(widget.imageBytesList);
-    convertUint8ListToJpeg(widget.imageBytesList[0]);
+    //convertUint8ListImagesToJpeg(widget.imageBytesList);
+    //convertUint8ListToJpeg(widget.imageBytesList[0]);
   }
 
   @override
