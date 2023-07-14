@@ -18,9 +18,6 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool _postlikebyuser = false;
-  get postlikebyuser => _postlikebyuser;
-
   //get category list from API
 
   List _catalist = [];
@@ -139,6 +136,32 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  removelikecolor(postId, customerId) {
+    int index = _postlist.indexWhere((element) => element.postId == postId);
+    int index1 = _postlist[index]
+        .postLikes
+        .indexWhere((element) => element.customerId.toString() == customerId);
+    _postlist[index].postLikes.removeAt(index1);
+    notifyListeners();
+  }
+
+  addlikecolor(postId, postlike) {
+    int index = _postlist.indexWhere((element) => element.postId == postId);
+
+    _postlist[index].postLikes.add(postlike);
+    notifyListeners();
+  }
+
+  checklikecolor(postId, customerId) {
+    int index = _postlist.indexWhere((element) => element.postId == postId);
+    int index1 = _postlist[index]
+        .postLikes
+        .indexWhere((element) => element.customerId.toString() == customerId);
+    return index1 == -1 ? true : false;
+    // _postlist[index].postLikes.removeAt(index1);
+    //notifyListeners();
+  }
+
   //post user data
   var postuser = "";
   var postuserprofile = "";
@@ -173,21 +196,7 @@ class HomeProvider with ChangeNotifier {
   bool _isPostLiked = false;
   get isPostLiked => _isPostLiked;
 
-  List _likedpostList = [];
-  get likedpostList => _likedpostList;
-
-  void getlikedpostlist(post, userid) {
-    for (var i = 0; i < post.length; i++) {
-      if (post[i].customerId.toString() == userid) {
-        _likedpostList.add(post[i]);
-        // print(_likedpostList);
-      } else {
-        print("get liked post ");
-      }
-    }
-    // notifyListeners();
-  }
-
+  PostLike? thispostlike;
   Future doPostLike(postindex, postid, userid) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     var mytoken = sp.getString("token")!;
@@ -202,65 +211,64 @@ class HomeProvider with ChangeNotifier {
       'post_id': postid.toString(),
       'user_id': userid,
     });
-
-    // print("JSON data: ${body}");
-
     var response =
         await http.post(Uri.parse(postlikeApi), body: body, headers: headers);
     print("resonse ${response.body}");
     if (response.statusCode == 200) {
+      var decodedpostJson = await json.decode(response.body);
+      var data = decodedpostJson["data"];
+      var cust_id = data["customer_id"];
+      var post_id = data['post_id'];
+      var is_like = data["is_like"];
+      var post_likes_id = data['post_likes_id'];
+      var create = data["created_at"];
+      var update = data["updated_at"];
+
+      print("data $data");
+      thispostlike = PostLike(
+          postLikesId: post_likes_id,
+          customerId: int.parse(cust_id),
+          postId: int.parse(post_id),
+          isLike: int.parse(is_like),
+          createdAt: create,
+          updatedAt: update);
+
+      print("mylikedpost $thispostlike");
       _isPostLiked = true;
+
       print("post like successfull");
 
       incrementLike(postid);
+      notifyListeners();
+      return thispostlike;
     } else {
       print("post like failed");
     }
     notifyListeners();
   }
 
-  List _checklikeuser = [];
-  get checklikeuser => _checklikeuser;
+  List checklikeuser = [];
 
+  //checked user liked the post or not if liked post then store that postlike in checklikeuser list otherwise it clear list
   userlikecheck(mypostlike) {
     for (var i = 0; i < mypostlike.length; i++) {
       if (mypostlike[i].customerId.toString() == userid) {
         checklikeuser.add(mypostlike[i]);
       } else {
-        _checklikeuser = [];
+        checklikeuser = [];
       }
     }
   }
 
-  userlikeupdate(mypostlike) {
-    for (var i = 0; i < mypostlike.length; i++) {
-      if (mypostlike[i].customerId.toString() == userid) {
-        checklikeuser.add(mypostlike[i]);
-        notifyListeners();
-      } else {
-        _checklikeuser = [];
-        notifyListeners();
-      }
-    }
-  }
-
-  // updatelikebyuser(mypostlike) {
-  //   if (mypostlike.length > 0) {
-  //     for (var i = 0; i < mypostlike.length; i++) {
-  //       if (mypostlike[i].customerId.toString() == userid) {
-  //         checklikeuser.add(mypostlike[i]);
-  //         _postlikebyuser = true;
-  //         print("1234567 ${_postlikebyuser}");
-  //         notifyListeners();
-  //       } else {
-  //         _checklikeuser = [];
-  //         _postlikebyuser = false;
-  //         notifyListeners();
-  //       }
+  // userlikeupdate(mypostlike) {
+  //   for (var i = 0; i < mypostlike.length; i++) {
+  //     if (mypostlike[i].customerId.toString() == userid) {
+  //       checklikeuser.add(mypostlike[i]);
+  //       notifyListeners();
+  //     } else {
+  //       checklikeuser = [];
+  //       notifyListeners();
   //     }
-  //   } else {
-  //     _postlikebyuser == false;
-  //     notifyListeners();
   //   }
   // }
 
@@ -275,6 +283,7 @@ class HomeProvider with ChangeNotifier {
     int storelikedata =
         _postlist.indexWhere((element) => element.postId == postid);
     _postlist[storelikedata].postLikesCount--;
+
     notifyListeners();
   }
 
